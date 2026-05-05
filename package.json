@@ -1,6 +1,6 @@
 {
   "name": "@heiso-io/bee",
-  "version": "0.0.1-alpha.3",
+  "version": "0.0.1-alpha.4",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
@@ -30,7 +30,11 @@
     "./globals.css": {
       "style": "./globals.css",
       "default": "./globals.css"
-    }
+    },
+    "./config": "./config/index.ts",
+    "./config/*": "./config/*.ts",
+    "./hooks/*": "./hooks/*.ts",
+    "./server/*": "./server/*.ts"
   },
   "scripts": {
     "dev": "bun run:permission && bun x next dev --turbo",

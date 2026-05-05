@@ -1,7 +1,13 @@
 {
-  "name": "@bee/core",
-  "version": "0.1.0",
-  "private": true,
+  "name": "@heiso-io/bee",
+  "version": "0.0.1-alpha.1",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heiso-io/bee.git"
+  },
   "exports": {
     "./lib/*": "./lib/*.ts",
     "./lib/db/schema/auth/*": "./lib/db/schema/auth/*.ts",

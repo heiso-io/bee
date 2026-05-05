@@ -1,0 +1,32 @@
+name: Publish to GitHub Packages
+
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'npm dist-tag (e.g. latest, alpha)'
+        required: false
+        default: 'alpha'
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          registry-url: 'https://npm.pkg.github.com'
+          scope: '@heiso-io'
+
+      - name: Show what will be published
+        run: npm pack --dry-run
+
+      - name: Publish
+        run: npm publish --tag ${{ inputs.tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

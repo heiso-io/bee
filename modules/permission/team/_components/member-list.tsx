@@ -81,7 +81,7 @@ export function MemberList({
   menus: TMenu[];
 }) {
   const { data: session } = useSession();
-  const { staff } = useAccount();
+  const { dev } = useAccount();
   const [filtering, setFiltering] = useState("");
   const te = useTranslations("dashboard.permission.team");
   const t = useTranslations("dashboard.permission.team.members");
@@ -280,7 +280,7 @@ export function MemberList({
           />
           {/* <ProtectedArea resource={'member'} action={'edit'}> */}
           {/* <AddMember roles={AllRoles} /> */}
-          {/* {!staff && ( */}
+          {/* {!dev && ( */}
           <InviteMember userName={userName} roles={roles}>
             <Button>
               <Plus className="h-4 w-4" /> {t("invite")}

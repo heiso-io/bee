@@ -53,10 +53,10 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import type { Staff } from "../_server/staff.service";
-import { addStaff, removeStaff } from "../_server/staff.service";
+import type { Dev } from "../_server/dev.service";
+import { addDev, removeDev } from "../_server/dev.service";
 
-const fuzzyFilter: FilterFn<Staff> = (row, _columnId, filterValue) => {
+const fuzzyFilter: FilterFn<Dev> = (row, _columnId, filterValue) => {
   const searchValue = filterValue.toLowerCase();
   const user = row.original.user;
 
@@ -66,21 +66,21 @@ const fuzzyFilter: FilterFn<Staff> = (row, _columnId, filterValue) => {
   );
 };
 
-export function StaffList({ data }: { data: Staff[] }) {
+export function DevList({ data }: { data: Dev[] }) {
   const { data: session } = useSession();
   const [isPending, startTransition] = useTransition();
   const [isRemovePending, startRemoveTransition] = useTransition();
   const [filtering, setFiltering] = useState("");
   const [open, setOpen] = useState(false);
-  const t = useTranslations("devCenter.staff");
+  const t = useTranslations("devCenter.dev");
 
-  const columns: ColumnDef<Staff>[] = [
+  const columns: ColumnDef<Dev>[] = [
     {
       header: t("columns.name"),
       accessorFn: (row) => `${row.user.name} ${row.user.email}`,
       cell: ({ row }) => {
         const isYou = session?.user?.id === row.original.user.id;
-        return <DeveloperUser staff={row.original} isYou={isYou} />;
+        return <DeveloperUser dev={row.original} isYou={isYou} />;
       },
     },
     {
@@ -106,7 +106,7 @@ export function StaffList({ data }: { data: Staff[] }) {
                   className="text-xs text-destructive"
                   onClick={() => {
                     startRemoveTransition(async () => {
-                      await removeStaff({ id: row.original.accountId });
+                      await removeDev({ id: row.original.accountId });
                     });
                   }}
                 >
@@ -143,7 +143,7 @@ export function StaffList({ data }: { data: Staff[] }) {
   const onSubmit = async (data: FormValues) => {
     startTransition(async () => {
       try {
-        await addStaff({
+        await addDev({
           email: data.email,
         });
         toast.success(t("notifications.addSuccess"));
@@ -262,14 +262,14 @@ export function StaffList({ data }: { data: Staff[] }) {
 }
 
 export const DeveloperUser = ({
-  staff,
+  dev,
   isYou,
 }: {
-  staff: Staff;
+  dev: Dev;
   isYou: boolean;
 }) => {
-  const t = useTranslations("devCenter.staff");
-  const { user } = staff;
+  const t = useTranslations("devCenter.dev");
+  const { user } = dev;
   const userName = user.name || user.email?.split("@")[0] || "Unknown";
 
   return (

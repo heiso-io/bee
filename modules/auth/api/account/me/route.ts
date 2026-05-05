@@ -14,7 +14,7 @@ export async function GET() {
     const userId = session.user.id;
     const email = session.user.email ?? "";
 
-    if (session.user.staff) {
+    if (session.user.dev) {
       return NextResponse.json({
         id: userId,
         name: session.user.name,

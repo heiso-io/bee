@@ -58,7 +58,7 @@ export function UserAvatar({
   //       {
   //         id: 'dev-center',
   //         text: 'Dev Center',
-  //         href: '/portal/core/staff-center',
+  //         href: '/portal/core/dev-center',
   //         type: 'Link',
   //       },
   //       {
@@ -170,8 +170,8 @@ export function UserAvatar({
 
             if (item.type === "LogOut") {
               // DevLogin users should be redirected to /devlogin after logout
-              const isStaff = session?.user?.staff;
-              const logoutPath = isStaff ? "/auth/devlogin" : "/auth/login";
+              const isDev = session?.user?.dev;
+              const logoutPath = isDev ? "/auth/devlogin" : "/auth/login";
 
               return (
                 <DropdownMenuItem
@@ -198,7 +198,7 @@ export function UserAvatar({
               <DropdownMenuItem>Dashboard</DropdownMenuItem>
             </Link>
             {isDeveloper && (
-              <Link href="/portal/core/staff-center">
+              <Link href="/portal/core/dev-center">
                 <DropdownMenuItem>Dev Center</DropdownMenuItem>
               </Link>
             )}

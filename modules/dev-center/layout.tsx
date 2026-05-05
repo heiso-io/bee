@@ -8,7 +8,7 @@ import { getTranslations } from "next-intl/server";
 import { PermissionProvider } from "@heiso-io/bee/providers/permission";
 
 const nav: Navigation = {
-  rootPath: "/portal/core/staff-center",
+  rootPath: "/portal/core/dev-center",
   items: [
     // {
     //   id: 'Overview',
@@ -68,7 +68,7 @@ const nav: Navigation = {
       {
         id: "Developers",
         title: "Developers",
-        path: "/staff",
+        path: "/dev",
         icon: "user-round-plus",
       },
     ],
@@ -81,7 +81,7 @@ export default async function DashboardLayout({
   children: React.ReactNode;
 }) {
   const session = await auth();
-  const isStaff = session?.user?.staff;
+  const isDev = session?.user?.dev;
 
   const t = await getTranslations("devCenter.userMenu");
 
@@ -130,11 +130,11 @@ export default async function DashboardLayout({
     },
   ] satisfies UserAvatarMenuItem[];
 
-  if (isStaff) {
+  if (isDev) {
     userAvatarMenu[0].group?.push({
       id: "dev-center",
       text: t("developer"),
-      href: "/portal/core/staff-center",
+      href: "/portal/core/dev-center",
       type: "Link",
     });
   }
@@ -152,10 +152,10 @@ export default async function DashboardLayout({
               },
             ],
           }}
-          navigation={isStaff ? nav : undefined}
+          navigation={isDev ? nav : undefined}
           menu={userAvatarMenu}
         >
-          {!isStaff ? (
+          {!isDev ? (
             <div className="h-full flex items-center justify-center">
               Only admin can access this area
             </div>

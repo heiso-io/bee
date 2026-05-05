@@ -74,7 +74,7 @@ async function createPermission({
     action,
   });
 
-  revalidatePath("/portal/core/staff-center/permission", "page");
+  revalidatePath("/portal/core/dev-center/permission", "page");
   return result;
 }
 
@@ -95,7 +95,7 @@ async function updatePermission({
     })
     .where(eq(permissions.id, id));
 
-  revalidatePath("/portal/core/staff-center/permission", "page");
+  revalidatePath("/portal/core/dev-center/permission", "page");
   return result;
 }
 
@@ -107,7 +107,7 @@ async function deletePermission({ id }: { id: string }) {
     })
     .where(and(eq(permissions.id, id), isNull(permissions.deletedAt)));
 
-  revalidatePath("/portal/core/staff-center/permission", "page");
+  revalidatePath("/portal/core/dev-center/permission", "page");
   return result;
 }
 
@@ -117,7 +117,7 @@ async function deletePermissionByKey({ id }: { id: string }) {
     .set({ deletedAt: new Date() })
     .where(and(eq(permissions.id, id), isNull(permissions.deletedAt)));
 
-  revalidatePath("/portal/core/staff-center/permission", "page");
+  revalidatePath("/portal/core/dev-center/permission", "page");
   return result;
 }
 
@@ -129,7 +129,7 @@ async function deleteAllPermissions() {
     .where(isNull(permissions.deletedAt));
 
   // Refresh the permission page to reflect all unchecked states
-  revalidatePath("/portal/core/staff-center/permission", "page");
+  revalidatePath("/portal/core/dev-center/permission", "page");
   return result;
 }
 

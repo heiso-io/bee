@@ -11,7 +11,7 @@ export async function getUserPermissions() {
   if (!accountId) throw new Error("Unauthorized");
 
   // [MOVED UP] Check Admin FIRST - DevLogin users should always get Admin role
-  if (session.user.staff) {
+  if (session.user.dev) {
     return {
       role: 'Admin',
       fullAccess: true,

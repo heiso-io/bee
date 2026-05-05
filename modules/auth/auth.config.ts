@@ -1,6 +1,6 @@
 import NextAuth, { CredentialsSignin, type DefaultSession } from "next-auth";
 import { db } from "@heiso-io/bee/lib/db";
-import { STAFF_CONFIG } from "@heiso-io/bee/modules/dev-center/staff/config";
+import { DEV_CONFIG } from "@heiso-io/bee/modules/dev-center/devs/config";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
@@ -9,7 +9,7 @@ import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
 declare module "next-auth" {
   interface Session {
     user: {
-      staff: boolean;
+      dev: boolean;
     } & DefaultSession["user"];
     member?: {
       status: string | null;
@@ -20,7 +20,7 @@ declare module "next-auth" {
     };
   }
   interface JWT {
-    staff?: boolean;
+    dev?: boolean;
     member?: {
       status: string | null;
       role: string | null;
@@ -31,7 +31,7 @@ declare module "next-auth" {
   }
 
   interface User {
-    staff: boolean;
+    dev: boolean;
     member?: {
       status: string | null;
       role: string | null;
@@ -45,8 +45,8 @@ class InvalidLoginError extends CredentialsSignin {
   code = "Invalid identifier or password";
 }
 
-// 出廠 staff 名單（cell 層 config）。之後 dev-center/staff UI 實作後改讀 DB。
-export const ALLOWED_DEV_EMAILS = STAFF_CONFIG.initialStaff;
+// 出廠 dev 名單（cell 層 config）。之後 dev-center/dev UI 實作後改讀 DB。
+export const ALLOWED_DEV_EMAILS = DEV_CONFIG.initialDevs;
 
 export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   pages: {
@@ -105,8 +105,8 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
       }
     },
     async jwt({ token, user, account, trigger, session: updateData }) {
-      // Invalidate legacy tokens (missing staff field)
-      if (!user && token.staff === undefined) {
+      // Invalidate legacy tokens (missing dev field)
+      if (!user && token.dev === undefined) {
         return {};
       }
 
@@ -118,7 +118,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
       }
 
       if (user) {
-        token.staff = (user as any).staff ?? false;
+        token.dev = (user as any).dev ?? false;
         token.email = (user as any).email ?? (token as any).email;
 
         // Write membership from User object (set during authorize)
@@ -160,13 +160,13 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
       if (token) {
         session.user = {
           ...session.user,
-          staff: (token.staff as boolean) ?? false,
+          dev: (token.dev as boolean) ?? false,
           id: token.sub!,
         };
       }
 
-      // Staff: grant full access without membership
-      if (token.staff) {
+      // Dev: grant full access without membership
+      if (token.dev) {
         session.member = {
           status: 'active',
           isOwner: false,
@@ -283,7 +283,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         isDevLogin: { label: "Is Dev Login" },
       },
       async authorize(credentials, _req) {
-        // DevLogin OTP path (staff)
+        // DevLogin OTP path (dev)
         // OTP already verified by verifyDevOTP, trust the result
         if (credentials?.otpVerified === "true") {
           const email = String(credentials?.email || "");
@@ -294,12 +294,12 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           const isAllowedDevEmail = ALLOWED_DEV_EMAILS.includes(email);
 
           if (isDevLogin && isAllowedDevEmail) {
-            // Staff: account is in cell DB
+            // Dev: account is in cell DB
             return {
               id: accountId,
               name: email.split("@")[0],
               email,
-              staff: true,
+              dev: true,
               member: null,
             };
           }
@@ -313,7 +313,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
             id: account.id,
             name: account.name,
             email: account.email,
-            staff: false,
+            dev: false,
             member: {
               status: (account as any).status ?? null,
               role: (account as any).role ?? null,
@@ -368,7 +368,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           id: account.id,
           name: account.name,
           email: account.email,
-          staff: false,
+          dev: false,
           member: memberData,
         };
       },

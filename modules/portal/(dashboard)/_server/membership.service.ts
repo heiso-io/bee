@@ -45,7 +45,7 @@ async function getMyMembership() {
   const accountId = session?.user?.id;
   if (!accountId) throw new Error(UNAUTHORIZED_ERROR);
 
-  const staff = session?.user?.staff ?? false;
+  const dev = session?.user?.dev ?? false;
 
   const account = await db.query.accounts.findFirst({
     columns: {
@@ -67,7 +67,7 @@ async function getMyMembership() {
   });
 
   return {
-    staff,
+    dev,
     id: account?.id,
     accountId: account?.id,
     roleId: account?.roleId,

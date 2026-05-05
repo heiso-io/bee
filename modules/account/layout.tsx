@@ -92,11 +92,11 @@ export default async function DashboardLayout({
     },
   ] satisfies UserAvatarMenuItem[];
 
-  if (membership.staff) {
+  if (membership.dev) {
     userAvatarMenu[0].group?.push({
       id: "dev-center",
       text: t("userMenu.developer"),
-      href: "/portal/core/staff-center",
+      href: "/portal/core/dev-center",
       type: "Link",
     });
   }

@@ -1,6 +1,5 @@
 "use server";
 
-import { permissionsConfig, type PermissionConfigShape } from "@bee/core/config/permissions";
 import { db } from "@bee/core/lib/db";
 import {
   permissions,
@@ -11,31 +10,9 @@ import { and, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 async function getPermissions() {
-  // 合併 config 中的 permissions 與 db 中的 permissions
-  const map = new Map();
-  const configPermissions = (permissionsConfig as readonly PermissionConfigShape[]).map((p) => {
-    return {
-      id: p.id,
-      resource: p.resource,
-      action: p.action,
-      menuId: p.menu?.id ?? null,
-    };
-  });
-
-  for (const p of configPermissions) {
-    map.set(p.id, p);
-  }
-
-  const result = await db.query.permissions.findMany({
+  return db.query.permissions.findMany({
     where: (t, { isNull }) => isNull(t.deletedAt),
   });
-
-  for (const p of result) {
-    map.set(p.id, p);
-  }
-
-  const uniquePermissions = Array.from(map.values());
-  return uniquePermissions;
 }
 
 async function groupPermissionsByMenu<T extends TMenu, P extends TPermission>(

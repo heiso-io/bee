@@ -1,5 +1,4 @@
 import { Button } from "@bee/core/components/ui/button";
-import type { permissionsConfig } from "@bee/core/config/permissions";
 import { usePermission } from "@bee/core/hooks/use-permission";
 
 type ProtectedButtonProps =
@@ -12,8 +11,8 @@ type ProtectedButtonProps =
     }
   | {
       className?: string;
-      resource: (typeof permissionsConfig)[number]["resource"];
-      action: (typeof permissionsConfig)[number]["action"];
+      resource: string;
+      action: string;
       asChild?: boolean;
       children?: React.ReactNode;
     };

@@ -1,5 +1,4 @@
 import { CaptionTotal } from "@bee/core/components/shared/caption-total";
-import { permissionsConfig, type PermissionConfigShape } from "@bee/core/config/permissions";
 import { Suspense } from "react";
 import { Skeleton } from "@bee/core/components/ui/skeleton";
 import { getMenus } from "@bee/core/modules/dev-center/permission/_server/menu.service";
@@ -11,20 +10,9 @@ import { PermissionListContent } from "./_components/permission-list-content";
 
 export default async function PermissionPage() {
   const menus = await getMenus();
-
-  // 使用 config/permissions.ts 的靜態資料，並對應 menu id
-  const permissions = (permissionsConfig as readonly PermissionConfigShape[]).map((p) => {
-    return {
-      id: p.id,
-      resource: p.resource,
-      action: p.action,
-      menuId: p.menu?.id ?? null,
-    };
-  });
   const dbPermissions = await getPermissions();
   const permissionGroups = await groupPermissionsByMenu(
     menus,
-    permissions,
     dbPermissions,
   );
 

@@ -1,0 +1,79 @@
+{
+  "name": "@bee/core",
+  "version": "0.1.0",
+  "private": true,
+  "exports": {
+    "./lib/*": "./lib/*.ts",
+    "./lib/db/schema/auth/*": "./lib/db/schema/auth/*.ts",
+    "./lib/db/schema/permissions/*": "./lib/db/schema/permissions/*.ts",
+    "./lib/db/schema/system/*": "./lib/db/schema/system/*.ts",
+    "./lib/db/schema/features/*": "./lib/db/schema/features/*.ts",
+    "./lib/db/schema/features/api-key": "./lib/db/schema/features/api-key/index.ts",
+    "./lib/db/schema/features/api-key/*": "./lib/db/schema/features/api-key/*.ts",
+    "./lib/db/schema/features/file": "./lib/db/schema/features/file/index.ts",
+    "./lib/db/schema/features/file/*": "./lib/db/schema/features/file/*.ts",
+    "./components/*": "./components/*.tsx",
+    "./types/*": "./types/*.ts",
+    "./modules/*": [
+      "./modules/*.ts",
+      "./modules/*.tsx"
+    ],
+    "./i18n/*": "./i18n/*.ts",
+    "./emails/*": "./emails/*.tsx",
+    "./providers/*": "./providers/*.tsx",
+    "./globals.css": {
+      "style": "./globals.css",
+      "default": "./globals.css"
+    }
+  },
+  "scripts": {
+    "dev": "bun run:permission && bun x next dev --turbo",
+    "build": "bun x next build",
+    "start": "bun x next start",
+    "db:generate": "bun x drizzle-kit generate",
+    "db:push": "bun x drizzle-kit push",
+    "db:studio": "bun x drizzle-kit studio",
+    "db:migrate": "bun x drizzle-kit migrate",
+    "run:permission": "bun scripts/fetchPermissionFromDb.ts",
+    "email:dev": "bun email dev",
+    "lint": "biome check",
+    "format": "biome format --write"
+  },
+  "typesVersions": {
+    "*": {
+      "types/*": [
+        "./types/*"
+      ],
+      "modules": [
+        "./modules/index.ts"
+      ],
+      "modules/*": [
+        "./modules/*"
+      ],
+      "lib/*": [
+        "./lib/*"
+      ],
+      "components/*": [
+        "./components/*"
+      ],
+      "hooks/*": [
+        "./hooks/*"
+      ],
+      "server/*": [
+        "./server/*"
+      ],
+      "config/*": [
+        "./config/*"
+      ],
+      "i18n/*": [
+        "./i18n/*"
+      ],
+      "emails/*": [
+        "./emails/*"
+      ],
+      "providers/*": [
+        "./providers/*"
+      ]
+    }
+  }
+}

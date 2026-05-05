@@ -1,0 +1,222 @@
+"use client";
+
+import { Button } from "@bee/core/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@bee/core/components/ui/dialog";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+} from "@bee/core/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@bee/core/components/ui/select";
+import { Separator } from "@bee/core/components/ui/separator";
+import { Switch } from "@bee/core/components/ui/switch";
+import { cn } from "@bee/core/lib/utils";
+import { readableDateTime } from "@bee/core/lib/utils/format";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { z } from "zod";
+import { MemberStatus, type Member } from "../types";
+import { updateMember } from "../_server/team.service";
+import { MemberUser } from "./member-list";
+
+const updateMemberFormSchema = z.object({
+  roleId: z.string(),
+  role: z.enum(['owner', 'member']),
+  status: z.string(),
+});
+
+type UpdateMemberFormValues = z.infer<typeof updateMemberFormSchema>;
+
+interface EditMemberProps {
+  open: boolean;
+  onClose: (open: boolean) => void;
+  member: Member;
+  roles: { id: string; name: string }[];
+  lastOwner: boolean;
+}
+
+export function EditMember({
+  open,
+  onClose,
+  member,
+  roles,
+  lastOwner,
+}: EditMemberProps) {
+  const t = useTranslations("dashboard.permission.message.edit");
+  const [isLoading, setIsLoading] = useState(false);
+  const isRole = roles.find((role) => role.id === member.roleId)?.id;
+
+  // member.role is the TRole relation, but TMember also has a role column
+  // Use type assertion to access the underlying column value
+  const memberRoleValue = ((member as any).role as 'owner' | 'member' | null) || 'member';
+
+  const form = useForm<UpdateMemberFormValues>({
+    resolver: zodResolver(updateMemberFormSchema),
+    defaultValues: {
+      roleId: isRole || undefined,
+      role: typeof memberRoleValue === 'string' ? memberRoleValue : 'member', // 這個只是用來一開始的狀態
+      status: member.status || "active", // 預設為啟用狀態
+    },
+  });
+
+  const onSubmit = async (values: UpdateMemberFormValues) => {
+    setIsLoading(true);
+    const isOwner = values.role === 'owner';
+
+    try {
+      await updateMember({
+        id: member.id,
+        data: {
+          roleId: isOwner ? null : values.roleId,
+          role: values.role,
+          status: values.status as 'invited' | 'active' | 'inactive' | 'suspended',
+        },
+      });
+      toast.success(t("successfully"));
+      onClose(false);
+    } catch (error) {
+      console.error("Failed to update member:", error);
+      toast.error(t("failed"));
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const showDescription = () => {
+    switch (true) {
+      case member.status === MemberStatus.Invited:
+        return t("invitedDescription");
+      case lastOwner:
+        return t("lastOwnerDescription");
+      default:
+        return "";
+    }
+  };
+
+  return (
+    <Dialog open={open} onOpenChange={onClose}>
+      <DialogContent className="sm:max-w-[500px]">
+        <DialogHeader>
+          <DialogTitle>{t("title")}</DialogTitle>
+          <DialogDescription>{showDescription()}</DialogDescription>
+        </DialogHeader>
+
+        {/* Member Information Section */}
+        <MemberUser member={member} isYou={false} />
+        <Separator />
+
+        {/* Role Edit Form */}
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(onSubmit)}
+            className={cn(
+              "space-y-4",
+              lastOwner && "pointer-events-none opacity-60",
+            )}
+          >
+            <FormField
+              control={form.control}
+              name="roleId"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("role")}</FormLabel>
+                  <Select
+                    onValueChange={(value) => field.onChange(value)}
+                    value={field.value}
+                  >
+                    <FormControl>
+                      <SelectTrigger className="w-full">
+                        {form.watch("role") === 'owner' ? (
+                          <span>Owner</span>
+                        ) : (
+                          <SelectValue placeholder={t("selectRole")} />
+                        )}
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent className="w-full">
+                      {roles.map((role) => (
+                        <SelectItem key={role.id} value={role.id}>
+                          {role.name}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="status"
+              render={({ field }) => (
+                <FormItem className="flex flex-col items-start justify-between ">
+                  <FormLabel>{t("status")}</FormLabel>
+                  <div className="space-y-0.5 rounded-lg border py-3 px-4 w-full flex items-center justify-between">
+                    <div className="text-sm text-muted-foreground">
+                      {field.value === MemberStatus.Active
+                        ? t("statuses.activate")
+                        : t("statuses.deactivate")}
+                    </div>
+                    <FormControl>
+                      <Switch
+                        checked={field.value === MemberStatus.Active}
+                        onCheckedChange={(checked) => {
+                          field.onChange(
+                            checked
+                              ? MemberStatus.Active
+                              : MemberStatus.Suspended,
+                          );
+                        }}
+                        disabled={member.status === MemberStatus.Invited}
+                      />
+                    </FormControl>
+                  </div>
+                </FormItem>
+              )}
+            />
+            {member.status !== MemberStatus.Invited && (
+              <div>
+                <p className="text-sm text-foreground font-medium">
+                  {" "}
+                  {t("lastLogin")}{" "}
+                </p>
+                <p className="text-sm text-muted-foreground pt-1">
+                  {member.updatedAt ? readableDateTime(member.updatedAt) : "-"}
+                </p>
+              </div>
+            )}
+            <div className="flex justify-end space-x-2 pt-4">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => onClose(false)}
+              >
+                {t("cancel")}
+              </Button>
+              <Button type="submit" disabled={isLoading}>
+                {isLoading ? t("saving") : t("save")}
+              </Button>
+            </div>
+          </form>
+        </Form>
+      </DialogContent>
+    </Dialog>
+  );
+}

@@ -1,0 +1,249 @@
+import { invite } from "@bee/core/modules/permission/team/_server/team.service";
+import { MemberStatus } from "@bee/core/modules/permission/team/types";
+import { ActionButton } from "@bee/core/components/primitives/action-button";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@bee/core/components/ui/form";
+import { Input } from "@bee/core/components/ui/input";
+import config from "@bee/core/config";
+import { SystemOauth } from "@bee/core/modules/dev-center/portal-setting/page";
+import { oAuthLogin } from "@bee/core/server/services/auth";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import { useTranslations } from "next-intl";
+import { useTransition } from "react";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+import {
+  getLoginMethod,
+  getMemberStatus,
+  getAccountByEmail,
+} from "../_server/user.service";
+import Header from "./header";
+import { type LoginStep, LoginStepEnum } from "./loginForm";
+import OAuthLoginButtons from "./oAuthLoginButtons";
+
+interface AuthLoginProps {
+  error: string;
+  setError: (error: string) => void;
+  setLoginMethod: (loginMethod: string | null) => void;
+  setStep: (step: LoginStep) => void;
+  setUserEmail: (email: string) => void;
+  anyUser: boolean;
+  orgName?: string;
+  handleAuthMethod: (method: string, email: string) => void;
+  systemOauth?: string;
+}
+
+const AuthLogin = ({
+  error,
+  setError,
+  setLoginMethod,
+  setStep,
+  setUserEmail,
+  anyUser,
+  orgName,
+  handleAuthMethod,
+  systemOauth,
+}: AuthLoginProps) => {
+  const t = useTranslations("auth.login");
+
+  const usedOrgName = orgName || config?.site?.organization;
+  const [isLoading, startTransition] = useTransition();
+
+  const emailSchema = z.object({
+    email: z.email({ message: t("email.error") }),
+  });
+
+  const emailForm = useForm<z.infer<typeof emailSchema>>({
+    resolver: zodResolver(emailSchema),
+    defaultValues: {
+      email: "",
+    },
+  });
+
+  // 处理邮箱提交
+  const handleEmailSubmit = async (values: z.infer<typeof emailSchema>) => {
+    setUserEmail(values.email);
+    // 僅當系統「完全沒有任何使用者」時，才寄送登入連結
+    if (!anyUser) {
+      try {
+        const account = await getAccountByEmail(values.email);
+        if (!account) {
+          setError("Platform account not found. Please register first.");
+          return;
+        }
+        await invite({ accountId: account.id, roleId: undefined });
+        setError("");
+      } catch (e) {
+        console.error("Failed to send login link email", e);
+        setError(t("error.general"));
+      } finally {
+        setStep(LoginStepEnum.Invite);
+      }
+      return;
+    } else {
+      startTransition(async () => {
+        try {
+          const account = await getAccountByEmail(values.email);
+          if (!account) {
+            return setError(t("error.userNotFound"));
+          }
+
+          const loginMethod = await getLoginMethod(account.id);
+          const memberStatus = await getMemberStatus(account.id);
+
+          if (loginMethod === LoginStepEnum.SSO) {
+            return setError(t("error.onlySSOAllowed"));
+          }
+
+          if (!loginMethod || !memberStatus) {
+            return setError(t("error.userNotFound"));
+          }
+
+          if (memberStatus === MemberStatus.Invited) {
+            return setError(t("error.invited"));
+          }
+
+          if (memberStatus === MemberStatus.Inactive) {
+            return setError(t("error.inactive"));
+          }
+
+          if (memberStatus === MemberStatus.Suspended) {
+            return setError(t("error.suspended"));
+          }
+
+          if (memberStatus !== MemberStatus.Active) {
+            throw new Error("USER_NOT_ACTIVATED");
+          }
+
+          if (loginMethod !== "") {
+            //  以下只有狀態是加入(啟用)狀態才可以處理
+            setLoginMethod(loginMethod);
+            handleAuthMethod(loginMethod, values.email);
+          } else {
+            // 如果用户不存在或没有设置登录方法，默认使用密码登录
+            setLoginMethod(LoginStepEnum.Password);
+            setStep(LoginStepEnum.Password);
+          }
+        } catch (err) {
+          console.error("Error getting login method:", err);
+          setError(t("error.general"));
+        }
+      });
+    }
+  };
+
+  const createAuthButton = (value: string | undefined) => {
+    switch (value) {
+      case SystemOauth.google.value:
+        return (
+          <OAuthLoginButtons
+            icon="material-icon-theme:google"
+            alt="Google"
+            onClick={() => oAuthLogin("google")}
+          />
+        );
+
+      // case SystemOauth.github.value:
+      //   return (
+      //     <OAuthLoginButtons
+      //       icon="akar-icons:github-fill"
+      //       alt="GitHub"
+      //       onClick={() => oAuthLogin('github')}
+      //     />
+      //   );
+
+      case SystemOauth.microsoft.value:
+        return (
+          <OAuthLoginButtons
+            icon="logos:microsoft-icon"
+            alt="Microsoft"
+            onClick={() => oAuthLogin("microsoft-entra-id")}
+          />
+        );
+
+      case SystemOauth.none.value:
+        return null;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <>
+      <Header
+        title={
+          anyUser ? t("title") : t("titleInvite", { organization: usedOrgName })
+        }
+      />
+      {createAuthButton(systemOauth) && (
+        <div className="mt-8">
+          <div className="space-y-3">{createAuthButton(systemOauth)}</div>
+          <div className="relative my-8">
+            <div className="absolute inset-0 flex items-center">
+              <div className="w-full border-t border-muted/30" />
+            </div>
+            <div className="relative flex justify-center text-xs uppercase tracking-widest">
+              <span className="px-4 bg-transparent text-muted-foreground/60 font-bold">
+                {t("or")}
+              </span>
+            </div>
+          </div>
+        </div>
+      )}
+      <Form {...emailForm}>
+        <form
+          className="mt-2 space-y-6"
+          onSubmit={emailForm.handleSubmit(handleEmailSubmit)}
+        >
+          <div className="space-y-4">
+            <FormField
+              control={emailForm.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-xs font-bold uppercase tracking-wider text-muted-foreground/80 ml-1">
+                    {t("email.label")}
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      id="email-address"
+                      type="email"
+                      autoComplete="email"
+                      placeholder={t("email.placeholder")}
+                      className="h-12 bg-background/50 border-white/20 focus:border-primary/50 transition-all rounded-xl"
+                      {...field}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                  {error && (
+                    <p className="w-full text-destructive text-sm font-medium mt-1">
+                      {error}
+                    </p>
+                  )}
+                </FormItem>
+              )}
+            />
+          </div>
+          <div className="pt-2">
+            <ActionButton
+              type="submit"
+              className="w-full h-12 bg-primary text-primary-foreground font-bold rounded-xl shadow-[0_4px_12px_rgba(var(--primary-rgb),0.3)] hover:shadow-[0_6px_20px_rgba(var(--primary-rgb),0.4)] transition-all duration-300 transform hover:-translate-y-0.5"
+              loading={isLoading}
+            >
+              <span className="text-lg">{t("submit")}</span>
+            </ActionButton>
+          </div>
+        </form>
+      </Form>
+    </>
+  );
+};
+
+export default AuthLogin;

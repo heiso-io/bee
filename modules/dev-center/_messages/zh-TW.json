@@ -110,7 +110,7 @@
       "success": "API 密鑰已更新"
     }
   },
-  "staff": {
+  "dev": {
     "title": "開發中心",
     "loading": "正在加載開發者列表...",
     "columns": {

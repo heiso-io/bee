@@ -110,7 +110,7 @@
       "success": "API Keys updated"
     }
   },
-  "staff": {
+  "dev": {
     "title": "Dev Center",
     "loading": "Loading staff...",
     "columns": {

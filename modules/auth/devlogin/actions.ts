@@ -1,5 +1,6 @@
 "use server";
 
+import config from "@heiso-io/bee/config";
 import { settings } from "@heiso-io/bee/config/settings";
 import TwoFactorEmail from "@heiso-io/bee/emails/2fa";
 import { sendEmail } from "@heiso-io/bee/lib/email";
@@ -116,7 +117,7 @@ export async function sendDevOTP(email: string): Promise<{
 
     const { NOTIFY_EMAIL } = await settings();
     await sendEmail({
-      from: (NOTIFY_EMAIL as string) || "noreply@heiso.com",
+      from: (NOTIFY_EMAIL as string) || config.email.notifyFrom,
       to: [email],
       subject: "[DevLogin] Your Verification Code",
       body: TwoFactorEmail({

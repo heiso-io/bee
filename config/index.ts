@@ -35,6 +35,10 @@ const config = {
     meta_description: e.NEXT_PUBLIC_SITE_DESCRIPTION ?? "",
   },
 
+  email: {
+    notifyFrom: e.NOTIFY_EMAIL ?? "noreply@heiso.io",
+  },
+
   auth: {
     account: {
       base_url: "/portal/account",

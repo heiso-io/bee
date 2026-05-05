@@ -1,5 +1,6 @@
 "use server";
 
+import config from "@heiso-io/bee/config";
 import { settings } from "@heiso-io/bee/config/settings";
 import TwoFactorEmail from "@heiso-io/bee/emails/2fa";
 import { db } from "@heiso-io/bee/lib/db";
@@ -91,7 +92,7 @@ export async function generateOTP(email: string): Promise<OTPGenerationResult> {
     // 发送邮件
     const { NOTIFY_EMAIL } = await settings();
     await sendEmail({
-      from: (NOTIFY_EMAIL as string) || "noreply@heiso.com",
+      from: (NOTIFY_EMAIL as string) || config.email.notifyFrom,
       to: [account.email as string],
       subject: "Your Login Verification Code",
       body: TwoFactorEmail({

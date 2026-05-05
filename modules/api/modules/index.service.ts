@@ -1,6 +1,6 @@
-import { db } from "@bee/core/lib/db";
-import { apiKeyAccessLogs, apiKeys } from "@bee/core/lib/db/schema";
-import { hashApiKey } from "@bee/core/lib/hash";
+import { db } from "@heiso-io/bee/lib/db";
+import { apiKeyAccessLogs, apiKeys } from "@heiso-io/bee/lib/db/schema";
+import { hashApiKey } from "@heiso-io/bee/lib/hash";
 import { eq } from "drizzle-orm";
 
 // Verify API key (for authentication middleware)

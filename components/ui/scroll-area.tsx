@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import * as ScrollAreaPrimitive from "@radix-ui/react-scroll-area";
 import type * as React from "react";
 

@@ -1,14 +1,14 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
-import { Input } from "@bee/core/components/ui/input";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Input } from "@heiso-io/bee/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@bee/core/components/ui/popover";
-import { ScrollArea } from "@bee/core/components/ui/scroll-area";
-import { cn } from "@bee/core/lib/utils";
+} from "@heiso-io/bee/components/ui/popover";
+import { ScrollArea } from "@heiso-io/bee/components/ui/scroll-area";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { Search } from "lucide-react";
 import { DynamicIcon, iconNames } from "lucide-react/dynamic";
 import { useCallback, useMemo, useState } from "react";

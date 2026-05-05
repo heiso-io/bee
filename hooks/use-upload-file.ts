@@ -1,7 +1,7 @@
 import {
   ourFileRouter,
   type UploadedFile,
-} from "@bee/core/lib/upload-router";
+} from "@heiso-io/bee/lib/upload-router";
 import { useUploadS3File } from "./use-upload-s3-file";
 
 interface UploadFileOptions {

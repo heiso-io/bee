@@ -4,8 +4,8 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "@bee/core/components/ui/alert";
-import { Button } from "@bee/core/components/ui/button";
+} from "@heiso-io/bee/components/ui/alert";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,16 +13,16 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@bee/core/components/ui/card";
-import { Input } from "@bee/core/components/ui/input";
-import { Label } from "@bee/core/components/ui/label";
-import { Switch } from "@bee/core/components/ui/switch";
+} from "@heiso-io/bee/components/ui/card";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import { Label } from "@heiso-io/bee/components/ui/label";
+import { Switch } from "@heiso-io/bee/components/ui/switch";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@bee/core/components/ui/tabs";
+} from "@heiso-io/bee/components/ui/tabs";
 import {
   AlertCircle,
   CheckCircle2,

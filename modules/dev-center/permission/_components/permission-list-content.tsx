@@ -1,9 +1,9 @@
 "use client";
 
-import { SearchInput } from "@bee/core/components/ui/search-input";
+import { SearchInput } from "@heiso-io/bee/components/ui/search-input";
 import { useState, useMemo } from "react";
-import { PermissionCard, type PermissionGroup, type Permission } from "@bee/core/components/primitives/permission-card";
-import { Button } from "@bee/core/components/ui/button";
+import { PermissionCard, type PermissionGroup, type Permission } from "@heiso-io/bee/components/primitives/permission-card";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import { ChevronsDownUp } from "lucide-react";
 
 export function PermissionListContent({

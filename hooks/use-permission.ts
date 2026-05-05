@@ -1,4 +1,4 @@
-import { usePermissionContext } from "@bee/core/providers/permission";
+import { usePermissionContext } from "@heiso-io/bee/providers/permission";
 import { useEffect, useState } from "react";
 
 export function usePermission({

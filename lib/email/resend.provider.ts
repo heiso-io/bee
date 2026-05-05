@@ -1,6 +1,6 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
 import { Resend } from "resend";
-import { getKey } from "@bee/core/modules/dev-center/system/_server/key.service";
+import { getKey } from "@heiso-io/bee/modules/dev-center/system/_server/key.service";
 import type {
   EmailProvider,
   SendOptions,

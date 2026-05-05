@@ -2,17 +2,17 @@
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { MenuTree } from "@bee/core/components/primitives/menu";
-import { CaptionTotal } from "@bee/core/components/shared/caption-total";
-import { Badge } from "@bee/core/components/ui/badge";
-import { Button } from "@bee/core/components/ui/button";
-import { Checkbox } from "@bee/core/components/ui/checkbox";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { MenuTree } from "@heiso-io/bee/components/primitives/menu";
+import { CaptionTotal } from "@heiso-io/bee/components/shared/caption-total";
+import { Badge } from "@heiso-io/bee/components/ui/badge";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Checkbox } from "@heiso-io/bee/components/ui/checkbox";
 import {
   Collapsible,
   CollapsibleContent,
   CollapsibleTrigger,
-} from "@bee/core/components/ui/collapsible";
+} from "@heiso-io/bee/components/ui/collapsible";
 import {
   Dialog,
   DialogClose,
@@ -22,7 +22,7 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@bee/core/components/ui/dialog";
+} from "@heiso-io/bee/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -30,8 +30,8 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -40,12 +40,12 @@ import {
   SelectLabel,
   SelectTrigger,
   SelectValue,
-} from "@bee/core/components/ui/select";
-import { Separator } from "@bee/core/components/ui/separator";
-import { Textarea } from "@bee/core/components/ui/textarea";
-import type { TMenu } from "@bee/core/lib/db/schema";
-import { cn } from "@bee/core/lib/utils";
-import { useAccount } from "@bee/core/providers/account";
+} from "@heiso-io/bee/components/ui/select";
+import { Separator } from "@heiso-io/bee/components/ui/separator";
+import { Textarea } from "@heiso-io/bee/components/ui/textarea";
+import type { TMenu } from "@heiso-io/bee/lib/db/schema";
+import { cn } from "@heiso-io/bee/lib/utils";
+import { useAccount } from "@heiso-io/bee/providers/account";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   ChevronDown,

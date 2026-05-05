@@ -1,7 +1,7 @@
 export const runtime = "nodejs";
 
-import { auth } from "@bee/core/modules/auth/auth.config";
-import { getAccount, getAccountByEmail } from "@bee/core/server/user.service";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
+import { getAccount, getAccountByEmail } from "@heiso-io/bee/server/user.service";
 import { NextResponse } from "next/server";
 
 export async function GET() {

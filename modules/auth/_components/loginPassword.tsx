@@ -1,8 +1,8 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { PasswordInput } from "@bee/core/components/primitives/password-input";
-import { Button } from "@bee/core/components/ui/button";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { PasswordInput } from "@heiso-io/bee/components/primitives/password-input";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Form,
   FormControl,
@@ -10,9 +10,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
-import { login, verifyPasswordOnly } from "@bee/core/server/services/auth";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import { login, verifyPasswordOnly } from "@heiso-io/bee/server/services/auth";
 // import { GitHubLogoIcon } from '@radix-ui/react-icons';
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";

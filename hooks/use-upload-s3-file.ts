@@ -1,6 +1,6 @@
-import { sha256File } from "@bee/core/lib/hash";
-import { getPreSignedUrl } from "@bee/core/lib/s3";
-import type { FileRouter, UploadedFile } from "@bee/core/lib/upload-router";
+import { sha256File } from "@heiso-io/bee/lib/hash";
+import { getPreSignedUrl } from "@heiso-io/bee/lib/s3";
+import type { FileRouter, UploadedFile } from "@heiso-io/bee/lib/upload-router";
 import * as React from "react";
 
 type ProgressVerboseEvent = {

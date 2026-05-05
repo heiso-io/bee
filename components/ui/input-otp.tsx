@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { OTPInput, OTPInputContext } from "input-otp";
 import { MinusIcon } from "lucide-react";
 import * as React from "react";

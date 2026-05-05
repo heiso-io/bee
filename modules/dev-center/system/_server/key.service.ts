@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import { settings } from "@bee/core/lib/db/schema/system/setting";
+import { db } from "@heiso-io/bee/lib/db";
+import { settings } from "@heiso-io/bee/lib/db/schema/system/setting";
 
 const KEY_GROUP = "api_keys";
 

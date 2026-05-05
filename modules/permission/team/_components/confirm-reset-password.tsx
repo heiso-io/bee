@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -8,8 +8,8 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@bee/core/components/ui/dialog";
-import { generateRandomPassword } from "@bee/core/lib/utils/format";
+} from "@heiso-io/bee/components/ui/dialog";
+import { generateRandomPassword } from "@heiso-io/bee/lib/utils/format";
 import { Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

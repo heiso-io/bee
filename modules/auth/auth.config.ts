@@ -1,6 +1,6 @@
 import NextAuth, { CredentialsSignin, type DefaultSession } from "next-auth";
-import { db } from "@bee/core/lib/db";
-import { STAFF_CONFIG } from "@bee/core/modules/dev-center/staff/config";
+import { db } from "@heiso-io/bee/lib/db";
+import { STAFF_CONFIG } from "@heiso-io/bee/modules/dev-center/staff/config";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
@@ -63,14 +63,14 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           .trim();
         if (!email) return true;
 
-        const { getAccountByEmail } = await import("@bee/core/lib/accounts/account-adapter");
+        const { getAccountByEmail } = await import("@heiso-io/bee/lib/accounts/account-adapter");
         const account_ = await getAccountByEmail(email);
         if (!account_) return true;
 
         const { and, eq, isNull } = await import("drizzle-orm");
 
         // 統一使用 accounts 表（Core 和 APPS 模式皆同）
-        const { accounts } = await import("@bee/core/lib/db/schema");
+        const { accounts } = await import("@heiso-io/bee/lib/db/schema");
 
         const existingAccount = await db.query.accounts.findFirst({
           where: (t, ops) =>
@@ -130,13 +130,13 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           const email = (user.email || "").toString().trim();
           if (email) {
             try {
-              const { getAccountByEmail } = await import("@bee/core/lib/accounts/account-adapter");
+              const { getAccountByEmail } = await import("@heiso-io/bee/lib/accounts/account-adapter");
               const dbAccount = await getAccountByEmail(email);
               if (dbAccount) {
                 token.sub = dbAccount.id;
                 // Query membership for OAuth user
                 const { findMembershipByAccountId } = await import(
-                  "@bee/core/modules/account/authentication/_server/auth.service"
+                  "@heiso-io/bee/modules/account/authentication/_server/auth.service"
                 );
                 const membership = await findMembershipByAccountId(dbAccount.id);
                 token.member = membership ? {
@@ -227,7 +227,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
 
         if (!email) return;
 
-        const { getAccountByEmail } = await import("@bee/core/lib/accounts/account-adapter");
+        const { getAccountByEmail } = await import("@heiso-io/bee/lib/accounts/account-adapter");
         const existingAccount = await getAccountByEmail(email);
 
         if (!existingAccount) {
@@ -240,7 +240,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         const { eq } = await import("drizzle-orm");
 
         // 統一使用 accounts 表（Core 和 APPS 模式皆同）
-        const { accounts } = await import("@bee/core/lib/db/schema");
+        const { accounts } = await import("@heiso-io/bee/lib/db/schema");
 
         // 查找帳號
         const account_ = await db.query.accounts.findFirst({
@@ -330,7 +330,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         const {
           getAccountByEmail,
           verifyPassword: verifyAccountPassword,
-        } = await import("@bee/core/lib/accounts/account-adapter");
+        } = await import("@heiso-io/bee/lib/accounts/account-adapter");
 
         const account = await getAccountByEmail(username);
         if (!account) throw new InvalidLoginError();
@@ -349,7 +349,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         // Resolve customRole if roleId exists
         if ((account as any).roleId) {
           try {
-            const { roles } = await import("@bee/core/lib/db/schema");
+            const { roles } = await import("@heiso-io/bee/lib/db/schema");
             const { eq } = await import("drizzle-orm");
             const customRole = await db.query.roles.findFirst({
               where: eq(roles.id, (account as any).roleId),

@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
-import { cn } from "@bee/core/lib/utils";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { Monitor, Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";

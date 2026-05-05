@@ -1,4 +1,4 @@
 export const runtime = "nodejs";
 
-import { handlers } from "@bee/core/modules/auth/auth.config";
+import { handlers } from "@heiso-io/bee/modules/auth/auth.config";
 export const { GET, POST } = handlers;

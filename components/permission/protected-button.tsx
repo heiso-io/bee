@@ -1,5 +1,5 @@
-import { Button } from "@bee/core/components/ui/button";
-import { usePermission } from "@bee/core/hooks/use-permission";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { usePermission } from "@heiso-io/bee/hooks/use-permission";
 
 type ProtectedButtonProps =
   | {

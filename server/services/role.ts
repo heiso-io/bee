@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
+import { db } from "@heiso-io/bee/lib/db";
 
 interface UserPermission {
   role: string;

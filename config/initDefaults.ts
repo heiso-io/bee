@@ -1,5 +1,5 @@
 // Note: CMS_DEFAULT_MENUS and CORE_DEFAULT_MENUS have been removed.
-// Menu definitions are now in @bee/core/config/menus.ts (static config for dashboard navigation).
+// Menu definitions are now in @heiso-io/bee/config/menus.ts (static config for dashboard navigation).
 
 export const DEFAULT_ROLES = [
   {

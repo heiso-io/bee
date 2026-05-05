@@ -1,10 +1,10 @@
 "use client";
 
-import { Toaster } from "@bee/core/components/ui/sonner";
-import type { PortalSetting } from "@bee/core/types/system";
-import { AccountProvider } from "@bee/core/providers/account";
-import { SettingProvider } from "@bee/core/providers/settings";
-import { SiteProvider } from "@bee/core/providers/site";
+import { Toaster } from "@heiso-io/bee/components/ui/sonner";
+import type { PortalSetting } from "@heiso-io/bee/types/system";
+import { AccountProvider } from "@heiso-io/bee/providers/account";
+import { SettingProvider } from "@heiso-io/bee/providers/settings";
+import { SiteProvider } from "@heiso-io/bee/providers/site";
 import { SessionProvider } from "next-auth/react";
 import { ThemeProvider } from "next-themes";
 import { useEffect } from "react";

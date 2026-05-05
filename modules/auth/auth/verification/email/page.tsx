@@ -4,8 +4,8 @@ import {
   Alert,
   AlertDescription,
   AlertTitle,
-} from "@bee/core/components/ui/alert";
-import { Button } from "@bee/core/components/ui/button";
+} from "@heiso-io/bee/components/ui/alert";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Card,
   CardContent,
@@ -13,8 +13,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@bee/core/components/ui/card";
-import { Input } from "@bee/core/components/ui/input";
+} from "@heiso-io/bee/components/ui/card";
+import { Input } from "@heiso-io/bee/components/ui/input";
 import { AlertCircle, ArrowRight, CheckCircle2, Mail } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

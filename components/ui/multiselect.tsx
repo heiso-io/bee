@@ -5,8 +5,8 @@ import {
   CommandGroup,
   CommandItem,
   CommandList,
-} from "@bee/core/components/ui/command";
-import { cn } from "@bee/core/lib/utils";
+} from "@heiso-io/bee/components/ui/command";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { Command as CommandPrimitive, useCommandState } from "cmdk";
 import { XIcon } from "lucide-react";
 import * as React from "react";

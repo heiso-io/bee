@@ -1,8 +1,8 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { AvatarUploader } from "@bee/core/components/primitives/uploader/avatar";
-import { Button } from "@bee/core/components/ui/button";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { AvatarUploader } from "@heiso-io/bee/components/primitives/uploader/avatar";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Card,
   CardContent,
@@ -10,10 +10,10 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@bee/core/components/ui/card";
-import { Input } from "@bee/core/components/ui/input";
-import { useAccount } from "@bee/core/providers/account";
-import { useSite } from "@bee/core/providers/site";
+} from "@heiso-io/bee/components/ui/card";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import { useAccount } from "@heiso-io/bee/providers/account";
+import { useSite } from "@heiso-io/bee/providers/site";
 import { CheckIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useTheme } from "next-themes";

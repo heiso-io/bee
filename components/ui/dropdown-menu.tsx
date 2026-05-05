@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import * as DropdownMenuPrimitive from "@radix-ui/react-dropdown-menu";
 import { CheckIcon, ChevronRightIcon, CircleIcon } from "lucide-react";
 import type * as React from "react";

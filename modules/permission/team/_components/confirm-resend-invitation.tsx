@@ -1,4 +1,4 @@
-import { ActionButton } from "@bee/core/components/primitives/action-button";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -8,7 +8,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from "@bee/core/components/ui/alert-dialog";
+} from "@heiso-io/bee/components/ui/alert-dialog";
 
 type Props = {
   title: string;

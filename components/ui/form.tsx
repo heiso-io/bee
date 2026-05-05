@@ -1,7 +1,7 @@
 "use client";
 
-import { Label } from "@bee/core/components/ui/label";
-import { cn } from "@bee/core/lib/utils";
+import { Label } from "@heiso-io/bee/components/ui/label";
+import { cn } from "@heiso-io/bee/lib/utils";
 import type * as LabelPrimitive from "@radix-ui/react-label";
 import { Slot } from "@radix-ui/react-slot";
 import * as React from "react";

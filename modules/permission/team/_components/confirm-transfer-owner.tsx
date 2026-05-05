@@ -1,13 +1,13 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { Button } from "@bee/core/components/ui/button";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@bee/core/components/ui/dialog";
+} from "@heiso-io/bee/components/ui/dialog";
 import { useTranslations } from "next-intl";
 
 type Props = {

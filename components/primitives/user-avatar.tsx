@@ -1,13 +1,13 @@
 "use client";
 
-import { RandomAvatar } from "@bee/core/components/primitives/random-avatar";
-import { ThemeSwitcher } from "@bee/core/components/primitives/theme-switcher";
+import { RandomAvatar } from "@heiso-io/bee/components/primitives/random-avatar";
+import { ThemeSwitcher } from "@heiso-io/bee/components/primitives/theme-switcher";
 import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@bee/core/components/ui/avatar";
-import { Badge } from "@bee/core/components/ui/badge";
+} from "@heiso-io/bee/components/ui/avatar";
+import { Badge } from "@heiso-io/bee/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -17,9 +17,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuShortcut,
   DropdownMenuTrigger,
-} from "@bee/core/components/ui/dropdown-menu";
-import { useAccount } from "@bee/core/providers/account";
-import { usePermissionContext } from "@bee/core/providers/permission";
+} from "@heiso-io/bee/components/ui/dropdown-menu";
+import { useAccount } from "@heiso-io/bee/providers/account";
+import { usePermissionContext } from "@heiso-io/bee/providers/permission";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { signOut, useSession } from "next-auth/react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { Card } from "@bee/core/components/ui/card";
+import { Card } from "@heiso-io/bee/components/ui/card";
 import { ChevronRight, User, UserCog } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

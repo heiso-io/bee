@@ -1,4 +1,4 @@
-import { generateId } from "@bee/core/lib/id-generator";
+import { generateId } from "@heiso-io/bee/lib/id-generator";
 import { relations } from "drizzle-orm";
 import {
   index,

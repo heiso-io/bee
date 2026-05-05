@@ -6,7 +6,7 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { getTenantIdOrThrow } from "@bee/core/lib/utils/tenant";
+import { getTenantIdOrThrow } from "@heiso-io/bee/lib/utils/tenant";
 
 const kExpiresIn = 5 * 60; // 5 min(對齊 assets-foundation §5)
 

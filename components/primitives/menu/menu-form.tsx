@@ -1,15 +1,15 @@
 "use client";
 
-import { IconSelector } from "@bee/core/components/primitives/icon-selector";
-import { Button } from "@bee/core/components/ui/button";
+import { IconSelector } from "@heiso-io/bee/components/primitives/icon-selector";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";

@@ -1,8 +1,8 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import { accounts } from "@bee/core/lib/db/schema";
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { db } from "@heiso-io/bee/lib/db";
+import { accounts } from "@heiso-io/bee/lib/db/schema";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { and, eq, isNull } from "drizzle-orm";
 import { cookies } from "next/headers";
 /**
@@ -147,7 +147,7 @@ export async function updateBasicProfile({
   if (avatar !== undefined) updates.avatar = avatar;
 
   if (typeof password === "string" && password.trim().length > 0) {
-    const { hashPassword } = await import("@bee/core/lib/hash");
+    const { hashPassword } = await import("@heiso-io/bee/lib/hash");
     updates.password = await hashPassword(password.trim());
   }
 

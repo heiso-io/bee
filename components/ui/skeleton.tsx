@@ -1,4 +1,4 @@
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 
 function Skeleton({ className, ...props }: React.ComponentProps<"div">) {
   return (

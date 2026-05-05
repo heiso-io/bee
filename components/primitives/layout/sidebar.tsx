@@ -4,8 +4,8 @@ import {
   Sidebar,
   SidebarBody,
   SidebarLink,
-} from "@bee/core/components/primitives/dashboard-sidebar";
-import type { Navigation } from "@bee/core/types/client";
+} from "@heiso-io/bee/components/primitives/dashboard-sidebar";
+import type { Navigation } from "@heiso-io/bee/types/client";
 import { usePathname } from "next/navigation";
 import { useState } from "react";
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import * as roleService from "./role";
 
 const permissionCache = new Map<string, roleService.UserPermission>();

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 export function CaptionTotal({
   className,
   title,

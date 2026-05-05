@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import * as SwitchPrimitive from "@radix-ui/react-switch";
 import type * as React from "react";
 

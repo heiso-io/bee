@@ -2,8 +2,8 @@ import {
   AvatarFallback,
   AvatarImage,
   Avatar as AvatarLayer,
-} from "@bee/core/components/ui/avatar";
-import { cn } from "@bee/core/lib/utils";
+} from "@heiso-io/bee/components/ui/avatar";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { RandomAvatar } from "./random-avatar";
 
 export function Avatar({

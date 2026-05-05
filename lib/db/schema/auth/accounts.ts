@@ -1,4 +1,4 @@
-import { generateAccountId } from "@bee/core/lib/id-generator";
+import { generateAccountId } from "@heiso-io/bee/lib/id-generator";
 import { relations } from "drizzle-orm";
 import {
   boolean,
@@ -16,7 +16,7 @@ import {
 } from "drizzle-zod";
 import type zod from "zod";
 import { roles } from "../permissions/role";
-import { type Role, type MemberStatus } from "@bee/core/types/member";
+import { type Role, type MemberStatus } from "@heiso-io/bee/types/member";
 
 /**
  * accounts 表 - 帳號與成員資料

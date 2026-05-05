@@ -1,4 +1,4 @@
-import { generateRoleId } from "@bee/core/lib/id-generator";
+import { generateRoleId } from "@heiso-io/bee/lib/id-generator";
 import { relations } from "drizzle-orm";
 import {
   boolean,

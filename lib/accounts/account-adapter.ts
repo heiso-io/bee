@@ -1,8 +1,8 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import type { TAccount } from "@bee/core/lib/db/schema/auth/accounts";
-import { accounts } from "@bee/core/lib/db/schema/auth/accounts";
+import { db } from "@heiso-io/bee/lib/db";
+import type { TAccount } from "@heiso-io/bee/lib/db/schema/auth/accounts";
+import { accounts } from "@heiso-io/bee/lib/db/schema/auth/accounts";
 import { eq } from "drizzle-orm";
 
 /**
@@ -79,7 +79,7 @@ export async function verifyPassword(
 
   if (!account) return false;
 
-  const { verifyPassword: verifyHash } = await import("@bee/core/lib/hash");
+  const { verifyPassword: verifyHash } = await import("@heiso-io/bee/lib/hash");
   return await verifyHash(password, account.password);
 }
 

@@ -1,15 +1,15 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { LanguageSwitcher } from "@bee/core/components/primitives/language-switcher";
-import { Card } from "@bee/core/components/ui/card";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { LanguageSwitcher } from "@heiso-io/bee/components/primitives/language-switcher";
+import { Card } from "@heiso-io/bee/components/ui/card";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@bee/core/components/ui/form";
+} from "@heiso-io/bee/components/ui/form";
 import {
   Select,
   SelectContent,
@@ -17,10 +17,10 @@ import {
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@bee/core/components/ui/select";
-import type { Locale } from "@bee/core/i18n/config";
-import { defaultLocale, getLanguageInfo } from "@bee/core/i18n/config";
-import { LogoImage } from "@bee/core/components/primitives/logo-image";
+} from "@heiso-io/bee/components/ui/select";
+import type { Locale } from "@heiso-io/bee/i18n/config";
+import { defaultLocale, getLanguageInfo } from "@heiso-io/bee/i18n/config";
+import { LogoImage } from "@heiso-io/bee/components/primitives/logo-image";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useCallback, useEffect, useState, useTransition } from "react";

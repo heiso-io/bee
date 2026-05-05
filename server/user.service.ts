@@ -4,9 +4,9 @@ import {
   getAccountByEmail as getAccountByEmailAdapter,
   getAccountById,
   updateAccount,
-} from "@bee/core/lib/accounts/account-adapter";
-import { db } from "@bee/core/lib/db";
-import type { TAccount } from "@bee/core/lib/db/schema";
+} from "@heiso-io/bee/lib/accounts/account-adapter";
+import { db } from "@heiso-io/bee/lib/db";
+import type { TAccount } from "@heiso-io/bee/lib/db/schema";
 
 // 包成 async function（"use server" 不允許同步 re-export，否則 build 時會被當 server action wrapper、runtime crash）
 export async function getAccountByEmail(email: string) {

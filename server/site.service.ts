@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import type { PortalSetting } from "@bee/core/types/system";
+import { db } from "@heiso-io/bee/lib/db";
+import type { PortalSetting } from "@heiso-io/bee/types/system";
 
 export async function getPortalSetting(): Promise<PortalSetting> {
   const settings = await db.query.settings.findMany({

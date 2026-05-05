@@ -15,7 +15,7 @@ import {
   createUpdateSchema,
 } from "drizzle-zod";
 import type zod from "zod/v4";
-import { generateId } from "@bee/core/lib/id-generator";
+import { generateId } from "@heiso-io/bee/lib/id-generator";
 import { accounts } from "../../auth/accounts";
 
 export const pageTemplates = pgTable(

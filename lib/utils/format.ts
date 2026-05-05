@@ -1,4 +1,4 @@
-// formatBytes 統一在 @bee/core/lib/helper.ts
+// formatBytes 統一在 @heiso-io/bee/lib/helper.ts
 
 /**
  * Format date string to readable format

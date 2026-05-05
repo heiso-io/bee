@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Card,
   CardContent,
@@ -8,8 +8,8 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "@bee/core/components/ui/card";
-import { Input } from "@bee/core/components/ui/input";
+} from "@heiso-io/bee/components/ui/card";
+import { Input } from "@heiso-io/bee/components/ui/input";
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { Plus } from "lucide-react";
-import { ImageUploader } from "@bee/core/components/primitives/uploader";
+import { ImageUploader } from "@heiso-io/bee/components/primitives/uploader";
 
 export function LogoImage({
   value,

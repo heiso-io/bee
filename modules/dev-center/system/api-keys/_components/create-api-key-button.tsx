@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
-import type { TPublicApiKey } from "@bee/core/lib/db/schema";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import type { TPublicApiKey } from "@heiso-io/bee/lib/db/schema";
 import { Plus } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

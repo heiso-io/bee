@@ -6,8 +6,8 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@bee/core/components/ui/dialog";
-import { cn } from "@bee/core/lib/utils";
+} from "@heiso-io/bee/components/ui/dialog";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { Command as CommandPrimitive } from "cmdk";
 import { SearchIcon } from "lucide-react";
 import type * as React from "react";

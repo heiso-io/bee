@@ -1,9 +1,9 @@
-import config, { settings } from "@bee/core/config";
-import ApprovedEmail from "@bee/core/emails/approved";
-import { ForgotPasswordEmail } from "@bee/core/emails/forgot-password";
-import InviteOwnerEmail from "@bee/core/emails/invite-owner";
-import { InviteUserEmail } from "@bee/core/emails/invite-user";
-import { getPortalSetting } from "@bee/core/server/site.service";
+import config, { settings } from "@heiso-io/bee/config";
+import ApprovedEmail from "@heiso-io/bee/emails/approved";
+import { ForgotPasswordEmail } from "@heiso-io/bee/emails/forgot-password";
+import InviteOwnerEmail from "@heiso-io/bee/emails/invite-owner";
+import { InviteUserEmail } from "@heiso-io/bee/emails/invite-user";
+import { getPortalSetting } from "@heiso-io/bee/server/site.service";
 import type {
   EmailProvider,
   SendOptions,

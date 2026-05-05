@@ -1,8 +1,8 @@
 "use client";
 
-import { Logo } from "@bee/core/components/primitives/logo";
-import { ThemeSwitcher } from "@bee/core/components/primitives/theme-switcher";
-import { useSite } from "@bee/core/providers/site";
+import { Logo } from "@heiso-io/bee/components/primitives/logo";
+import { ThemeSwitcher } from "@heiso-io/bee/components/primitives/theme-switcher";
+import { useSite } from "@heiso-io/bee/providers/site";
 import { useTranslations } from "next-intl";
 
 export default function Layout({ children }: { children: React.ReactNode }) {

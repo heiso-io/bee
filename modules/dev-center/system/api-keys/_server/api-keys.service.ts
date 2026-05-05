@@ -1,10 +1,10 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import type { TPublicApiKey } from "@bee/core/lib/db/schema";
-import { apiKeys } from "@bee/core/lib/db/schema";
-import { generateApiKey, hashApiKey } from "@bee/core/lib/hash";
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { db } from "@heiso-io/bee/lib/db";
+import type { TPublicApiKey } from "@heiso-io/bee/lib/db/schema";
+import { apiKeys } from "@heiso-io/bee/lib/db/schema";
+import { generateApiKey, hashApiKey } from "@heiso-io/bee/lib/hash";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { and, count, desc, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 

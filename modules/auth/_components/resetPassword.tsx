@@ -1,13 +1,13 @@
 "use client";
 
-import { PasswordInput } from "@bee/core/components/primitives/password-input";
-import { Button } from "@bee/core/components/ui/button";
-import { Label } from "@bee/core/components/ui/label";
+import { PasswordInput } from "@heiso-io/bee/components/primitives/password-input";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Label } from "@heiso-io/bee/components/ui/label";
 import {
   calcStrength,
   Progress,
   ProgressLabel,
-} from "@bee/core/components/ui/progress";
+} from "@heiso-io/bee/components/ui/progress";
 import { motion } from "framer-motion";
 import { Loader2 } from "lucide-react";
 import Link from "next/link";

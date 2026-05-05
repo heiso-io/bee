@@ -4,9 +4,9 @@ import {
   Avatar,
   AvatarFallback,
   AvatarImage,
-} from "@bee/core/components/ui/avatar";
-import { Button } from "@bee/core/components/ui/button";
-import { Card, CardContent } from "@bee/core/components/ui/card";
+} from "@heiso-io/bee/components/ui/avatar";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Card, CardContent } from "@heiso-io/bee/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -15,22 +15,22 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@bee/core/components/ui/dialog";
-import { Input } from "@bee/core/components/ui/input";
-import { Label } from "@bee/core/components/ui/label";
+} from "@heiso-io/bee/components/ui/dialog";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import { Label } from "@heiso-io/bee/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@bee/core/components/ui/select";
+} from "@heiso-io/bee/components/ui/select";
 import {
   Tabs,
   TabsContent,
   TabsList,
   TabsTrigger,
-} from "@bee/core/components/ui/tabs";
+} from "@heiso-io/bee/components/ui/tabs";
 import { Shuffle, Upload, User } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

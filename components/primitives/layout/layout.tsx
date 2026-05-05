@@ -1,11 +1,11 @@
 // 'use client';
 
-import type { UserAvatarMenuItem } from "@bee/core/components/primitives/user-avatar";
-import type { BreadcrumbProps, Navigation } from "@bee/core/types/client";
+import type { UserAvatarMenuItem } from "@heiso-io/bee/components/primitives/user-avatar";
+import type { BreadcrumbProps, Navigation } from "@heiso-io/bee/types/client";
 // import { useState, useEffect } from 'react';
 import { Header } from "./header";
 import { DashboardSidebar } from "./sidebar";
-// import { useIsMobile } from '@bee/core/hooks/use-mobile';
+// import { useIsMobile } from '@heiso-io/bee/hooks/use-mobile';
 
 export function Layout({
   navigation,

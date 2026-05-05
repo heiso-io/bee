@@ -1,4 +1,4 @@
-import { getInviteToken } from "@bee/core/modules/auth/join/_server/member.service";
+import { getInviteToken } from "@heiso-io/bee/modules/auth/join/_server/member.service";
 import type { NextRequest } from "next/server";
 
 export const dynamic = "force-dynamic";

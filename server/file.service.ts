@@ -1,12 +1,12 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import { fileFolders, files } from "@bee/core/lib/db/schema";
-import { generateId } from "@bee/core/lib/id-generator";
-import { getPreSignedDownloadUrl } from "@bee/core/lib/s3";
-import type { UploadedFile } from "@bee/core/lib/upload-router";
-import { auth } from "@bee/core/modules/auth/auth.config";
-import { getTenantIdOrThrow } from "@bee/core/lib/utils/tenant";
+import { db } from "@heiso-io/bee/lib/db";
+import { fileFolders, files } from "@heiso-io/bee/lib/db/schema";
+import { generateId } from "@heiso-io/bee/lib/id-generator";
+import { getPreSignedDownloadUrl } from "@heiso-io/bee/lib/s3";
+import type { UploadedFile } from "@heiso-io/bee/lib/upload-router";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
+import { getTenantIdOrThrow } from "@heiso-io/bee/lib/utils/tenant";
 import { and, eq, isNull, sql } from "drizzle-orm";
 
 function detectFileType(rawType: string) {

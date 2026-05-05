@@ -1,7 +1,7 @@
 "use client";
 
-import { toggleVariants } from "@bee/core/components/ui/toggle";
-import { cn } from "@bee/core/lib/utils";
+import { toggleVariants } from "@heiso-io/bee/components/ui/toggle";
+import { cn } from "@heiso-io/bee/lib/utils";
 import * as ToggleGroupPrimitive from "@radix-ui/react-toggle-group";
 import type { VariantProps } from "class-variance-authority";
 import * as React from "react";

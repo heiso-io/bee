@@ -1,11 +1,11 @@
 "use server";
 
-import { settings } from "@bee/core/config/settings";
-import TwoFactorEmail from "@bee/core/emails/2fa";
-import { db } from "@bee/core/lib/db";
-import { user2faCode } from "@bee/core/lib/db/schema";
-import { sendEmail } from "@bee/core/lib/email";
-import { consumeRateLimit } from "@bee/core/lib/rate-limit";
+import { settings } from "@heiso-io/bee/config/settings";
+import TwoFactorEmail from "@heiso-io/bee/emails/2fa";
+import { db } from "@heiso-io/bee/lib/db";
+import { user2faCode } from "@heiso-io/bee/lib/db/schema";
+import { sendEmail } from "@heiso-io/bee/lib/email";
+import { consumeRateLimit } from "@heiso-io/bee/lib/rate-limit";
 import { and, eq, gt, lt } from "drizzle-orm";
 import { getAccountByEmail, getMember } from "./user.service";
 

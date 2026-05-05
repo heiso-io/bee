@@ -1,4 +1,4 @@
-import { getUserPermissions } from "@bee/core/server/services/permission";
+import { getUserPermissions } from "@heiso-io/bee/server/services/permission";
 
 export async function GET() {
   const permissions = await getUserPermissions();

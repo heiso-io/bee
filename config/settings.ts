@@ -1,7 +1,7 @@
 import { cache } from "react";
-import { getSystemSettings } from "@bee/core/server/services/system/setting";
-import { getPortalSetting } from "@bee/core/server/site.service";
-import type { Settings } from "@bee/core/types/system";
+import { getSystemSettings } from "@heiso-io/bee/server/services/system/setting";
+import { getPortalSetting } from "@heiso-io/bee/server/site.service";
+import type { Settings } from "@heiso-io/bee/types/system";
 
 /**
  * settings()：從 DB system settings 讀，加上 secret env 覆蓋。

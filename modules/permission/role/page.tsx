@@ -1,4 +1,4 @@
-import { TableSkeleton } from "@bee/core/components/skeleton";
+import { TableSkeleton } from "@heiso-io/bee/components/skeleton";
 import { Suspense } from "react";
 import { RoleList } from "./_components/role-list";
 import { getMenus } from "./_server/menu.service";

@@ -1,11 +1,11 @@
 "use server";
 
-import { sendInvite } from "@bee/core/modules/permission/team/_server/team.service";
-import { type Transaction } from "@bee/core/lib/db";
-import { accounts } from "@bee/core/lib/db/schema";
-import { generateInviteToken } from "@bee/core/lib/id-generator";
+import { sendInvite } from "@heiso-io/bee/modules/permission/team/_server/team.service";
+import { type Transaction } from "@heiso-io/bee/lib/db";
+import { accounts } from "@heiso-io/bee/lib/db/schema";
+import { generateInviteToken } from "@heiso-io/bee/lib/id-generator";
 import { and, eq, isNull } from "drizzle-orm";
-import { db } from "@bee/core/lib/db";
+import { db } from "@heiso-io/bee/lib/db";
 
 
 /**

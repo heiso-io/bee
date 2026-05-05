@@ -13,6 +13,7 @@ export default async function PermissionPage() {
   const dbPermissions = await getPermissions();
   const permissionGroups = await groupPermissionsByMenu(
     menus,
+    [],
     dbPermissions,
   );
 

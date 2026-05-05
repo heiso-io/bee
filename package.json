@@ -1,66 +1,12 @@
 {
   "name": "@heiso-io/bee",
-  "version": "0.0.1-alpha.5",
+  "version": "0.0.1-alpha.6",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
   "repository": {
     "type": "git",
     "url": "https://github.com/heiso-io/bee.git"
-  },
-  "exports": {
-    ".": "./index.ts",
-    "./lib/*": [
-      "./lib/*.ts",
-      "./lib/*/index.ts"
-    ],
-    "./components/*": [
-      "./components/*.tsx",
-      "./components/*/index.tsx",
-      "./components/*/index.ts"
-    ],
-    "./types/*": [
-      "./types/*.ts",
-      "./types/*/index.ts"
-    ],
-    "./modules/*": [
-      "./modules/*.ts",
-      "./modules/*.tsx",
-      "./modules/*/index.ts",
-      "./modules/*/index.tsx"
-    ],
-    "./modules": "./modules/index.ts",
-    "./i18n/*": [
-      "./i18n/*.ts",
-      "./i18n/*/index.ts"
-    ],
-    "./emails/*": [
-      "./emails/*.tsx",
-      "./emails/*/index.tsx",
-      "./emails/*/index.ts"
-    ],
-    "./providers/*": [
-      "./providers/*.tsx",
-      "./providers/*/index.tsx",
-      "./providers/*/index.ts"
-    ],
-    "./config": "./config/index.ts",
-    "./config/*": [
-      "./config/*.ts",
-      "./config/*/index.ts"
-    ],
-    "./hooks/*": [
-      "./hooks/*.ts",
-      "./hooks/*/index.ts"
-    ],
-    "./server/*": [
-      "./server/*.ts",
-      "./server/*/index.ts"
-    ],
-    "./globals.css": {
-      "style": "./globals.css",
-      "default": "./globals.css"
-    }
   },
   "scripts": {
     "dev": "bun run:permission && bun x next dev --turbo",

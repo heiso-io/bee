@@ -1,6 +1,6 @@
 {
   "name": "@heiso-io/bee",
-  "version": "0.0.1-alpha.4",
+  "version": "0.0.1-alpha.5",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
@@ -9,32 +9,58 @@
     "url": "https://github.com/heiso-io/bee.git"
   },
   "exports": {
-    "./lib/*": "./lib/*.ts",
-    "./lib/db/schema/auth/*": "./lib/db/schema/auth/*.ts",
-    "./lib/db/schema/permissions/*": "./lib/db/schema/permissions/*.ts",
-    "./lib/db/schema/system/*": "./lib/db/schema/system/*.ts",
-    "./lib/db/schema/features/*": "./lib/db/schema/features/*.ts",
-    "./lib/db/schema/features/api-key": "./lib/db/schema/features/api-key/index.ts",
-    "./lib/db/schema/features/api-key/*": "./lib/db/schema/features/api-key/*.ts",
-    "./lib/db/schema/features/file": "./lib/db/schema/features/file/index.ts",
-    "./lib/db/schema/features/file/*": "./lib/db/schema/features/file/*.ts",
-    "./components/*": "./components/*.tsx",
-    "./types/*": "./types/*.ts",
+    ".": "./index.ts",
+    "./lib/*": [
+      "./lib/*.ts",
+      "./lib/*/index.ts"
+    ],
+    "./components/*": [
+      "./components/*.tsx",
+      "./components/*/index.tsx",
+      "./components/*/index.ts"
+    ],
+    "./types/*": [
+      "./types/*.ts",
+      "./types/*/index.ts"
+    ],
     "./modules/*": [
       "./modules/*.ts",
-      "./modules/*.tsx"
+      "./modules/*.tsx",
+      "./modules/*/index.ts",
+      "./modules/*/index.tsx"
     ],
-    "./i18n/*": "./i18n/*.ts",
-    "./emails/*": "./emails/*.tsx",
-    "./providers/*": "./providers/*.tsx",
+    "./modules": "./modules/index.ts",
+    "./i18n/*": [
+      "./i18n/*.ts",
+      "./i18n/*/index.ts"
+    ],
+    "./emails/*": [
+      "./emails/*.tsx",
+      "./emails/*/index.tsx",
+      "./emails/*/index.ts"
+    ],
+    "./providers/*": [
+      "./providers/*.tsx",
+      "./providers/*/index.tsx",
+      "./providers/*/index.ts"
+    ],
+    "./config": "./config/index.ts",
+    "./config/*": [
+      "./config/*.ts",
+      "./config/*/index.ts"
+    ],
+    "./hooks/*": [
+      "./hooks/*.ts",
+      "./hooks/*/index.ts"
+    ],
+    "./server/*": [
+      "./server/*.ts",
+      "./server/*/index.ts"
+    ],
     "./globals.css": {
       "style": "./globals.css",
       "default": "./globals.css"
-    },
-    "./config": "./config/index.ts",
-    "./config/*": "./config/*.ts",
-    "./hooks/*": "./hooks/*.ts",
-    "./server/*": "./server/*.ts"
+    }
   },
   "scripts": {
     "dev": "bun run:permission && bun x next dev --turbo",

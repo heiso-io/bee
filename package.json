@@ -1,6 +1,6 @@
 {
   "name": "@heiso-io/bee",
-  "version": "0.0.1-alpha.20",
+  "version": "0.0.1-alpha.21",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com"
   },
@@ -13,12 +13,33 @@
       "style": "./globals.css",
       "default": "./globals.css"
     },
-    "./*": [
-      "./*.ts",
-      "./*.tsx",
-      "./*/index.ts",
-      "./*/index.tsx"
-    ]
+    "./config": "./config/index.ts",
+    "./config/*": "./config/*.ts",
+    "./hooks/*": "./hooks/*.ts",
+    "./server/*": "./server/*.ts",
+    "./lib/db": "./lib/db/index.ts",
+    "./lib/db/schema": "./lib/db/schema/index.ts",
+    "./lib/db/schema/auth/*": "./lib/db/schema/auth/*.ts",
+    "./lib/db/schema/permissions/*": "./lib/db/schema/permissions/*.ts",
+    "./lib/db/schema/system/*": "./lib/db/schema/system/*.ts",
+    "./lib/db/schema/features/*": "./lib/db/schema/features/*.ts",
+    "./lib/db/schema/features/api-key": "./lib/db/schema/features/api-key/index.ts",
+    "./lib/db/schema/features/api-key/*": "./lib/db/schema/features/api-key/*.ts",
+    "./lib/db/schema/features/file": "./lib/db/schema/features/file/index.ts",
+    "./lib/db/schema/features/file/*": "./lib/db/schema/features/file/*.ts",
+    "./lib/email": "./lib/email/index.ts",
+    "./lib/s3": "./lib/s3/index.ts",
+    "./lib/*": "./lib/*.ts",
+    "./components/*": "./components/*.tsx",
+    "./types/*": "./types/*.ts",
+    "./modules": "./modules/index.ts",
+    "./modules/*": [
+      "./modules/*.ts",
+      "./modules/*.tsx"
+    ],
+    "./i18n/*": "./i18n/*.ts",
+    "./emails/*": "./emails/*.tsx",
+    "./providers/*": "./providers/*.tsx"
   },
   "scripts": {
     "dev": "bun run:permission && bun x next dev --turbo",

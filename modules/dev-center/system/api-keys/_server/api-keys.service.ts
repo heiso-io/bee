@@ -30,7 +30,7 @@ export async function getApiKeysList(
   try {
     // Build where conditions
     const whereConditions = [
-      eq(apiKeys.accountId, session.user.id),
+      eq(apiKeys.memberId, session.user.id),
       isNull(apiKeys.deletedAt),
     ];
 
@@ -45,9 +45,10 @@ export async function getApiKeysList(
       .select({
         id: apiKeys.id,
         name: apiKeys.name,
-        accountId: apiKeys.accountId,
+        memberId: apiKeys.memberId,
         truncatedKey: apiKeys.truncatedKey,
-        rateLimit: apiKeys.rateLimit,
+        rateLimitRequests: apiKeys.rateLimitRequests,
+        rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
         lastUsedAt: apiKeys.lastUsedAt,
         expiresAt: apiKeys.expiresAt,
         createdAt: apiKeys.createdAt,
@@ -89,7 +90,7 @@ export async function getApiKey(
   try {
     const filters = [
       eq(apiKeys.id, id),
-      eq(apiKeys.accountId, session.user.id),
+      eq(apiKeys.memberId, session.user.id),
       isNull(apiKeys.deletedAt),
     ];
 
@@ -97,9 +98,10 @@ export async function getApiKey(
       .select({
         id: apiKeys.id,
         name: apiKeys.name,
-        accountId: apiKeys.accountId,
+        memberId: apiKeys.memberId,
         truncatedKey: apiKeys.truncatedKey,
-        rateLimit: apiKeys.rateLimit,
+        rateLimitRequests: apiKeys.rateLimitRequests,
+        rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
         lastUsedAt: apiKeys.lastUsedAt,
         expiresAt: apiKeys.expiresAt,
         createdAt: apiKeys.createdAt,
@@ -160,19 +162,21 @@ export async function createApiKey(data: CreateApiKeyInput): Promise<{
     const [result] = await db
       .insert(apiKeys)
       .values({
-        accountId: session.user.id,
+        memberId: session.user.id,
         name: data.name,
         key: hashedKey,
         truncatedKey: keyPrefix,
-        rateLimit: data.rateLimit,
+        rateLimitRequests: data.rateLimit?.requests ?? 100,
+        rateLimitWindowSeconds: data.rateLimit?.window ?? 60,
         expiresAt: data.expiresAt,
       })
       .returning({
         id: apiKeys.id,
         name: apiKeys.name,
-        accountId: apiKeys.accountId,
+        memberId: apiKeys.memberId,
         truncatedKey: apiKeys.truncatedKey,
-        rateLimit: apiKeys.rateLimit,
+        rateLimitRequests: apiKeys.rateLimitRequests,
+        rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
         lastUsedAt: apiKeys.lastUsedAt,
         expiresAt: apiKeys.expiresAt,
         createdAt: apiKeys.createdAt,
@@ -208,7 +212,7 @@ export async function updateApiKey(
   try {
     const filters = [
       eq(apiKeys.id, id),
-      eq(apiKeys.accountId, session.user.id),
+      eq(apiKeys.memberId, session.user.id),
       isNull(apiKeys.deletedAt),
     ];
 
@@ -217,16 +221,20 @@ export async function updateApiKey(
       .set({
         name: data.name,
         expiresAt: data.expiresAt,
-        rateLimit: data.rateLimit,
+        ...(data.rateLimit && {
+          rateLimitRequests: data.rateLimit.requests,
+          rateLimitWindowSeconds: data.rateLimit.window,
+        }),
         updatedAt: new Date(),
       })
       .where(and(...filters))
       .returning({
         id: apiKeys.id,
         name: apiKeys.name,
-        accountId: apiKeys.accountId,
+        memberId: apiKeys.memberId,
         truncatedKey: apiKeys.truncatedKey,
-        rateLimit: apiKeys.rateLimit,
+        rateLimitRequests: apiKeys.rateLimitRequests,
+        rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
         lastUsedAt: apiKeys.lastUsedAt,
         expiresAt: apiKeys.expiresAt,
         createdAt: apiKeys.createdAt,
@@ -262,7 +270,7 @@ export async function deleteApiKey(
   try {
     const filters = [
       eq(apiKeys.id, id),
-      eq(apiKeys.accountId, session.user.id),
+      eq(apiKeys.memberId, session.user.id),
       isNull(apiKeys.deletedAt),
     ];
 
@@ -290,7 +298,7 @@ export async function deleteApiKey(
 // Verify API key (for authentication middleware)
 export async function verifyApiKey(key: string): Promise<{
   valid: boolean;
-  accountId?: string;
+  memberId?: string;
   apiKeyId?: string;
 }> {
   if (!key) {
@@ -308,7 +316,7 @@ export async function verifyApiKey(key: string): Promise<{
     const result = await db
       .select({
         id: apiKeys.id,
-        accountId: apiKeys.accountId,
+        memberId: apiKeys.memberId,
         expiresAt: apiKeys.expiresAt,
       })
       .from(apiKeys)
@@ -334,7 +342,7 @@ export async function verifyApiKey(key: string): Promise<{
 
     return {
       valid: true,
-      accountId: apiKey.accountId ?? undefined,
+      memberId: apiKey.memberId ?? undefined,
       apiKeyId: apiKey.id,
     };
   } catch (error) {

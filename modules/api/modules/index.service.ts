@@ -1,12 +1,12 @@
 import { db } from "@heiso-io/bee/lib/db";
-import { apiKeyAccessLogs, apiKeys } from "@heiso-io/bee/lib/db/schema";
+import { apiKeys } from "@heiso-io/bee/lib/db/schema";
 import { hashApiKey } from "@heiso-io/bee/lib/hash";
 import { eq } from "drizzle-orm";
 
 // Verify API key (for authentication middleware)
 export async function verifyApiKey(key: string): Promise<{
   valid: boolean;
-  accountId?: string;
+  memberId?: string;
   apiKeyId?: string;
   rateLimit?: {
     window: number;
@@ -24,8 +24,9 @@ export async function verifyApiKey(key: string): Promise<{
     const apiKey = await db.query.apiKeys.findFirst({
       columns: {
         id: true,
-        accountId: true,
-        rateLimit: true,
+        memberId: true,
+        rateLimitRequests: true,
+        rateLimitWindowSeconds: true,
         expiresAt: true,
       },
       where: (t, { and, eq, isNull }) =>
@@ -50,16 +51,14 @@ export async function verifyApiKey(key: string): Promise<{
       .set({ lastUsedAt: new Date() })
       .where(eq(apiKeys.id, apiKey.id));
 
-    const rateLimit = apiKey.rateLimit as {
-      window: number;
-      requests: number;
-    } | null;
-
     return {
       valid: true,
-      accountId: apiKey.accountId ?? undefined,
+      memberId: apiKey.memberId ?? undefined,
       apiKeyId: apiKey.id,
-      rateLimit: rateLimit,
+      rateLimit: {
+        window: apiKey.rateLimitWindowSeconds,
+        requests: apiKey.rateLimitRequests,
+      },
     };
   } catch (error) {
     console.error("Error verifying API key:", error);
@@ -67,10 +66,11 @@ export async function verifyApiKey(key: string): Promise<{
   }
 }
 
-// Store API key access log
+// API key access log → structured stdout (Vercel captures + drains to S3)
+// 之前是寫進 apiKeyAccessLogs DB table，已改為 stdout pattern。
 export async function storeApiKeyAccessLog(params: {
   apiKeyId: string;
-  accountId: string;
+  memberId: string;
   endpoint: string;
   method: string;
   statusCode: number;
@@ -79,20 +79,17 @@ export async function storeApiKeyAccessLog(params: {
   responseTime: number;
   errorMessage?: string;
 }): Promise<void> {
-  try {
-    await db.insert(apiKeyAccessLogs).values({
-      apiKeyId: params.apiKeyId,
-      accountId: params.accountId,
-      endpoint: params.endpoint,
-      method: params.method,
-      statusCode: params.statusCode,
-      userAgent: params.userAgent,
-      ipAddress: params.ipAddress,
-      responseTime: params.responseTime,
-      errorMessage: params.errorMessage,
-      createdAt: new Date(),
-    });
-  } catch (error) {
-    console.error("Error storing API key access log:", error);
-  }
+  console.log(JSON.stringify({
+    type: "api_key_access",
+    apiKeyId: params.apiKeyId,
+    memberId: params.memberId,
+    endpoint: params.endpoint,
+    method: params.method,
+    statusCode: params.statusCode,
+    userAgent: params.userAgent,
+    ipAddress: params.ipAddress,
+    responseTime: params.responseTime,
+    errorMessage: params.errorMessage,
+    timestamp: new Date().toISOString(),
+  }));
 }

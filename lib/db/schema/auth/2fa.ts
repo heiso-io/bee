@@ -7,27 +7,27 @@ import {
   timestamp,
   varchar,
 } from "drizzle-orm/pg-core";
+import { members } from "./members";
 
 /**
- * user2faCode - 2FA 驗證碼
- *
- * accountId 關聯到 cell DB accounts
+ * member2faCode - 2FA 驗證碼
  */
-export const user2faCode = pgTable(
-  "user_2fa_code",
+export const member2faCode = pgTable(
+  "member_2fa_code",
   {
     id: varchar("id", { length: 20 })
       .primaryKey()
       .$default(() => generateId()),
-    // TODO: 資料遷移後改回 .notNull()
-    accountId: varchar("account_id", { length: 50 }),
+    memberId: varchar("member_id", { length: 50 })
+      .notNull()
+      .references(() => members.id, { onDelete: "cascade" }),
     code: text("code").notNull(),
     used: boolean("used").default(false),
     expiresAt: timestamp("expires_at").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
   },
   (table) => [
-    index("user_2fa_code_account_id_idx").on(table.accountId),
-    index("user_2fa_code_valid_idx").on(table.used, table.expiresAt),
+    index("member_2fa_code_member_id_idx").on(table.memberId),
+    index("member_2fa_code_valid_idx").on(table.used, table.expiresAt),
   ],
 );

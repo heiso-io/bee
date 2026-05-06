@@ -22,7 +22,7 @@ import { z } from "zod";
 import {
   getLoginMethod,
   getMemberStatus,
-  getAccountByEmail,
+  getMemberByEmail,
 } from "../_server/user.service";
 import Header from "./header";
 import { type LoginStep, LoginStepEnum } from "./loginForm";
@@ -73,12 +73,12 @@ const AuthLogin = ({
     // 僅當系統「完全沒有任何使用者」時，才寄送登入連結
     if (!anyUser) {
       try {
-        const account = await getAccountByEmail(values.email);
-        if (!account) {
+        const member = await getMemberByEmail(values.email);
+        if (!member) {
           setError("Platform account not found. Please register first.");
           return;
         }
-        await invite({ accountId: account.id, roleId: undefined });
+        await invite({ memberId: member.id, roleId: undefined });
         setError("");
       } catch (e) {
         console.error("Failed to send login link email", e);
@@ -90,13 +90,13 @@ const AuthLogin = ({
     } else {
       startTransition(async () => {
         try {
-          const account = await getAccountByEmail(values.email);
-          if (!account) {
+          const member = await getMemberByEmail(values.email);
+          if (!member) {
             return setError(t("error.userNotFound"));
           }
 
-          const loginMethod = await getLoginMethod(account.id);
-          const memberStatus = await getMemberStatus(account.id);
+          const loginMethod = await getLoginMethod(member.id);
+          const memberStatus = await getMemberStatus(member.id);
 
           if (loginMethod === LoginStepEnum.SSO) {
             return setError(t("error.onlySSOAllowed"));

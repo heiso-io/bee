@@ -1,7 +1,6 @@
 import { generateRoleId } from "@heiso-io/bee/lib/id-generator";
 import { relations } from "drizzle-orm";
 import {
-  boolean,
   index,
   integer,
   pgTable,
@@ -14,9 +13,9 @@ import {
   createUpdateSchema,
 } from "drizzle-zod";
 import type zod from "zod";
-import { accounts } from "../auth/accounts";
+import { members } from "../auth/members";
 import { roleMenus } from "./role-menus";
-import { rolePermissions } from "./role-permission";
+import { roleApiPermissions } from "./role-api-permission";
 
 export const roles = pgTable(
   "roles",
@@ -24,9 +23,8 @@ export const roles = pgTable(
     id: varchar("id", { length: 20 })
       .primaryKey()
       .$default(() => generateRoleId()),
-    name: varchar("name", { length: 50 }).notNull(),
+    name: varchar("name", { length: 50 }).notNull().unique(),
     description: varchar("description", { length: 255 }),
-    fullAccess: boolean("full_access").notNull().default(false),
     sortOrder: integer("sort_order").default(0),
     deletedAt: timestamp("deleted_at"),
     createdAt: timestamp("created_at").notNull().defaultNow(),
@@ -40,8 +38,8 @@ export const roles = pgTable(
 
 export const roleRelations = relations(roles, ({ many }) => ({
   menus: many(roleMenus),
-  permissions: many(rolePermissions),
-  accounts: many(accounts),
+  apiPermissions: many(roleApiPermissions),
+  members: many(members),
 }));
 
 export const rolesSchema = createSelectSchema(roles);

@@ -15,7 +15,7 @@ export default async function DashboardLayout({
   if (!session?.user) return null;
 
   const membership = await getMyMembership();
-  const t = await getTranslations("account.layout");
+  const t = await getTranslations("member.layout");
 
   const navigation: Navigation = {
     rootPath: "/portal/core/account",

@@ -40,7 +40,7 @@ export function UserAvatar({
   className?: string;
   menu: UserAvatarMenuItem[];
 }) {
-  const { account } = useAccount();
+  const { member } = useAccount();
   const { role } = usePermissionContext();
   const { data: session } = useSession();
 
@@ -95,11 +95,11 @@ export function UserAvatar({
   //   },
   // ] satisfies MenuItem[];
 
-  if (!account) return null;
+  if (!member) return null;
 
-  const image = account?.avatar ?? "";
-  const displayName = account?.name ?? "";
-  const email = account?.email ?? "";
+  const image = member?.avatar ?? "";
+  const displayName = member?.name ?? "";
+  const email = member?.email ?? "";
 
   return (
     <div className={className}>

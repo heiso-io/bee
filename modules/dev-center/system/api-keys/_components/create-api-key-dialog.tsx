@@ -123,10 +123,11 @@ export function CreateApiKeyDialog({
             key: result.apiKey.key,
             apiKey: {
               id: result.apiKey.id,
-              accountId: result.apiKey.accountId,
+              memberId: result.apiKey.memberId,
               name: result.apiKey.name,
               truncatedKey: result.apiKey.truncatedKey ?? result.apiKey.keyPrefix,
-              rateLimit: result.apiKey.rateLimit,
+              rateLimitRequests: result.apiKey.rateLimitRequests,
+              rateLimitWindowSeconds: result.apiKey.rateLimitWindowSeconds,
               expiresAt: result.apiKey.expiresAt,
               createdAt: result.apiKey.createdAt,
               updatedAt: result.apiKey.updatedAt,

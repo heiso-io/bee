@@ -1,12 +1,12 @@
 "use server";
 
 import { db } from "@heiso-io/bee/lib/db";
-import { permissions } from "@heiso-io/bee/lib/db/schema";
+import { apiPermissions } from "@heiso-io/bee/lib/db/schema";
 import { and, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 
 async function getPermissions() {
-  const result = await db.query.permissions.findMany({
+  const result = await db.query.apiPermissions.findMany({
     where: (t, { isNull }) => isNull(t.deletedAt),
   });
 
@@ -22,7 +22,7 @@ type MinimalPermission = {
   db?: boolean;
 };
 
-async function groupPermissionsByMenu(
+async function groupPermissionsByResource(
   menus: MinimalMenu[],
   permissions: MinimalPermission[],
   dbPermissions: MinimalPermission[],
@@ -60,16 +60,13 @@ async function groupPermissionsByMenu(
 }
 
 async function createPermission({
-  menuId,
   resource,
   action,
 }: {
-  menuId?: string;
   resource: string;
   action: string;
 }) {
-  const result = await db.insert(permissions).values({
-    menuId,
+  const result = await db.insert(apiPermissions).values({
     resource,
     action,
   });
@@ -88,12 +85,12 @@ async function updatePermission({
   action: string;
 }) {
   const result = await db
-    .update(permissions)
+    .update(apiPermissions)
     .set({
       resource,
       action,
     })
-    .where(eq(permissions.id, id));
+    .where(eq(apiPermissions.id, id));
 
   revalidatePath("/portal/core/staff-center/permission", "page");
   return result;
@@ -101,11 +98,11 @@ async function updatePermission({
 
 async function deletePermission({ id }: { id: string }) {
   const result = await db
-    .update(permissions)
+    .update(apiPermissions)
     .set({
       deletedAt: new Date(),
     })
-    .where(and(eq(permissions.id, id), isNull(permissions.deletedAt)));
+    .where(and(eq(apiPermissions.id, id), isNull(apiPermissions.deletedAt)));
 
   revalidatePath("/portal/core/staff-center/permission", "page");
   return result;
@@ -113,9 +110,9 @@ async function deletePermission({ id }: { id: string }) {
 
 async function deletePermissionByKey({ id }: { id: string }) {
   const result = await db
-    .update(permissions)
+    .update(apiPermissions)
     .set({ deletedAt: new Date() })
-    .where(and(eq(permissions.id, id), isNull(permissions.deletedAt)));
+    .where(and(eq(apiPermissions.id, id), isNull(apiPermissions.deletedAt)));
 
   revalidatePath("/portal/core/staff-center/permission", "page");
   return result;
@@ -124,9 +121,9 @@ async function deletePermissionByKey({ id }: { id: string }) {
 // Soft delete all current permissions (set deletedAt)
 async function deleteAllPermissions() {
   const result = await db
-    .update(permissions)
+    .update(apiPermissions)
     .set({ deletedAt: new Date() })
-    .where(isNull(permissions.deletedAt));
+    .where(isNull(apiPermissions.deletedAt));
 
   // Refresh the permission page to reflect all unchecked states
   revalidatePath("/portal/core/staff-center/permission", "page");
@@ -135,7 +132,7 @@ async function deleteAllPermissions() {
 
 export {
   getPermissions,
-  groupPermissionsByMenu,
+  groupPermissionsByResource,
   createPermission,
   updatePermission,
   deletePermission,

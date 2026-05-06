@@ -28,18 +28,15 @@ interface Props {
  * - auth gate (redirects to login if no session.user.id)
  * - membership + allowed-menu lookup
  * - server-side redirect to first accessible menu
- * - fallback UI for accounts with no menu permissions
+ * - fallback UI for members with no menu permissions
  */
 export async function PortalIndexPage({ menus, loginPath = "/auth/login" }: Props) {
   const session = await auth();
   if (!session?.user?.id) redirect(loginPath);
 
   const m = await getMyMembership();
-  const fullAccess =
-    m.kind === "dev" ||
-    m.role === "owner" ||
-    m.customRole?.fullAccess === true;
-  const allowed = await getMyAllowedMenuIds({ fullAccess, roleId: m?.roleId });
+  const isOwner = m.kind === "dev" || m.role === "owner";
+  const allowed = await getMyAllowedMenuIds({ isOwner, roleId: m?.roleId });
   const nav = buildDashboardNavigation(allowed, undefined, menus);
   const first = nav.items[0];
   const firstPath = Array.isArray(first) ? first[0]?.path : first?.path;

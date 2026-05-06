@@ -17,6 +17,6 @@ export async function sendDevOTP(email: string) {
 export async function verifyDevOTP(email: string, code: string) {
   const result = await verifyOTP(email, code, { mode: "dev" });
   return result.success
-    ? { success: true, accountId: result.accountId }
+    ? { success: true, memberId: result.memberId }
     : { success: false, error: result.message };
 }

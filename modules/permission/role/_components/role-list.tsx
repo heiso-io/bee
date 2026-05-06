@@ -82,7 +82,8 @@ export function RoleList({
   permissions: any;
 }) {
   const t = useTranslations("dashboard.permission.role");
-  const { staff } = useAccount();
+  const { kind } = useAccount();
+  const staff = kind === "dev";
   const pathname = usePathname();
 
   const [open, setOpen] = useState(false);
@@ -146,7 +147,8 @@ function RoleItemCollapsible({
   isCollapsedClose: boolean;
 }) {
   const t = useTranslations("dashboard.permission.role");
-  const { staff } = useAccount();
+  const { kind } = useAccount();
+  const staff = kind === "dev";
   const pathname = usePathname();
   const [isOpen, setIsOpen] = useState(false);
   const [isEditing, setIsEditing] = useState(false);
@@ -154,15 +156,13 @@ function RoleItemCollapsible({
     role.menus?.map((m: any) => m.menus.id) ?? [],
   );
   const [selectedPermissions, setSelectedPermissions] = useState<string[]>(
-    role.permissions?.map((p: any) => p.permission.id) ?? [],
+    role.apiPermissions?.map((p: any) => p.permission.id) ?? [],
   );
   const [name, setName] = useState<string>(role.name || "");
   const [description, setDescription] = useState<string>(
     role.description || "",
   );
-  const [fullAccessEditing, setFullAccessEditing] = useState<boolean>(
-    role.fullAccess ?? false,
-  );
+  const [fullAccessEditing, setFullAccessEditing] = useState<boolean>(false);
   const prevPermissionsRef = useRef<string[] | null>(null);
   const prevMenusRef = useRef<string[] | null>(null);
   const [isSaving, startTransition] = useTransition();
@@ -177,7 +177,7 @@ function RoleItemCollapsible({
     [],
   );
   const getRolePermissionIds = useCallback(
-    (r: Role) => r.permissions?.map((p: any) => p.permission.id) ?? [],
+    (r: Role) => r.apiPermissions?.map((p: any) => p.permission.id) ?? [],
     [],
   );
 
@@ -188,7 +188,7 @@ function RoleItemCollapsible({
       setSelectedPermissions(getRolePermissionIds(r));
       setName(r.name || "");
       setDescription(r.description || "");
-      setFullAccessEditing(r.fullAccess ?? false);
+      setFullAccessEditing(false);
       prevPermissionsRef.current = null;
       prevMenusRef.current = null;
     },
@@ -289,7 +289,7 @@ function RoleItemCollapsible({
       await updateRole(role.id, {
         name,
         description,
-        fullAccess: fullAccessEditing,
+
       });
       await assignMenus({ roleId: role.id, menus: selectedMenus });
       await assignPermissions({
@@ -444,7 +444,7 @@ function RoleItemCollapsible({
                 {t("form.menuTitle")}
               </h5>
             </label>
-            {(role.fullAccess || fullAccessEditing) && (
+            {(false || fullAccessEditing) && (
               <Badge className="ml-1" variant="outline">
                 {t("list.full_access")}
               </Badge>
@@ -505,13 +505,12 @@ function CreateOrUpdateRole({
   const formSchema = z.object({
     name: z.string().min(1, { message: t("validation.name_required") }),
     description: z.string().optional(),
-    fullAccess: z.boolean().optional(),
+
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      fullAccess: false,
     },
   });
 
@@ -519,7 +518,6 @@ function CreateOrUpdateRole({
     if (data) {
       form.setValue("name", data.name);
       form.setValue("description", data.description ?? "");
-      form.setValue("fullAccess", data.fullAccess ?? false);
     }
   }, [data, form]);
 
@@ -572,22 +570,6 @@ function CreateOrUpdateRole({
                   <FormControl>
                     <Textarea placeholder={t("description")} {...field} />
                   </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="fullAccess"
-              render={({ field }) => (
-                <FormItem className="flex flex-row items-center space-x-3 space-y-0">
-                  <FormControl>
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={field.onChange}
-                    />
-                  </FormControl>
-                  <FormLabel>{t("full_access")}</FormLabel>
                   <FormMessage />
                 </FormItem>
               )}

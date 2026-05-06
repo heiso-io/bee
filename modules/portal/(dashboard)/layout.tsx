@@ -58,10 +58,8 @@ async function OrgLayoutWrap({
   //   }
   //   redirect('/join');
   // }
-  const hasFullAccess =
-    membership.kind === "dev" ||
-    membership.role === 'owner' ||
-    membership.customRole?.fullAccess === true;
+  const isOwner =
+    membership.kind === "dev" || membership.role === 'owner';
 
   // Get translations
   const t = await getTranslations("dashboard.userMenu");
@@ -69,7 +67,7 @@ async function OrgLayoutWrap({
 
   // Build navigation menu from static config
   const allowedMenuIds = await getMyAllowedMenuIds({
-    fullAccess: hasFullAccess,
+    isOwner,
     roleId: membership?.roleId,
   });
 

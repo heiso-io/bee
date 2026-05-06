@@ -129,12 +129,12 @@ export default function OTPLoginForm({
         return;
       }
 
-      if (result.success && result.accountId) {
+      if (result.success && result.memberId) {
         // 使用 NextAuth 的 signIn 进行登录
         const signInResult = await signIn("credentials", {
           email: userEmail,
           otpVerified: "true",
-          accountId: result.accountId,
+          memberId: result.memberId,
           redirect: false,
           ...extraSignInParams,
         });

@@ -3,7 +3,7 @@
 import { db } from "@heiso-io/bee/lib/db";
 import type {
   TMenu,
-  TPermission,
+  TApiPermission,
   TRole,
   TRoleInsert,
   TRoleUpdate,
@@ -16,8 +16,8 @@ export type Role = TRole & {
   menus: {
     menus: TMenu;
   }[];
-  permissions: {
-    permission: TPermission;
+  apiPermissions: {
+    apiPermission: TApiPermission;
   }[];
 };
 
@@ -29,9 +29,9 @@ async function getRoles(): Promise<Role[]> {
           menus: true,
         },
       },
-      permissions: {
+      apiPermissions: {
         with: {
-          permission: true,
+          apiPermission: true,
         },
       },
     },
@@ -39,7 +39,7 @@ async function getRoles(): Promise<Role[]> {
     orderBy: (t, { asc }) => [asc(t.createdAt)],
   });
 
-  return result;
+  return result as Role[];
 }
 
 async function createRole(data: TRoleInsert) {

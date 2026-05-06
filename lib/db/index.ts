@@ -20,7 +20,11 @@ export const client =
 
 if (process.env.NODE_ENV !== "production") globalForDb.sharedClient = client;
 
-const db = drizzle({ client, schema, logger: true });
+const db = drizzle({
+  client,
+  schema,
+  logger: process.env.DRIZZLE_LOG === "true",
+});
 
 export async function closeDb() {
   await client.end({ timeout: 0 });

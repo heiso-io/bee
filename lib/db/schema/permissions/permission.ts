@@ -1,4 +1,4 @@
-import { generatePermissionId } from "@bee/core/lib/id-generator";
+import { generatePermissionId } from "@heiso-io/bee/lib/id-generator";
 import { relations } from "drizzle-orm";
 import { index, pgTable, timestamp, varchar } from "drizzle-orm/pg-core";
 import {

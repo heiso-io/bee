@@ -1,9 +1,9 @@
 "use client";
 
-import { Avatar } from "@bee/core/components/primitives/avatar";
-import { CaptionTotal } from "@bee/core/components/shared/caption-total";
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { Badge } from "@bee/core/components/ui/badge";
+import { Avatar } from "@heiso-io/bee/components/primitives/avatar";
+import { CaptionTotal } from "@heiso-io/bee/components/shared/caption-total";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { Badge } from "@heiso-io/bee/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -12,13 +12,13 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@bee/core/components/ui/dialog";
+} from "@heiso-io/bee/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@bee/core/components/ui/dropdown-menu";
+} from "@heiso-io/bee/components/ui/dropdown-menu";
 import {
   Form,
   FormControl,
@@ -26,9 +26,9 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
-import { SearchInput } from "@bee/core/components/ui/search-input";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import { SearchInput } from "@heiso-io/bee/components/ui/search-input";
 import {
   Table,
   TableBody,
@@ -36,7 +36,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@bee/core/components/ui/table";
+} from "@heiso-io/bee/components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   type ColumnDef,

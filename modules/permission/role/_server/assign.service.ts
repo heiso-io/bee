@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import { roleMenus, rolePermissions } from "@bee/core/lib/db/schema";
+import { db } from "@heiso-io/bee/lib/db";
+import { roleMenus, rolePermissions } from "@heiso-io/bee/lib/db/schema";
 import { eq } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
-import Header from "@bee/core/modules/auth/_components/header";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import Header from "@heiso-io/bee/modules/auth/_components/header";
 import { signOut } from "next-auth/react";
 import { useTranslations } from "next-intl";
 

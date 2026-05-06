@@ -1,6 +1,6 @@
 "use client";
 
-import type { TAccount } from "@bee/core/lib/db/schema";
+import type { TAccount } from "@heiso-io/bee/lib/db/schema";
 import { useSession } from "next-auth/react";
 import { createContext, useContext, useEffect, useState } from "react";
 

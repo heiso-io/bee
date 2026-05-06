@@ -1,13 +1,13 @@
-import { Layout } from "@bee/core/components/primitives/layout";
-import type { UserAvatarMenuItem } from "@bee/core/components/primitives/user-avatar";
-import { LayoutSkeleton } from "@bee/core/components/skeleton";
-import { auth } from "@bee/core/modules/auth/auth.config";
-import { PermissionProvider } from "@bee/core/providers/permission";
+import { Layout } from "@heiso-io/bee/components/primitives/layout";
+import type { UserAvatarMenuItem } from "@heiso-io/bee/components/primitives/user-avatar";
+import { LayoutSkeleton } from "@heiso-io/bee/components/skeleton";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
+import { PermissionProvider } from "@heiso-io/bee/providers/permission";
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { getMyMembership, getMyAllowedMenuIds } from "./_server/membership.service";
 import { buildDashboardNavigation } from "./dashboard-config";
-import type { DashboardMenu } from "@bee/core/config/menus";
+import type { DashboardMenu } from "@heiso-io/bee/config/menus";
 
 interface OrgLayoutProps {
   children: React.ReactNode;

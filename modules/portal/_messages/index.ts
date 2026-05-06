@@ -1,4 +1,4 @@
-import type { Locale } from "@bee/core/i18n/config";
+import type { Locale } from "@heiso-io/bee/i18n/config";
 
 export async function getDashboardMessages(locale: Locale) {
   const dashboard = (await import(`../(dashboard)/_messages/${locale}.json`))

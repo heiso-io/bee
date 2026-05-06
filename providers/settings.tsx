@@ -1,7 +1,7 @@
 "use client";
 
-import { settings as getSettings } from "@bee/core/config/settings";
-import type { Settings } from "@bee/core/types/system";
+import { settings as getSettings } from "@heiso-io/bee/config/settings";
+import type { Settings } from "@heiso-io/bee/types/system";
 import { createContext, useContext, useEffect, useState, useCallback } from "react";
 
 interface SettingsContextType {

@@ -1,8 +1,8 @@
-import config from "@bee/core/config";
-import { auth } from "@bee/core/modules/auth/auth.config";
-import { hasAnyUser } from "@bee/core/server/services/auth";
-import { getSystemSettings } from "@bee/core/server/services/system/setting";
-import { getPortalSetting } from "@bee/core/server/site.service";
+import config from "@heiso-io/bee/config";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
+import { hasAnyUser } from "@heiso-io/bee/server/services/auth";
+import { getSystemSettings } from "@heiso-io/bee/server/services/system/setting";
+import { getPortalSetting } from "@heiso-io/bee/server/site.service";
 import { redirect } from "next/navigation";
 import { Login } from "../_components";
 import InitializeTenantForm from "../_components/InitializeTenantForm";
@@ -12,8 +12,8 @@ import {
   getMember,
   getAccountByEmail,
 } from "../_server/user.service";
-import { seedDefaults } from "@bee/core/modules/system/provisioning";
-import { db } from "@bee/core/lib/db";
+import { seedDefaults } from "@heiso-io/bee/modules/system/provisioning";
+import { db } from "@heiso-io/bee/lib/db";
 
 export type OAuthDataType = {
   userId: string | null;
@@ -29,7 +29,7 @@ export default async function Page({
    * Only check for owner if we are in a tenant context.
    * On Root Domain (x-tenant-id missing), we show standard login.
    */
-  const { getTenantId } = await import("@bee/core/lib/utils/tenant");
+  const { getTenantId } = await import("@heiso-io/bee/lib/utils/tenant");
   const tenantId = await getTenantId();
 
   if (tenantId) {

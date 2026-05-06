@@ -1,15 +1,15 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuTrigger,
-} from "@bee/core/components/ui/dropdown-menu";
-import type { Locale } from "@bee/core/i18n/config";
-import { getSupportedLanguages } from "@bee/core/i18n/config";
-import { setUserLocale } from "@bee/core/server/locale";
+} from "@heiso-io/bee/components/ui/dropdown-menu";
+import type { Locale } from "@heiso-io/bee/i18n/config";
+import { getSupportedLanguages } from "@heiso-io/bee/i18n/config";
+import { setUserLocale } from "@heiso-io/bee/server/locale";
 import { Languages } from "lucide-react";
 
 export function LanguageSwitcher({

@@ -1,6 +1,6 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
+import { db } from "@heiso-io/bee/lib/db";
 import { z } from "zod";
 
 const passwordSchema = z

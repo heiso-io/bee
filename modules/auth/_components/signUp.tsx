@@ -1,7 +1,7 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { PasswordInput } from "@bee/core/components/primitives/password-input";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { PasswordInput } from "@heiso-io/bee/components/primitives/password-input";
 import {
   Form,
   FormControl,
@@ -9,14 +9,14 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
 import {
   calcStrength,
   Progress,
   ProgressLabel,
-} from "@bee/core/components/ui/progress";
-import { signup } from "@bee/core/server/services/auth";
+} from "@heiso-io/bee/components/ui/progress";
+import { signup } from "@heiso-io/bee/server/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion } from "framer-motion";
 import Link from "next/link";

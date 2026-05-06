@@ -1,11 +1,11 @@
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { Suspense } from "react";
-import { LayoutSkeleton } from "@bee/core/components/skeleton";
-import { Layout } from "@bee/core/components/primitives/layout";
-import type { UserAvatarMenuItem } from "@bee/core/components/primitives/user-avatar";
-import type { Navigation } from "@bee/core/types/client";
+import { LayoutSkeleton } from "@heiso-io/bee/components/skeleton";
+import { Layout } from "@heiso-io/bee/components/primitives/layout";
+import type { UserAvatarMenuItem } from "@heiso-io/bee/components/primitives/user-avatar";
+import type { Navigation } from "@heiso-io/bee/types/client";
 import { getTranslations } from "next-intl/server";
-import { PermissionProvider } from "@bee/core/providers/permission";
+import { PermissionProvider } from "@heiso-io/bee/providers/permission";
 
 const nav: Navigation = {
   rootPath: "/portal/core/staff-center",

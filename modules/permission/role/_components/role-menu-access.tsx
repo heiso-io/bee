@@ -1,13 +1,13 @@
 "use client";
 
-import { MenuTree } from "@bee/core/components/primitives/menu";
-import { Button } from "@bee/core/components/ui/button";
+import { MenuTree } from "@heiso-io/bee/components/primitives/menu";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
-} from "@bee/core/components/ui/form";
+} from "@heiso-io/bee/components/ui/form";
 import {
   Sheet,
   SheetContent,
@@ -15,8 +15,8 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@bee/core/components/ui/sheet";
-import type { TMenu } from "@bee/core/lib/db/schema";
+} from "@heiso-io/bee/components/ui/sheet";
+import type { TMenu } from "@heiso-io/bee/lib/db/schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";

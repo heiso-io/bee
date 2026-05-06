@@ -1,12 +1,12 @@
 "use server";
 
-import { settings } from "@bee/core/config/settings";
-import TwoFactorEmail from "@bee/core/emails/2fa";
-import { sendEmail } from "@bee/core/lib/email";
-import { ALLOWED_DEV_EMAILS } from "@bee/core/modules/auth/auth.config";
-import { getAccountWithPasswordByEmail } from "@bee/core/modules/auth/_server/user.service";
-import { db } from "@bee/core/lib/db";
-import { accounts } from "@bee/core/lib/db/schema";
+import { settings } from "@heiso-io/bee/config/settings";
+import TwoFactorEmail from "@heiso-io/bee/emails/2fa";
+import { sendEmail } from "@heiso-io/bee/lib/email";
+import { ALLOWED_DEV_EMAILS } from "@heiso-io/bee/modules/auth/auth.config";
+import { getAccountWithPasswordByEmail } from "@heiso-io/bee/modules/auth/_server/user.service";
+import { db } from "@heiso-io/bee/lib/db";
+import { accounts } from "@heiso-io/bee/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 /**
@@ -18,8 +18,8 @@ async function ensureDevAccountExists(email: string) {
     return existing;
   }
 
-  const { hashPassword } = await import("@bee/core/lib/hash");
-  const { generateId } = await import("@bee/core/lib/id-generator");
+  const { hashPassword } = await import("@heiso-io/bee/lib/hash");
+  const { generateId } = await import("@heiso-io/bee/lib/id-generator");
 
   const randomPassword = await hashPassword(generateId(undefined, 32));
   const displayName = email === "pm@heiso.io" ? "Core PM" : "Core Dev";
@@ -82,7 +82,7 @@ export async function sendDevOTP(email: string): Promise<{
     }
 
     // 3. Generate OTP
-    const { user2faCode } = await import("@bee/core/lib/db/schema");
+    const { user2faCode } = await import("@heiso-io/bee/lib/db/schema");
     const { and, lt } = await import("drizzle-orm");
 
     // Clean up expired OTPs for this account
@@ -163,7 +163,7 @@ export async function verifyDevOTP(
   }
 
   try {
-    const { user2faCode } = await import("@bee/core/lib/db/schema");
+    const { user2faCode } = await import("@heiso-io/bee/lib/db/schema");
     const { and, gt } = await import("drizzle-orm");
 
     // Find account

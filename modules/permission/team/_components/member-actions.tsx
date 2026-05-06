@@ -3,9 +3,9 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@bee/core/components/ui/dropdown-menu";
-import { useAccount } from "@bee/core/providers/account";
-import { useSettings } from "@bee/core/providers/settings";
+} from "@heiso-io/bee/components/ui/dropdown-menu";
+import { useAccount } from "@heiso-io/bee/providers/account";
+import { useSettings } from "@heiso-io/bee/providers/settings";
 import {
   BadgeCheck,
   Copy,

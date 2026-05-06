@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import * as AvatarPrimitive from "@radix-ui/react-avatar";
 import type * as React from "react";
 

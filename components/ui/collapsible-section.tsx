@@ -3,11 +3,11 @@
 import {
   Collapsible,
   CollapsibleTrigger,
-} from "@bee/core/components/ui/collapsible";
+} from "@heiso-io/bee/components/ui/collapsible";
 import { Icon } from "@iconify/react";
 import { AnimatePresence, motion } from "framer-motion";
 import type { ReactNode } from "react";
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 
 interface CollapsibleSectionProps {
   title: string;

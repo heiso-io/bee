@@ -1,6 +1,6 @@
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { redirect } from "next/navigation";
-import { cachedGetAccountByEmail } from "@bee/core/lib/cache/account";
+import { cachedGetAccountByEmail } from "@heiso-io/bee/lib/cache/account";
 import AuthenticationForm from "./authentication-form";
 
 export default async function AuthenticationPage() {

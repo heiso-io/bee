@@ -1,4 +1,4 @@
-import { Button } from "@bee/core/components/ui/button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import { Icon, type IconifyIcon } from "@iconify/react";
 import Image, { type StaticImageData } from "next/image";
 

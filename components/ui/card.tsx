@@ -1,4 +1,4 @@
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import type * as React from "react";
 
 function Card({ className, ...props }: React.ComponentProps<"div">) {

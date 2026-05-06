@@ -1,5 +1,5 @@
-import { UserAvatar, type UserAvatarMenuItem } from "@bee/core/components/primitives/user-avatar";
-import { Logo } from "@bee/core/components/primitives/logo";
+import { UserAvatar, type UserAvatarMenuItem } from "@heiso-io/bee/components/primitives/user-avatar";
+import { Logo } from "@heiso-io/bee/components/primitives/logo";
 import {
   Breadcrumb,
   BreadcrumbItem,
@@ -7,18 +7,18 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "@bee/core/components/ui/breadcrumb";
+} from "@heiso-io/bee/components/ui/breadcrumb";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@bee/core/components/ui/dropdown-menu";
-import { auth } from "@bee/core/modules/auth/auth.config";
-// import { LanguageSwitcher } from '@bee/core/components/primitives';
-import { getUserLocale } from "@bee/core/server/locale";
+} from "@heiso-io/bee/components/ui/dropdown-menu";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
+// import { LanguageSwitcher } from '@heiso-io/bee/components/primitives';
+import { getUserLocale } from "@heiso-io/bee/server/locale";
 // import { Notification } from './notification';
-import type { BreadcrumbProps } from "@bee/core/types/client";
+import type { BreadcrumbProps } from "@heiso-io/bee/types/client";
 import { ChevronDownIcon, SlashIcon } from "lucide-react";
 import Link from "next/link";
 import { Fragment } from "react";

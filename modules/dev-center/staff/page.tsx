@@ -1,6 +1,6 @@
 import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
-import { Skeleton } from "@bee/core/components/ui/skeleton";
+import { Skeleton } from "@heiso-io/bee/components/ui/skeleton";
 import { StaffList } from "./_components/staff-list";
 import { getStaff } from "./_server/staff.service";
 

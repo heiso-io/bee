@@ -1,5 +1,5 @@
-import type { Navigation } from "@bee/core/types/client";
-import type { DashboardMenu } from "@bee/core/config/menus";
+import type { Navigation } from "@heiso-io/bee/types/client";
+import type { DashboardMenu } from "@heiso-io/bee/config/menus";
 
 export type DashboardMenuKey = string;
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -11,20 +11,20 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@bee/core/components/ui/alert-dialog";
+} from "@heiso-io/bee/components/ui/alert-dialog";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@bee/core/components/ui/card";
-import { Checkbox } from "@bee/core/components/ui/checkbox";
+} from "@heiso-io/bee/components/ui/card";
+import { Checkbox } from "@heiso-io/bee/components/ui/checkbox";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
-} from "@bee/core/components/ui/dialog";
+} from "@heiso-io/bee/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -32,15 +32,15 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
 // TODO: change service to external
 import {
   createPermission,
   deletePermission,
   deletePermissionByKey,
   updatePermission,
-} from "@bee/core/modules/dev-center/permission/_server/permission.service";
+} from "@heiso-io/bee/modules/dev-center/permission/_server/permission.service";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type { CheckedState } from "@radix-ui/react-checkbox";
 import { ChevronDown, ChevronRight, PencilIcon, SquarePlus, TrashIcon } from "lucide-react";

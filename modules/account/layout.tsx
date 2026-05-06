@@ -1,10 +1,10 @@
-import { Layout } from "@bee/core/components/primitives/layout";
-import type { UserAvatarMenuItem } from "@bee/core/components/primitives/user-avatar";
-import { auth } from "@bee/core/modules/auth/auth.config";
-import type { Navigation } from "@bee/core/types/client";
+import { Layout } from "@heiso-io/bee/components/primitives/layout";
+import type { UserAvatarMenuItem } from "@heiso-io/bee/components/primitives/user-avatar";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
+import type { Navigation } from "@heiso-io/bee/types/client";
 import { getTranslations } from "next-intl/server";
 import { getMyMembership } from "../portal/(dashboard)/_server/membership.service";
-import { PermissionProvider } from "@bee/core/providers/permission";
+import { PermissionProvider } from "@heiso-io/bee/providers/permission";
 
 export default async function DashboardLayout({
   children,

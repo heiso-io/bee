@@ -1,4 +1,4 @@
-import { generateId } from "@bee/core/lib/id-generator";
+import { generateId } from "@heiso-io/bee/lib/id-generator";
 import {
   index,
   integer,

@@ -1,6 +1,6 @@
 "use server";
 
-import { updateAccount } from "@bee/core/lib/accounts/account-adapter";
+import { updateAccount } from "@heiso-io/bee/lib/accounts/account-adapter";
 
 /**
  * Update avatar

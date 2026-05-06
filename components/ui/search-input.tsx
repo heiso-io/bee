@@ -1,6 +1,6 @@
 "use client";
-import { Input } from "@bee/core/components/ui/input";
-import { cn } from "@bee/core/lib/utils";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { Search, X } from "lucide-react";
 import { forwardRef, useState } from "react";
 

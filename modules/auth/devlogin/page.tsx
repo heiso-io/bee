@@ -1,9 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import { Button } from "@bee/core/components/ui/button";
-import { Input } from "@bee/core/components/ui/input";
-import { Label } from "@bee/core/components/ui/label";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import { Label } from "@heiso-io/bee/components/ui/label";
 import { useRouter } from "next/navigation";
 import { sendDevOTP, verifyDevOTP } from "./actions";
 import Header from "../_components/header";

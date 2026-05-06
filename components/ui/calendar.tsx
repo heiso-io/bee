@@ -1,7 +1,7 @@
 "use client";
 
-import { Button, buttonVariants } from "@bee/core/components/ui/button";
-import { cn } from "@bee/core/lib/utils";
+import { Button, buttonVariants } from "@heiso-io/bee/components/ui/button";
+import { cn } from "@heiso-io/bee/lib/utils";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,

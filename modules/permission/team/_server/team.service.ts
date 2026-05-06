@@ -1,11 +1,11 @@
 "use server";
 
-import { settings } from "@bee/core/config/settings";
-import { db } from "@bee/core/lib/db";
-import { accounts } from "@bee/core/lib/db/schema";
-import { sendApprovedEmail, sendInviteUserEmail } from "@bee/core/lib/email";
-import { generateInviteToken } from "@bee/core/lib/id-generator";
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { settings } from "@heiso-io/bee/config/settings";
+import { db } from "@heiso-io/bee/lib/db";
+import { accounts } from "@heiso-io/bee/lib/db/schema";
+import { sendApprovedEmail, sendInviteUserEmail } from "@heiso-io/bee/lib/email";
+import { generateInviteToken } from "@heiso-io/bee/lib/id-generator";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { eq, and, isNull } from "drizzle-orm";
 import { revalidatePath, revalidateTag } from "next/cache";
 import { MemberStatus, type Member } from "../types";
@@ -128,8 +128,8 @@ async function invite({
   // 建立新帳號（僅 Core 模式支援直接建立）
   if (!email) throw new Error("EMAIL_REQUIRED");
 
-  const { hashPassword } = await import("@bee/core/lib/hash");
-  const { generateId } = await import("@bee/core/lib/id-generator");
+  const { hashPassword } = await import("@heiso-io/bee/lib/hash");
+  const { generateId } = await import("@heiso-io/bee/lib/id-generator");
   const randomPassword = await hashPassword(generateId(undefined, 32));
 
   const [created] = await db
@@ -296,7 +296,7 @@ async function addMember({
   roleId: string;
   initialPassword?: string;
 }) {
-  const { hashPassword } = await import("@bee/core/lib/hash");
+  const { hashPassword } = await import("@heiso-io/bee/lib/hash");
 
   const existingAccount = await db.query.accounts.findFirst({
     where: (t, { eq }) => eq(t.email, email),
@@ -439,7 +439,7 @@ async function resetMemberPassword({
     throw new Error("UNAUTHORIZED");
   }
 
-  const { hashPassword } = await import("@bee/core/lib/hash");
+  const { hashPassword } = await import("@heiso-io/bee/lib/hash");
 
   // 驗證操作者身份
   const actor = await db.query.accounts.findFirst({

@@ -1,7 +1,7 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { Button } from "@bee/core/components/ui/button";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { resendInviteByEmail } from "../_server/user.service";

@@ -1,11 +1,11 @@
 "use client";
 
-import { useControllableState } from "@bee/core/components/hooks/use-controllable-state";
-import { Button } from "@bee/core/components/ui/button";
-import { Progress } from "@bee/core/components/ui/progress";
-import { ScrollArea } from "@bee/core/components/ui/scroll-area";
-import { formatBytes } from "@bee/core/lib/helper";
-import { cn } from "@bee/core/lib/utils";
+import { useControllableState } from "@heiso-io/bee/components/hooks/use-controllable-state";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Progress } from "@heiso-io/bee/components/ui/progress";
+import { ScrollArea } from "@heiso-io/bee/components/ui/scroll-area";
+import { formatBytes } from "@heiso-io/bee/lib/helper";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { FileText, Upload, X } from "lucide-react";
 import Image from "next/image";
 import * as React from "react";

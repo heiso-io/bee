@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@bee/core/components/ui/dropdown-menu";
-import { cn } from "@bee/core/lib/utils";
+} from "@heiso-io/bee/components/ui/dropdown-menu";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { Ellipsis, SquarePlus } from "lucide-react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";

@@ -1,9 +1,9 @@
 "use client";
 
-import { useSite } from "@bee/core/providers/site";
+import { useSite } from "@heiso-io/bee/providers/site";
 import Link from "next/link";
-import { cn } from "@bee/core/lib/utils";
-// import config from '@bee/core/config';
+import { cn } from "@heiso-io/bee/lib/utils";
+// import config from '@heiso-io/bee/config';
 
 export function Logo({
   href = "/",

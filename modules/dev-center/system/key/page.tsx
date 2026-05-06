@@ -1,7 +1,7 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { Card } from "@bee/core/components/ui/card";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { Card } from "@heiso-io/bee/components/ui/card";
 import {
   Form,
   FormControl,
@@ -9,8 +9,8 @@ import {
   FormField,
   FormItem,
   FormLabel,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useTransition } from "react";

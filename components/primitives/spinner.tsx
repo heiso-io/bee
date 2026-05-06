@@ -1,4 +1,4 @@
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 
 export default function LoadingSpinner({ className }: { className?: string }) {
   return (

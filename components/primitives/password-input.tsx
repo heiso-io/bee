@@ -1,8 +1,8 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
-import { Input } from "@bee/core/components/ui/input";
-import { cn } from "@bee/core/lib/utils";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import * as React from "react";
 

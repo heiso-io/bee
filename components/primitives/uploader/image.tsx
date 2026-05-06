@@ -1,9 +1,9 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
-import { Progress } from "@bee/core/components/ui/progress";
-import { useUploadFile } from "@bee/core/hooks/use-upload-file";
-import { cn } from "@bee/core/lib/utils";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Progress } from "@heiso-io/bee/components/ui/progress";
+import { useUploadFile } from "@heiso-io/bee/hooks/use-upload-file";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { ImageIcon, X } from "lucide-react";
 import * as React from "react";
 import { useFilePicker } from "use-file-picker";

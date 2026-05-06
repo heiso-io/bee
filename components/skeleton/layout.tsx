@@ -1,6 +1,6 @@
 "use client";
-import { Skeleton } from "@bee/core/components/ui/skeleton";
-import { useSite } from "@bee/core/providers/site";
+import { Skeleton } from "@heiso-io/bee/components/ui/skeleton";
+import { useSite } from "@heiso-io/bee/providers/site";
 
 export function LayoutSkeleton() {
   const { site } = useSite();

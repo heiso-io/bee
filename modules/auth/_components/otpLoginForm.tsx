@@ -1,19 +1,19 @@
 "use client";
 
-import { ActionButton } from "@bee/core/components/primitives/action-button";
-import { Button } from "@bee/core/components/ui/button";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormMessage,
-} from "@bee/core/components/ui/form";
+} from "@heiso-io/bee/components/ui/form";
 import {
   InputOTP,
   InputOTPGroup,
   InputOTPSlot,
-} from "@bee/core/components/ui/input-otp";
+} from "@heiso-io/bee/components/ui/input-otp";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";

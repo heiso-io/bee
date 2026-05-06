@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { AnimatePresence, motion } from "framer-motion";
 import { ChevronsLeft, ChevronsRight, Menu, X } from "lucide-react";
 import { DynamicIcon, type IconName } from "lucide-react/dynamic";

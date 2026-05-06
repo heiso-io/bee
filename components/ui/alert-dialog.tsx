@@ -1,7 +1,7 @@
 "use client";
 
-import { buttonVariants } from "@bee/core/components/ui/button";
-import { cn } from "@bee/core/lib/utils";
+import { buttonVariants } from "@heiso-io/bee/components/ui/button";
+import { cn } from "@heiso-io/bee/lib/utils";
 import * as AlertDialogPrimitive from "@radix-ui/react-alert-dialog";
 import type * as React from "react";
 

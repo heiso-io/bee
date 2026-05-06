@@ -1,4 +1,4 @@
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { NextResponse } from "next/server";
 
 export async function GET(req: Request) {

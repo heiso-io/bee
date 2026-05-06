@@ -1,12 +1,12 @@
 "use server";
 
-import { settings } from "@bee/core/config/settings";
-import { db } from "@bee/core/lib/db";
-import { userPasswordReset, accounts } from "@bee/core/lib/db/schema";
-import { sendForgotPasswordEmail } from "@bee/core/lib/email";
-import { hashPassword } from "@bee/core/lib/hash";
-import { generateId } from "@bee/core/lib/id-generator";
-import { consumeRateLimit } from "@bee/core/lib/rate-limit";
+import { settings } from "@heiso-io/bee/config/settings";
+import { db } from "@heiso-io/bee/lib/db";
+import { userPasswordReset, accounts } from "@heiso-io/bee/lib/db/schema";
+import { sendForgotPasswordEmail } from "@heiso-io/bee/lib/email";
+import { hashPassword } from "@heiso-io/bee/lib/hash";
+import { generateId } from "@heiso-io/bee/lib/id-generator";
+import { consumeRateLimit } from "@heiso-io/bee/lib/rate-limit";
 import { eq } from "drizzle-orm";
 import { getAccountByEmail } from "./user.service";
 

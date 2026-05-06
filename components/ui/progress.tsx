@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import * as ProgressPrimitive from "@radix-ui/react-progress";
 import { useTranslations } from "next-intl";
 import type * as React from "react";

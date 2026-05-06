@@ -1,7 +1,7 @@
 "use client";
 
-import type { PortalSetting } from "@bee/core/types/system";
-import { getPortalSetting } from "@bee/core/server/site.service";
+import type { PortalSetting } from "@heiso-io/bee/types/system";
+import { getPortalSetting } from "@heiso-io/bee/server/site.service";
 import {
   createContext,
   useCallback,

@@ -1,19 +1,19 @@
 "use client";
 
-import { Badge } from "@bee/core/components/ui/badge";
-import { Button } from "@bee/core/components/ui/button";
+import { Badge } from "@heiso-io/bee/components/ui/badge";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Card,
   CardContent,
   CardHeader,
   CardTitle,
-} from "@bee/core/components/ui/card";
+} from "@heiso-io/bee/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@bee/core/components/ui/dropdown-menu";
+} from "@heiso-io/bee/components/ui/dropdown-menu";
 import {
   Table,
   TableBody,
@@ -21,8 +21,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@bee/core/components/ui/table";
-import type { TPublicApiKey } from "@bee/core/lib/db/schema";
+} from "@heiso-io/bee/components/ui/table";
+import type { TPublicApiKey } from "@heiso-io/bee/lib/db/schema";
 import {
   deleteApiKey,
   getApiKeysList,

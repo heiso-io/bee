@@ -1,31 +1,31 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Dialog,
   DialogContent,
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "@bee/core/components/ui/dialog";
+} from "@heiso-io/bee/components/ui/dialog";
 import {
   Form,
   FormControl,
   FormField,
   FormItem,
   FormLabel,
-} from "@bee/core/components/ui/form";
+} from "@heiso-io/bee/components/ui/form";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@bee/core/components/ui/select";
-import { Separator } from "@bee/core/components/ui/separator";
-import { Switch } from "@bee/core/components/ui/switch";
-import { cn } from "@bee/core/lib/utils";
-import { readableDateTime } from "@bee/core/lib/utils/format";
+} from "@heiso-io/bee/components/ui/select";
+import { Separator } from "@heiso-io/bee/components/ui/separator";
+import { Switch } from "@heiso-io/bee/components/ui/switch";
+import { cn } from "@heiso-io/bee/lib/utils";
+import { readableDateTime } from "@heiso-io/bee/lib/utils/format";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useTranslations } from "next-intl";
 import { useState } from "react";

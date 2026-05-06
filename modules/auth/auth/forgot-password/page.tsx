@@ -1,4 +1,4 @@
-import ForgotPassword from "@bee/core/modules/auth/_components/forgotPassword";
+import ForgotPassword from "@heiso-io/bee/modules/auth/_components/forgotPassword";
 
 export default async function Page({
   searchParams,

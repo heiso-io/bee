@@ -1,10 +1,10 @@
 "use server";
 
-import { signIn, signOut } from "@bee/core/modules/auth/auth.config";
+import { signIn, signOut } from "@heiso-io/bee/modules/auth/auth.config";
 import {
   hasAnyAccount,
   verifyPassword,
-} from "@bee/core/lib/accounts/account-adapter";
+} from "@heiso-io/bee/lib/accounts/account-adapter";
 
 export async function login(username: string, password: string) {
   try {
@@ -53,7 +53,7 @@ export async function signup(input: {
 }): Promise<{ id: string; name: string } | null> {
   try {
     const { createAccount } = await import(
-      "@bee/core/lib/accounts/account-adapter"
+      "@heiso-io/bee/lib/accounts/account-adapter"
     );
     const account = await createAccount({
       email: input.email,

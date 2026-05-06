@@ -1,6 +1,6 @@
 // Server Component
 
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { InvalidJoinToken } from "./_components/invalid-join-token";
 import { LogoutIfAuthenticated } from "./_components/logout-If-authenticated";
 import { MemberJoin } from "./_components/member-join";

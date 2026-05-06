@@ -1,4 +1,4 @@
-import type { TRole } from "@bee/core/lib/db/schema";
+import type { TRole } from "@heiso-io/bee/lib/db/schema";
 
 export enum MemberStatus {
   Invited = "invited",

@@ -1,4 +1,4 @@
-import { Skeleton } from "@bee/core/components/ui/skeleton";
+import { Skeleton } from "@heiso-io/bee/components/ui/skeleton";
 
 export function ProjectListSkeleton({
   classNames,

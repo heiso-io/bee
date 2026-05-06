@@ -1,9 +1,9 @@
-import { Button, type buttonVariants } from "@bee/core/components/ui/button";
+import { Button, type buttonVariants } from "@heiso-io/bee/components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "@bee/core/components/ui/tooltip";
+} from "@heiso-io/bee/components/ui/tooltip";
 import type { VariantProps } from "class-variance-authority";
 import React from "react";
 import LoadingSpinner from "./spinner";

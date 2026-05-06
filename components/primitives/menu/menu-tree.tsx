@@ -1,13 +1,13 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
-import { Checkbox } from "@bee/core/components/ui/checkbox";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Checkbox } from "@heiso-io/bee/components/ui/checkbox";
 import { GripVertical } from "lucide-react";
 import { DynamicIcon, type iconNames } from "lucide-react/dynamic";
 import { type CSSProperties, useRef, useState } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import type { MenuItem } from ".";
 
 type IconName = (typeof iconNames)[number];

@@ -1,7 +1,7 @@
 "use server";
 
-import { defaultLocale, type Locale } from "@bee/core/i18n/config";
-import { getSystemSettings } from "@bee/core/server/services/system/setting";
+import { defaultLocale, type Locale } from "@heiso-io/bee/i18n/config";
+import { getSystemSettings } from "@heiso-io/bee/server/services/system/setting";
 import { cookies } from "next/headers";
 
 const COOKIE_NAME = "_LOCALE";

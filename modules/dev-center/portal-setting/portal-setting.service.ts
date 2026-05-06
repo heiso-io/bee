@@ -1,9 +1,9 @@
 "use server";
 
-import type { Locale } from "@bee/core/i18n/config";
-import { db } from "@bee/core/lib/db";
-import { settings } from "@bee/core/lib/db/schema";
-import type { Settings } from "@bee/core/types/system";
+import type { Locale } from "@heiso-io/bee/i18n/config";
+import { db } from "@heiso-io/bee/lib/db";
+import { settings } from "@heiso-io/bee/lib/db/schema";
+import type { Settings } from "@heiso-io/bee/types/system";
 
 async function getGeneralSettings(): Promise<Settings> {
   const result = await db.query.settings.findMany({

@@ -6,7 +6,7 @@ import {
   S3Client,
 } from "@aws-sdk/client-s3";
 import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
-import { getTenantIdOrThrow } from "@bee/core/lib/utils/tenant";
+import { getTenantIdOrThrow } from "@heiso-io/bee/lib/utils/tenant";
 
 const kExpiresIn = 5 * 60; // 5 min(對齊 assets-foundation §5)
 
@@ -22,7 +22,7 @@ export async function initS3Client() {
   const region = process.env.NBEE_AWS_S3_REGION;
   if (!accessKey || !secretKey || !region) {
     throw new Error(
-      "NBEE_AWS_ACCESS_KEY / SECRET_KEY / S3_REGION 未設定（檢查 .env.local 與 @bee/core/config/setting）",
+      "NBEE_AWS_ACCESS_KEY / SECRET_KEY / S3_REGION 未設定（檢查 .env.local 與 @heiso-io/bee/config/setting）",
     );
   }
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { Icon } from "@iconify/react";
 import type { SortDirection } from "@tanstack/react-table";
 import type * as React from "react";

@@ -1,6 +1,6 @@
 "use client";
 
-import { cn } from "@bee/core/lib/utils";
+import { cn } from "@heiso-io/bee/lib/utils";
 import * as SeparatorPrimitive from "@radix-ui/react-separator";
 import type * as React from "react";
 

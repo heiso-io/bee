@@ -1,13 +1,13 @@
 "use client";
-import { Button } from "@bee/core/components/ui/button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@bee/core/components/ui/select";
-import { cn } from "@bee/core/lib/utils";
+} from "@heiso-io/bee/components/ui/select";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";

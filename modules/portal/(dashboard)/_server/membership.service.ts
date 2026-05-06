@@ -1,9 +1,9 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import type { TPermission } from "@bee/core/lib/db/schema";
-import { roleMenus } from "@bee/core/lib/db/schema";
-import { auth } from "@bee/core/modules/auth/auth.config";
+import { db } from "@heiso-io/bee/lib/db";
+import type { TPermission } from "@heiso-io/bee/lib/db/schema";
+import { roleMenus } from "@heiso-io/bee/lib/db/schema";
+import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { eq, and } from "drizzle-orm";
 
 // Types

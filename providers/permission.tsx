@@ -1,7 +1,7 @@
 "use client";
 
-import { getUserPermissions } from "@bee/core/server/services/permission";
-import type { UserPermission } from "@bee/core/server/services/role";
+import { getUserPermissions } from "@heiso-io/bee/server/services/permission";
+import type { UserPermission } from "@heiso-io/bee/server/services/role";
 import {
   createContext,
   useCallback,

@@ -1,7 +1,7 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
-import { recursiveList } from "@bee/core/lib/tree";
+import { db } from "@heiso-io/bee/lib/db";
+import { recursiveList } from "@heiso-io/bee/lib/tree";
 
 async function getMenus({ recursive = false }: { recursive?: boolean }) {
   const result = await db.query.menus.findMany({

@@ -1,8 +1,8 @@
 import { drizzle } from 'drizzle-orm/postgres-js';
 import { migrate } from 'drizzle-orm/postgres-js/migrator';
 import postgres from 'postgres';
-import { DEFAULT_ROLES } from '@bee/core/config/initDefaults';
-import { settings } from "@bee/core/lib/db/schema";
+import { DEFAULT_ROLES } from '@heiso-io/bee/config/initDefaults';
+import { settings } from "@heiso-io/bee/lib/db/schema";
 import { eq } from "drizzle-orm";
 
 export async function provisionTenantDb(dbUrl: string, modules: string[], tenantId: string) {
@@ -84,7 +84,7 @@ export async function seedDefaults(db: any, modules: string[], tenantId: string)
 
     // 1. Seed 'roles'
     if (modules.includes('role') || process.env.APP_MODE === "core") {
-        const { roles } = await import('@bee/core/lib/db/schema');
+        const { roles } = await import('@heiso-io/bee/lib/db/schema');
 
         // Check if any roles exist (each tenant has its own DB now)
         const existingRoles = await db.select().from(roles).limit(1);

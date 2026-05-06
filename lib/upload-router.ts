@@ -1,4 +1,4 @@
-import { saveFile } from "@bee/core/server/file.service";
+import { saveFile } from "@heiso-io/bee/server/file.service";
 import type { Visibility } from "./s3";
 import { literalToByte } from "./format";
 

@@ -1,6 +1,6 @@
 import { unstable_cache } from 'next/cache'
-import { db } from '@bee/core/lib/db'
-import type { TAccount } from '@bee/core/lib/db/schema/auth/accounts'
+import { db } from '@heiso-io/bee/lib/db'
+import type { TAccount } from '@heiso-io/bee/lib/db/schema/auth/accounts'
 
 /**
  * Cached version of getAccountByEmail().

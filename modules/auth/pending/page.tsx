@@ -1,7 +1,7 @@
 "use client";
 
 // import { Header } from '../_components';
-import { Button } from "@bee/core/components/ui/button";
+import { Button } from "@heiso-io/bee/components/ui/button";
 import { useSearchParams } from "next/navigation";
 import { signOut, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";

@@ -1,14 +1,14 @@
 "use server";
 
-import { db } from "@bee/core/lib/db";
+import { db } from "@heiso-io/bee/lib/db";
 import type {
   TMenu,
   TPermission,
   TRole,
   TRoleInsert,
   TRoleUpdate,
-} from "@bee/core/lib/db/schema";
-import { roles } from "@bee/core/lib/db/schema";
+} from "@heiso-io/bee/lib/db/schema";
+import { roles } from "@heiso-io/bee/lib/db/schema";
 import { and, eq, isNull } from "drizzle-orm";
 import { revalidatePath } from "next/cache";
 

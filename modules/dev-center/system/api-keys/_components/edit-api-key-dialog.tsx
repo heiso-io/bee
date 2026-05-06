@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "@bee/core/components/ui/button";
-import { Calendar } from "@bee/core/components/ui/calendar";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { Calendar } from "@heiso-io/bee/components/ui/calendar";
 import {
   Dialog,
   DialogContent,
@@ -9,7 +9,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@bee/core/components/ui/dialog";
+} from "@heiso-io/bee/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,17 +18,17 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@bee/core/components/ui/select";
-import { Switch } from "@bee/core/components/ui/switch";
-import { cn } from "@bee/core/lib/utils";
+} from "@heiso-io/bee/components/ui/select";
+import { Switch } from "@heiso-io/bee/components/ui/switch";
+import { cn } from "@heiso-io/bee/lib/utils";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { addMonths, addYears } from "date-fns";
 import { Check, Copy } from "lucide-react";

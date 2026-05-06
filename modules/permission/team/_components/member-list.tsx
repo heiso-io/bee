@@ -1,16 +1,16 @@
 "use client";
 
-import { Avatar } from "@bee/core/components/primitives/avatar";
-import { DataPagination } from "@bee/core/components/primitives/pagination";
-import { CaptionTotal } from "@bee/core/components/shared/caption-total";
-import { Badge } from "@bee/core/components/ui/badge";
-import { Button } from "@bee/core/components/ui/button";
-import { RadioGroup } from "@bee/core/components/ui/radio-group";
+import { Avatar } from "@heiso-io/bee/components/primitives/avatar";
+import { DataPagination } from "@heiso-io/bee/components/primitives/pagination";
+import { CaptionTotal } from "@heiso-io/bee/components/shared/caption-total";
+import { Badge } from "@heiso-io/bee/components/ui/badge";
+import { Button } from "@heiso-io/bee/components/ui/button";
+import { RadioGroup } from "@heiso-io/bee/components/ui/radio-group";
 import {
   RadioTagGroupItem,
   RadioTagLabel,
-} from "@bee/core/components/ui/radio-tag";
-import { SearchInput } from "@bee/core/components/ui/search-input";
+} from "@heiso-io/bee/components/ui/radio-tag";
+import { SearchInput } from "@heiso-io/bee/components/ui/search-input";
 import {
   Table,
   TableBody,
@@ -18,9 +18,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@bee/core/components/ui/table";
-import { readableDate } from "@bee/core/lib/utils/format";
-import { useAccount } from "@bee/core/providers/account";
+} from "@heiso-io/bee/components/ui/table";
+import { readableDate } from "@heiso-io/bee/lib/utils/format";
+import { useAccount } from "@heiso-io/bee/providers/account";
 import {
   type ColumnDef,
   flexRender,
@@ -39,11 +39,11 @@ import { useTranslations } from "next-intl";
 import { useCallback, useMemo, useState } from "react";
 import { MemberStatus, type Member } from "../types";
 import { invite } from "../_server/team.service";
-import { ActionButton } from "@bee/core/components/primitives/action-button";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
 import { InviteMember } from "./invite-member";
 import { MemberActions } from "./member-actions";
 import { MenuAccess } from "../../role/_components/role-menu-access";
-import type { TMenu } from "@bee/core/lib/db/schema";
+import type { TMenu } from "@heiso-io/bee/lib/db/schema";
 
 // moved to team.service.ts
 /*

@@ -1,6 +1,6 @@
-import { invite } from "@bee/core/modules/permission/team/_server/team.service";
-import { MemberStatus } from "@bee/core/modules/permission/team/types";
-import { ActionButton } from "@bee/core/components/primitives/action-button";
+import { invite } from "@heiso-io/bee/modules/permission/team/_server/team.service";
+import { MemberStatus } from "@heiso-io/bee/modules/permission/team/types";
+import { ActionButton } from "@heiso-io/bee/components/primitives/action-button";
 import {
   Form,
   FormControl,
@@ -8,11 +8,11 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from "@bee/core/components/ui/form";
-import { Input } from "@bee/core/components/ui/input";
-import config from "@bee/core/config";
-import { SystemOauth } from "@bee/core/modules/dev-center/portal-setting/page";
-import { oAuthLogin } from "@bee/core/server/services/auth";
+} from "@heiso-io/bee/components/ui/form";
+import { Input } from "@heiso-io/bee/components/ui/input";
+import config from "@heiso-io/bee/config";
+import { SystemOauth } from "@heiso-io/bee/modules/dev-center/portal-setting/page";
+import { oAuthLogin } from "@heiso-io/bee/server/services/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { useTranslations } from "next-intl";

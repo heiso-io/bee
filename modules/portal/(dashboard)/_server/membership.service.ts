@@ -1,5 +1,6 @@
 "use server";
 
+import { cache } from "react";
 import { db } from "@heiso-io/bee/lib/db";
 import type { TPermission } from "@heiso-io/bee/lib/db/schema";
 import { roleMenus } from "@heiso-io/bee/lib/db/schema";
@@ -40,13 +41,15 @@ async function getAccount() {
  * 取得當前帳號的成員資格
  * 統一使用 accounts 表
  */
-async function getMyMembership() {
+const getMyMembership = cache(async () => {
+  const t0 = performance.now();
   const session = await auth();
   const accountId = session?.user?.id;
   if (!accountId) throw new Error(UNAUTHORIZED_ERROR);
 
-  const staff = session?.user?.staff ?? false;
+  const kind: "dev" | "member" = (session?.user?.kind ?? "member") as "dev" | "member";
 
+  const tDb = performance.now();
   const account = await db.query.accounts.findFirst({
     columns: {
       id: true,
@@ -66,8 +69,20 @@ async function getMyMembership() {
       and(eq(t.id, accountId), isNull(t.deletedAt)),
   });
 
+  const tEnd = performance.now();
+  if (process.env.NODE_ENV !== "production") {
+    console.log(
+      `[perf] getMyMembership total=${(tEnd - t0).toFixed(0)}ms (auth=${(tDb - t0).toFixed(0)}ms db=${(tEnd - tDb).toFixed(0)}ms)`,
+    );
+  }
+
+  // Optional dev throttle for testing loading states / Suspense fallbacks.
+  if (process.env.DEV_DELAY) {
+    await new Promise((r) => setTimeout(r, Number(process.env.DEV_DELAY)));
+  }
+
   return {
-    staff,
+    kind,
     id: account?.id,
     accountId: account?.id,
     roleId: account?.roleId,
@@ -75,7 +90,7 @@ async function getMyMembership() {
     status: account?.status,
     customRole: account?.customRole,
   };
-}
+});
 
 /**
  * Returns allowed menu IDs for the current user.

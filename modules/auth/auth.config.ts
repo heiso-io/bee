@@ -1,6 +1,5 @@
 import NextAuth, { CredentialsSignin, type DefaultSession } from "next-auth";
 import { db } from "@heiso-io/bee/lib/db";
-import { STAFF_CONFIG } from "@heiso-io/bee/modules/dev-center/staff/config";
 import Credentials from "next-auth/providers/credentials";
 import GitHub from "next-auth/providers/github";
 import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
@@ -9,7 +8,7 @@ import MicrosoftEntraID from "next-auth/providers/microsoft-entra-id";
 declare module "next-auth" {
   interface Session {
     user: {
-      staff: boolean;
+      kind: "dev" | "member";
     } & DefaultSession["user"];
     member?: {
       status: string | null;
@@ -20,7 +19,7 @@ declare module "next-auth" {
     };
   }
   interface JWT {
-    staff?: boolean;
+    kind?: "dev" | "member";
     member?: {
       status: string | null;
       role: string | null;
@@ -31,7 +30,7 @@ declare module "next-auth" {
   }
 
   interface User {
-    staff: boolean;
+    kind?: "dev" | "member";
     member?: {
       status: string | null;
       role: string | null;
@@ -45,8 +44,15 @@ class InvalidLoginError extends CredentialsSignin {
   code = "Invalid identifier or password";
 }
 
-// 出廠 staff 名單（cell 層 config）。之後 dev-center/staff UI 實作後改讀 DB。
-export const ALLOWED_DEV_EMAILS = STAFF_CONFIG.initialStaff;
+/**
+ * Dev 身分名單。由各 host 自己 env 控制（hive 之後集中管）。
+ *   ALLOWED_DEV_EMAILS=pm@heiso.io,dev@heiso.io
+ * 空 / 沒設 → 沒人能走 /devlogin。
+ */
+export const ALLOWED_DEV_EMAILS = (process.env.ALLOWED_DEV_EMAILS ?? "")
+  .split(",")
+  .map((e) => e.trim().toLowerCase())
+  .filter(Boolean);
 
 export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
   pages: {
@@ -105,8 +111,8 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
       }
     },
     async jwt({ token, user, account, trigger, session: updateData }) {
-      // Invalidate legacy tokens (missing staff field)
-      if (!user && token.staff === undefined) {
+      // Invalidate legacy tokens (missing kind field)
+      if (!user && (token as any).kind === undefined && (token as any).staff === undefined) {
         return {};
       }
 
@@ -118,8 +124,10 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
       }
 
       if (user) {
-        token.staff = (user as any).staff ?? false;
-        token.email = (user as any).email ?? (token as any).email;
+        // Derive kind from email allowlist (single source of truth)
+        const email = ((user as any).email ?? (token as any).email ?? "").toString().trim().toLowerCase();
+        token.kind = ALLOWED_DEV_EMAILS.includes(email) ? "dev" : "member";
+        token.email = email || (token as any).email;
 
         // Write membership from User object (set during authorize)
         token.member = (user as any).member ?? null;
@@ -160,13 +168,13 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
       if (token) {
         session.user = {
           ...session.user,
-          staff: (token.staff as boolean) ?? false,
+          kind: ((token as any).kind as "dev" | "member") ?? "member",
           id: token.sub!,
         };
       }
 
-      // Staff: grant full access without membership
-      if (token.staff) {
+      // Dev: grant full access without membership
+      if ((token as any).kind === "dev") {
         session.member = {
           status: 'active',
           isOwner: false,
@@ -294,12 +302,11 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           const isAllowedDevEmail = ALLOWED_DEV_EMAILS.includes(email);
 
           if (isDevLogin && isAllowedDevEmail) {
-            // Staff: account is in cell DB
+            // dev: account is in cell DB; kind derived from email in jwt callback
             return {
               id: accountId,
               name: email.split("@")[0],
               email,
-              staff: true,
               member: null,
             };
           }
@@ -313,7 +320,6 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
             id: account.id,
             name: account.name,
             email: account.email,
-            staff: false,
             member: {
               status: (account as any).status ?? null,
               role: (account as any).role ?? null,
@@ -326,6 +332,11 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         // Standard login: Tenant DB only
         if (!credentials?.username || !credentials?.password) throw new InvalidLoginError();
         const { username, password: pwd } = credentials as { username: string; password: string };
+
+        // dev 帳號禁止 password login (僅走 OTP /devlogin)
+        if (ALLOWED_DEV_EMAILS.includes(username.trim().toLowerCase())) {
+          throw new InvalidLoginError();
+        }
 
         const {
           getAccountByEmail,
@@ -368,7 +379,6 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
           id: account.id,
           name: account.name,
           email: account.email,
-          staff: false,
           member: memberData,
         };
       },

@@ -53,8 +53,8 @@ import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import * as z from "zod";
-import type { Staff } from "../_server/staff.service";
-import { addStaff, removeStaff } from "../_server/staff.service";
+import type { Staff } from "../_server/dev.service";
+import { addStaff, removeStaff } from "../_server/dev.service";
 
 const fuzzyFilter: FilterFn<Staff> = (row, _columnId, filterValue) => {
   const searchValue = filterValue.toLowerCase();

@@ -1,13 +1,8 @@
 "use server";
 
 /**
- * Cell Staff Service
- *
- * 管理這個 NBEE cell 的運維人員（list / add / remove）。
- * 出廠 staff 名單見 ../config.ts 的 STAFF_CONFIG.initialStaff
- *
- * TODO: 實作 DB CRUD（用 settings 表 group='auth'，name='staff_emails'）
- *       DB 空時 fallback 到 STAFF_CONFIG.initialStaff
+ * Dev 名單目前由 env `ALLOWED_DEV_EMAILS` 管（每個 host 自決，之後 hive 集中控制）。
+ * 此 service 是給 dev-center UI 顯示 / CRUD 用，當前未實作（read-only 顯示 env）。
  */
 
 type Staff = {

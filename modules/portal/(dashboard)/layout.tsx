@@ -59,7 +59,7 @@ async function OrgLayoutWrap({
   //   redirect('/join');
   // }
   const hasFullAccess =
-    membership.staff === true ||
+    membership.kind === "dev" ||
     membership.role === 'owner' ||
     membership.customRole?.fullAccess === true;
 
@@ -126,7 +126,7 @@ async function OrgLayoutWrap({
     },
   ] satisfies UserAvatarMenuItem[];
 
-  if (membership.staff) {
+  if (membership.kind === "dev") {
     userAvatarMenu[0].group?.push({
       id: "dev-center",
       text: t("developer"),

@@ -14,7 +14,7 @@ export async function GET() {
     const userId = session.user.id;
     const email = session.user.email ?? "";
 
-    if (session.user.staff) {
+    if (session.user.kind === "dev") {
       return NextResponse.json({
         id: userId,
         name: session.user.name,
@@ -24,7 +24,7 @@ export async function GET() {
         lastLoginAt: new Date(),
         createdAt: new Date(),
         updatedAt: new Date(),
-        developer: { userId },
+        kind: "dev",
         membership: {
           id: 'admin',
           role: 'owner',

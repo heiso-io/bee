@@ -16,7 +16,7 @@ interface Membership {
 
 interface AccountContextType {
   account: Partial<TAccount> | null;
-  staff: boolean;
+  kind: "dev" | "member";
   membership: Membership[] | null;
   isLoading: boolean;
   error: Error | null;
@@ -25,7 +25,7 @@ interface AccountContextType {
 
 const AccountContext = createContext<AccountContextType>({
   account: null,
-  staff: false,
+  kind: "member",
   membership: null,
   isLoading: false,
   error: null,
@@ -35,7 +35,7 @@ const AccountContext = createContext<AccountContextType>({
 export function AccountProvider({ children }: { children: React.ReactNode }) {
   const { data: session } = useSession();
   const [account, setAccount] = useState<Partial<TAccount> | null>(null);
-  const [staff, setStaff] = useState<boolean>(false);
+  const [kind, setKind] = useState<"dev" | "member">("member");
   const [membership, setMembership] = useState<Membership[] | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
@@ -62,14 +62,15 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
         const data = await res.json();
 
         if (data) {
-          const { developer, membership: myMembership, ...account } = data;
+          const { kind: dataKind, developer, membership: myMembership, ...account } = data;
           setAccount(account);
-          setStaff(!!developer);
+          // accept either new `kind` or legacy `developer` boolean from /api/account/me
+          setKind(dataKind ?? (developer ? "dev" : "member"));
           setMembership(myMembership);
         } else {
           // No matching local account found
           setAccount(null);
-          setStaff(false);
+          setKind("member");
           setMembership(null);
         }
       } catch (err) {
@@ -91,7 +92,7 @@ export function AccountProvider({ children }: { children: React.ReactNode }) {
       value={{
         account,
         membership,
-        staff,
+        kind,
         isLoading,
         error,
         updateAccount,

@@ -8,6 +8,7 @@ import { hashPassword } from "@heiso-io/bee/lib/hash";
 import { generateId } from "@heiso-io/bee/lib/id-generator";
 import { consumeRateLimit } from "@heiso-io/bee/lib/rate-limit";
 import { eq } from "drizzle-orm";
+import { ALLOWED_DEV_EMAILS } from "@heiso-io/bee/modules/auth/auth.config";
 import { getAccountByEmail } from "./user.service";
 
 async function updatePassword(
@@ -33,6 +34,11 @@ export async function requestPasswordReset(email: string) {
   const { allowed } = consumeRateLimit(`pwd-reset:${email}`, 5, 15 * 60 * 1000);
   if (!allowed) {
     return { ok: true }; // 不告知 attacker 被限流（防 email enumeration）
+  }
+
+  // dev 帳號禁止 password reset（僅走 OTP /devlogin），silently no-op
+  if (ALLOWED_DEV_EMAILS.includes(email.trim().toLowerCase())) {
+    return { ok: true };
   }
 
   const account = await getAccountByEmail(email);

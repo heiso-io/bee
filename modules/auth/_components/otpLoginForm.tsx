@@ -17,7 +17,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signIn, useSession } from "next-auth/react";
 import { useTranslations } from "next-intl";
-import { useId, useMemo, useState } from "react";
+import { useEffect, useId, useMemo, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { generateOTP, verifyOTP } from "../_server/otp.service";
@@ -36,6 +36,10 @@ interface OTPLoginFormProps {
   extraSignInParams?: Record<string, string>;
   /** Custom verify function (e.g., verifyDevOTP for devlogin) */
   verifyFn?: (email: string, code: string) => Promise<{ success: boolean; message?: string; accountId?: string }>;
+  /** 預填的驗證碼（例：從 magic link URL 來的） */
+  initialCode?: string;
+  /** 進來自動觸發 verify（搭配 initialCode，magic link 用） */
+  autoVerify?: boolean;
 }
 
 const codeBoxMaxWidth = 6;
@@ -48,6 +52,8 @@ export default function OTPLoginForm({
   handleLoginSuccess,
   extraSignInParams,
   verifyFn,
+  initialCode = "",
+  autoVerify = false,
 }: OTPLoginFormProps) {
   const t = useTranslations("auth.otp");
   const [userEmail, setUserEmail] = useState(email || "");
@@ -76,7 +82,7 @@ export default function OTPLoginForm({
     mode: "onSubmit",
     reValidateMode: "onSubmit",
     defaultValues: {
-      code: "",
+      code: initialCode,
     },
   });
 
@@ -150,6 +156,16 @@ export default function OTPLoginForm({
       setIsLoading(false);
     }
   };
+
+  // Magic link：帶 code 進來時自動驗證一次（只跑一次，避免重複觸發）
+  const autoRanRef = useRef(false);
+  useEffect(() => {
+    if (autoRanRef.current) return;
+    if (!autoVerify || !initialCode || !userEmail) return;
+    autoRanRef.current = true;
+    handleVerifyOTP({ code: initialCode });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [autoVerify, initialCode, userEmail]);
 
   // 重新发送验证码
   const handleResendOTP = async () => {

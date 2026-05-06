@@ -11,19 +11,21 @@ export default function TwoStepLogin() {
   const router = useRouter();
   const params = useSearchParams();
   const email = params.get("email") || "";
+  const codeFromLink = params.get("code") || "";
   const [error, setError] = useState<string>("");
 
-  // 進入 2steps 頁時，寄送 OTP Email
+  // 帶 code 來的（magic link）— 不重發，直接交給 form 自動驗證
+  // 沒帶 code — 進頁面就寄一封 OTP
   useEffect(() => {
+    if (!email || codeFromLink) return;
     const send = async () => {
-      if (!email) return;
       const result = await generateOTP(email);
       if (!result.success) {
         setError(t(`error.${result.message}`));
       }
     };
     send();
-  }, [email, t]);
+  }, [email, codeFromLink, t]);
 
   const handleLoginSuccess = () => {
     router.push("/portal");
@@ -41,6 +43,8 @@ export default function TwoStepLogin() {
       error={error}
       setError={setError}
       handleLoginSuccess={handleLoginSuccess}
+      initialCode={codeFromLink}
+      autoVerify={!!codeFromLink}
     />
   );
 }

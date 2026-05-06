@@ -89,7 +89,11 @@ export async function generateOTP(email: string): Promise<OTPGenerationResult> {
     const { logo } = (assets?.value || {}) as Record<string, string>;
 
     // 发送邮件
-    const { NOTIFY_EMAIL } = await settings();
+    const { NOTIFY_EMAIL, BASE_HOST } = await settings();
+    const magicLink = BASE_HOST
+      ? `${BASE_HOST}/login/2steps?email=${encodeURIComponent(account.email as string)}&code=${code}`
+      : undefined;
+
     await sendEmail({
       from: (NOTIFY_EMAIL as string) || "noreply@heiso.com",
       to: [account.email as string],
@@ -99,6 +103,7 @@ export async function generateOTP(email: string): Promise<OTPGenerationResult> {
         code,
         username: account.name ?? "",
         expiresInMinutes: 10,
+        magicLink,
       }),
     });
 

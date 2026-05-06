@@ -1,6 +1,6 @@
 "use server";
 
-import { settings } from "@heiso-io/bee/config/settings";
+import config, { settings } from "@heiso-io/bee/config";
 import TwoFactorEmail from "@heiso-io/bee/emails/2fa";
 import { db } from "@heiso-io/bee/lib/db";
 import { user2faCode } from "@heiso-io/bee/lib/db/schema";
@@ -90,20 +90,23 @@ export async function generateOTP(email: string): Promise<OTPGenerationResult> {
 
     // 发送邮件
     const { NOTIFY_EMAIL, BASE_HOST } = await settings();
-    const magicLink = BASE_HOST
-      ? `${BASE_HOST}/login/2steps?email=${encodeURIComponent(account.email as string)}&code=${code}`
-      : undefined;
+    const baseHost =
+      (BASE_HOST as string | undefined) ||
+      process.env.NEXTAUTH_URL ||
+      process.env.AUTH_URL ||
+      "http://localhost:3000";
+    const magicLink = `${baseHost}/auth/login/2steps?email=${encodeURIComponent(account.email as string)}&code=${code}`;
 
     await sendEmail({
       from: (NOTIFY_EMAIL as string) || "noreply@heiso.com",
       to: [account.email as string],
-      subject: "Your Login Verification Code",
+      subject: `Sign in to ${config.site.organization}`,
       body: TwoFactorEmail({
-        logoUrl: logo,
         code,
         username: account.name ?? "",
         expiresInMinutes: 10,
         magicLink,
+        orgName: config.site.organization,
       }),
     });
 

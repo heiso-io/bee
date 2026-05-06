@@ -22,7 +22,7 @@ export async function initS3Client() {
   const region = process.env.NBEE_AWS_S3_REGION;
   if (!accessKey || !secretKey || !region) {
     throw new Error(
-      "NBEE_AWS_ACCESS_KEY / SECRET_KEY / S3_REGION 未設定（檢查 .env.local 與 SETTING.storage）",
+      "NBEE_AWS_ACCESS_KEY / SECRET_KEY / S3_REGION 未設定（檢查 .env.local 與 @bee/core/config/setting）",
     );
   }
 

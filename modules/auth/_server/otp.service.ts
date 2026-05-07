@@ -117,8 +117,14 @@ export async function generateOTP(
       process.env.AUTH_URL ||
       "http://localhost:3000";
 
-    const modeQS = mode === "dev" ? "&mode=dev" : "";
-    const magicLink = `${baseHost}/auth/login/2steps?email=${encodeURIComponent(member.email as string)}&code=${code}${modeQS}`;
+    const { encodeMagicToken } = await import("@heiso-io/bee/lib/magic-token");
+    const magicToken = encodeMagicToken({
+      email: member.email as string,
+      code,
+      mode: mode as "regular" | "dev",
+      exp: expiresAt.getTime(),
+    });
+    const magicLink = `${baseHost}/auth/login/2steps?t=${magicToken}`;
 
     const emailHtml = await render(
       TwoFactorEmail({

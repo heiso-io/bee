@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import type { DashboardMenu } from "@heiso-io/bee/config/menus";
+import type { DashboardMenu } from "@heiso-io/bee/modules/portal/(dashboard)/dashboard-config";
 import { auth } from "@heiso-io/bee/modules/auth/auth.config";
 import { buildDashboardNavigation } from "@heiso-io/bee/modules/portal/(dashboard)/dashboard-config";
 import {

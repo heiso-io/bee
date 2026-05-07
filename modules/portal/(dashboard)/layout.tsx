@@ -7,7 +7,7 @@ import { getTranslations } from "next-intl/server";
 import { Suspense } from "react";
 import { getMyMembership, getMyAllowedMenuIds } from "./_server/membership.service";
 import { buildDashboardNavigation } from "./dashboard-config";
-import type { DashboardMenu } from "@heiso-io/bee/config/menus";
+import type { DashboardMenu } from "@heiso-io/bee/modules/portal/(dashboard)/dashboard-config";
 
 interface OrgLayoutProps {
   children: React.ReactNode;

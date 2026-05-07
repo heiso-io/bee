@@ -36,7 +36,7 @@ export async function requestPasswordReset(email: string) {
     return { ok: true }; // 不告知 attacker 被限流（防 email enumeration）
   }
 
-  // dev 帳號禁止 password reset（僅走 OTP /devlogin），silently no-op
+  // dev 帳號禁止 password reset（僅走 OTP），silently no-op
   if (ALLOWED_DEV_EMAILS.includes(email.trim().toLowerCase())) {
     return { ok: true };
   }

@@ -36,7 +36,7 @@ export default function TwoStepLogin() {
   };
 
   const backToLogin = () => {
-    router.push(mode === "dev" ? "/auth/devlogin" : "/login");
+    router.push(mode === "dev" ? "/auth/login" : "/login");
   };
 
   return (

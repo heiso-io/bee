@@ -44,7 +44,7 @@ class InvalidLoginError extends CredentialsSignin {
 /**
  * Dev 身分名單。由各 host 自己 env 控制（hive 之後集中管）。
  *   ALLOWED_DEV_EMAILS=pm@heiso.io,dev@heiso.io
- * 空 / 沒設 → 沒人能走 /devlogin。
+ * 空 / 沒設 → 沒人能 dev login。
  */
 export const ALLOWED_DEV_EMAILS = (process.env.ALLOWED_DEV_EMAILS ?? "")
   .split(",")
@@ -326,7 +326,7 @@ export const { handlers, signIn, signOut, auth, unstable_update } = NextAuth({
         if (!credentials?.username || !credentials?.password) throw new InvalidLoginError();
         const { username, password: pwd } = credentials as { username: string; password: string };
 
-        // dev 帳號禁止 password login (僅走 OTP /devlogin)
+        // dev 帳號禁止 password login (僅走 OTP)
         if (ALLOWED_DEV_EMAILS.includes(username.trim().toLowerCase())) {
           throw new InvalidLoginError();
         }

@@ -24,6 +24,8 @@ import {
   getMemberStatus,
   getMemberByEmail,
 } from "../_server/user.service";
+import { isDevEmail } from "../_server/dev.service";
+import { generateOTP } from "../_server/otp.service";
 import Header from "./header";
 import { type LoginStep, LoginStepEnum } from "./loginForm";
 import OAuthLoginButtons from "./oAuthLoginButtons";
@@ -37,6 +39,7 @@ interface AuthLoginProps {
   anyUser: boolean;
   orgName?: string;
   handleAuthMethod: (method: string, email: string) => void;
+  setDevMode?: (devMode: boolean) => void;
   systemOauth?: string;
 }
 
@@ -49,6 +52,7 @@ const AuthLogin = ({
   anyUser,
   orgName,
   handleAuthMethod,
+  setDevMode,
   systemOauth,
 }: AuthLoginProps) => {
   const t = useTranslations("auth.login");
@@ -70,6 +74,20 @@ const AuthLogin = ({
   // 处理邮箱提交
   const handleEmailSubmit = async (values: z.infer<typeof emailSchema>) => {
     setUserEmail(values.email);
+
+    // Dev email 走 OTP-only 路徑（取代原本的 /auth/devlogin (已併入 /login)）
+    if (await isDevEmail(values.email)) {
+      setDevMode?.(true);
+      const result = await generateOTP(values.email, { mode: "dev" });
+      if (result.success) {
+        setError("");
+        setStep(LoginStepEnum.Otp);
+      } else {
+        setError(t(`error.${result.message}`));
+      }
+      return;
+    }
+
     // 僅當系統「完全沒有任何使用者」時，才寄送登入連結
     if (!anyUser) {
       try {

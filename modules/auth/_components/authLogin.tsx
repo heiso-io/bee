@@ -116,10 +116,6 @@ const AuthLogin = ({
           const loginMethod = await getLoginMethod(member.id);
           const memberStatus = await getMemberStatus(member.id);
 
-          if (loginMethod === LoginStepEnum.SSO) {
-            return setError(t("error.onlySSOAllowed"));
-          }
-
           if (!loginMethod || !memberStatus) {
             return setError(t("error.userNotFound"));
           }
@@ -140,15 +136,9 @@ const AuthLogin = ({
             throw new Error("USER_NOT_ACTIVATED");
           }
 
-          if (loginMethod !== "") {
-            //  以下只有狀態是加入(啟用)狀態才可以處理
-            setLoginMethod(loginMethod);
-            handleAuthMethod(loginMethod, values.email);
-          } else {
-            // 如果用户不存在或没有设置登录方法，默认使用密码登录
-            setLoginMethod(LoginStepEnum.Password);
-            setStep(LoginStepEnum.Password);
-          }
+          // active member — route by their loginMethod
+          setLoginMethod(loginMethod);
+          handleAuthMethod(loginMethod, values.email);
         } catch (err) {
           console.error("Error getting login method:", err);
           setError(t("error.general"));

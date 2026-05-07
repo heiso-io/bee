@@ -1,16 +1,11 @@
 import { generateId } from "@heiso-io/bee/lib/id-generator";
-import {
-  boolean,
-  index,
-  pgTable,
-  text,
-  timestamp,
-  varchar,
-} from "drizzle-orm/pg-core";
+import { index, pgTable, text, timestamp, varchar } from "drizzle-orm/pg-core";
 import { members } from "./members";
 
 /**
- * member2faCode - 2FA 驗證碼
+ * member2faCode — 一個 member 同時只能有一筆有效 OTP。
+ * Resend = upsert（覆蓋舊 code）。Verify 成功 = DELETE row（一次性）。
+ * 沒 `used` flag — row 在 = pending、row 沒了 = no OTP。
  */
 export const member2faCode = pgTable(
   "member_2fa_code",
@@ -20,14 +15,11 @@ export const member2faCode = pgTable(
       .$default(() => generateId()),
     memberId: varchar("member_id", { length: 50 })
       .notNull()
+      .unique()
       .references(() => members.id, { onDelete: "cascade" }),
     code: text("code").notNull(),
-    used: boolean("used").default(false),
     expiresAt: timestamp("expires_at").notNull(),
     createdAt: timestamp("created_at").notNull().defaultNow(),
   },
-  (table) => [
-    index("member_2fa_code_member_id_idx").on(table.memberId),
-    index("member_2fa_code_valid_idx").on(table.used, table.expiresAt),
-  ],
+  (table) => [index("member_2fa_code_expires_at_idx").on(table.expiresAt)],
 );

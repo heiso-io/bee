@@ -49,6 +49,9 @@ export default function OTPLoginForm({
   const t = useTranslations("auth.otp");
   const [isLoading, setIsLoading] = useState(false);
   const [countdown, setCountdown] = useState(0);
+  const [resendCount, setResendCount] = useState(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+  const MAX_RESENDS = 3;
   const { update } = useSession();
   const userEmail = email || "";
 
@@ -107,13 +110,14 @@ export default function OTPLoginForm({
 
   // 重新发送 magic link
   const handleResendOTP = async () => {
-    if (countdown > 0) return;
+    if (countdown > 0 || resendCount >= MAX_RESENDS) return;
     setError("");
     setIsLoading(true);
 
     try {
       const result = await generateOTP(userEmail, otpOpts);
       if (result.success) {
+        setResendCount((c) => c + 1);
         startCountdown();
       } else {
         setError(result.message);
@@ -126,11 +130,18 @@ export default function OTPLoginForm({
   };
 
   const startCountdown = () => {
-    setCountdown(60);
-    const timer = setInterval(() => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+    setCountdown(30);
+    intervalRef.current = setInterval(() => {
       setCountdown((prev) => {
         if (prev <= 1) {
-          clearInterval(timer);
+          if (intervalRef.current) {
+            clearInterval(intervalRef.current);
+            intervalRef.current = null;
+          }
           return 0;
         }
         return prev - 1;
@@ -138,14 +149,24 @@ export default function OTPLoginForm({
     }, 1000);
   };
 
-  // 如果 autoVerify in flight → 顯示 verifying spinner（無 input UI）
-  if (autoVerify && isLoading) {
+  // Email 剛寄出 → 進來就先 30s cooldown，避免 spam
+  // autoVerify 路徑不顯示這個 UI，所以直接 fire 即可
+  useEffect(() => {
+    if (autoVerify) return;
+    startCountdown();
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // autoVerify 流程：在 verify 結束前（含 useEffect 還沒跑的瞬間）全程顯示 spinner，
+  // 不要閃一下「Check your email」UI。出錯才 fallthrough 到下方表單顯示 error。
+  if (autoVerify && !error) {
     return (
       <div className="flex min-h-[40vh] flex-col items-center justify-center gap-4 p-8">
         <LoadingSpinner className="h-8 w-8 text-primary" />
-        <p className="text-sm text-muted-foreground">
-          {t("verifying", { defaultMessage: "Signing you in…" })}
-        </p>
+        <p className="text-sm text-muted-foreground">{t("verifying")}</p>
       </div>
     );
   }
@@ -158,37 +179,25 @@ export default function OTPLoginForm({
       />
 
       <div className="mt-8 mb-8 space-y-6">
-        <div className="rounded-xl border border-white/10 bg-background/30 p-6 text-center space-y-3">
-          <p className="text-sm font-medium">
-            {t("checkEmail", {
-              defaultMessage: "We sent a sign-in link to your inbox.",
-            })}
-          </p>
-          <p className="text-xs text-muted-foreground">
-            {t("clickLinkToContinue", {
-              defaultMessage: "Open the email and click the link to continue.",
-            })}
-          </p>
-        </div>
-
         {error && (
           <p className="w-full text-sm text-destructive font-medium text-center">
             {error}
           </p>
         )}
 
-        <div className="w-full flex justify-center">
-          <button
-            type="button"
-            onClick={handleResendOTP}
-            disabled={countdown > 0 || isLoading}
-            className="text-sm font-medium text-primary hover:text-primary/80 transition-colors disabled:text-muted-foreground/60"
-          >
-            {countdown > 0
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleResendOTP}
+          disabled={countdown > 0 || isLoading || resendCount >= MAX_RESENDS}
+          className="w-full border-primary text-foreground hover:bg-primary/10 hover:text-foreground disabled:opacity-100 disabled:text-muted-foreground disabled:border-primary/40"
+        >
+          {resendCount >= MAX_RESENDS
+            ? t("resend.maxReached")
+            : countdown > 0
               ? t("resend.countdown", { seconds: countdown })
               : t("resend.action")}
-          </button>
-        </div>
+        </Button>
       </div>
 
       <AuthRedirectHint>

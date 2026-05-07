@@ -23,7 +23,7 @@ async function assignMenus({
       );
     }
   });
-  revalidatePath("/portal/core/account/role", "page");
+  revalidatePath("/portal/account/role", "page");
 }
 
 async function assignPermissions({
@@ -44,7 +44,7 @@ async function assignPermissions({
       );
     }
   });
-  revalidatePath("/portal/core/account/role", "page");
+  revalidatePath("/portal/account/role", "page");
 }
 
 export { assignMenus, assignPermissions };

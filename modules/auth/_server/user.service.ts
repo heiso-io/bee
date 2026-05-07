@@ -20,18 +20,69 @@ export async function getAccounts() {
 }
 
 /**
- * 取得成員的登入方式
- * @param memberId - Account ID
+ * 取得成員的登入方式（per-role）。
+ * - owner：全部開（structural bypass）
+ * - 有 custom role：用該 role 的 allow_* flags
+ * - 沒 role：default 寬鬆（magic link + password）
+ *
+ * 給 /auth/login 流程決定下一步用。
  */
-export async function getLoginMethod(memberId: string) {
+export type MemberAuthMethods = {
+  allowMagicLink: boolean;
+  allowPassword: boolean;
+  allowTwoFactor: boolean;
+};
 
+const DEFAULT_AUTH_METHODS: MemberAuthMethods = {
+  allowMagicLink: true,
+  allowPassword: true,
+  allowTwoFactor: false,
+};
+
+const OWNER_AUTH_METHODS: MemberAuthMethods = {
+  allowMagicLink: true,
+  allowPassword: true,
+  allowTwoFactor: true,
+};
+
+export async function getMemberAuthMethods(memberId: string): Promise<MemberAuthMethods> {
   const member = await db.query.members.findFirst({
-    columns: { loginMethod: true },
+    columns: { role: true, roleId: true },
     where: (t, { eq, isNull }) =>
       and(eq(t.id, memberId), isNull(t.deletedAt)),
+    with: {
+      customRole: {
+        columns: {
+          allowMagicLink: true,
+          allowPassword: true,
+          allowTwoFactor: true,
+        },
+      },
+    },
   });
 
-  return member?.loginMethod ?? "email";
+  if (!member) return DEFAULT_AUTH_METHODS;
+  if (member.role === "owner") return OWNER_AUTH_METHODS;
+  if (!member.customRole) return DEFAULT_AUTH_METHODS;
+
+  return {
+    allowMagicLink: member.customRole.allowMagicLink,
+    allowPassword: member.customRole.allowPassword,
+    allowTwoFactor: member.customRole.allowTwoFactor,
+  };
+}
+
+/**
+ * @deprecated Use `getMemberAuthMethods()` instead. Backward-compat shim while
+ * we phase out `members.login_method` column. Returns one of "both" | "email" | "otp"
+ * by collapsing the 3 role flags with precedence 2FA > password > magic-link.
+ */
+export async function getLoginMethod(memberId: string) {
+  const flags = await getMemberAuthMethods(memberId);
+  if (flags.allowTwoFactor) return "both" as const;
+  if (flags.allowPassword) return "email" as const;
+  if (flags.allowMagicLink) return "otp" as const;
+  return "email" as const;
 }
 
 /**

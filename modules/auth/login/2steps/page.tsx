@@ -103,9 +103,7 @@ export default function TwoStepLogin() {
     return (
       <div className="flex min-h-[40vh] flex-col items-center justify-center gap-4 p-8">
         <LoadingSpinner className="h-8 w-8 text-primary" />
-        <p className="text-sm text-muted-foreground">
-          Verifying your sign-in link…
-        </p>
+        <p className="text-sm text-muted-foreground">{t("verifying")}</p>
       </div>
     );
   }

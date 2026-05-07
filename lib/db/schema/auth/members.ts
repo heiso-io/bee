@@ -41,10 +41,13 @@ export const members = pgTable(
     lastLoginAt: timestamp("last_login_at"),
     loginMethod: varchar("login_method", { length: 20 }).default("email"),
 
-    twoFactorEnabled: boolean("two_factor_enabled").default(false),
-    twoFactorSecret: varchar("two_factor_secret", { length: 255 }),
+    /**
+     * 2FA via email OTP — login 時若 true，password 驗完還要再寄一次性 code 到信箱驗。
+     * Magic-link 路徑自動 bypass（信箱本身就是 factor）。
+     */
+    twoFactorEnabled: boolean("two_factor_enabled").notNull().default(false),
 
-    mustChangePassword: boolean("must_change_password").default(false),
+    mustChangePassword: boolean("must_change_password").notNull().default(false),
 
     role: varchar("role", { length: 20 })
       .notNull()

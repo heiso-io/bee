@@ -16,7 +16,21 @@ function truncateKey(rawKey: string): string {
 
 type TApiKeyWithKeyPrefix = TPublicApiKey & { keyPrefix: string };
 
-// Get API Keys list
+const SELECT_PUBLIC = {
+  id: apiKeys.id,
+  name: apiKeys.name,
+  truncatedKey: apiKeys.truncatedKey,
+  roleId: apiKeys.roleId,
+  createdByMemberId: apiKeys.createdByMemberId,
+  rateLimitRequests: apiKeys.rateLimitRequests,
+  rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
+  lastUsedAt: apiKeys.lastUsedAt,
+  expiresAt: apiKeys.expiresAt,
+  createdAt: apiKeys.createdAt,
+  updatedAt: apiKeys.updatedAt,
+} as const;
+
+// Get API Keys list — org-level resource, all logged-in members can list
 export async function getApiKeysList(
   options: { search?: string; start?: number; limit?: number } = {},
 ) {
@@ -25,48 +39,28 @@ export async function getApiKeysList(
     return { apiKeys: [], total: 0 };
   }
 
-  const { search, start = 0, limit = 10 } = options;
+  const { start = 0, limit = 10 } = options;
 
   try {
-    // Build where conditions
-    const whereConditions = [
-      eq(apiKeys.memberId, session.user.id),
-      isNull(apiKeys.deletedAt),
-    ];
+    const whereConditions = [isNull(apiKeys.deletedAt)];
 
-    // Get total count
     const [totalResult] = await db
       .select({ count: count() })
       .from(apiKeys)
       .where(and(...whereConditions));
 
-    // Get paginated results
     const results = await db
-      .select({
-        id: apiKeys.id,
-        name: apiKeys.name,
-        memberId: apiKeys.memberId,
-        truncatedKey: apiKeys.truncatedKey,
-        rateLimitRequests: apiKeys.rateLimitRequests,
-        rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
-        lastUsedAt: apiKeys.lastUsedAt,
-        expiresAt: apiKeys.expiresAt,
-        createdAt: apiKeys.createdAt,
-        updatedAt: apiKeys.updatedAt,
-      })
+      .select(SELECT_PUBLIC)
       .from(apiKeys)
       .where(and(...whereConditions))
       .orderBy(desc(apiKeys.createdAt))
       .limit(limit)
       .offset(start);
 
-    // Transform results to use truncated key for display
-    const transformedResults: TApiKeyWithKeyPrefix[] = results.map(
-      (result) => ({
-        ...result,
-        keyPrefix: result.truncatedKey || "???",
-      }),
-    );
+    const transformedResults: TApiKeyWithKeyPrefix[] = results.map((r) => ({
+      ...r,
+      keyPrefix: r.truncatedKey || "???",
+    }));
 
     return {
       apiKeys: transformedResults,
@@ -78,42 +72,20 @@ export async function getApiKeysList(
   }
 }
 
-// Get single API key
 export async function getApiKey(
   id: string,
 ): Promise<TApiKeyWithKeyPrefix | null> {
   const session = await auth();
-  if (!session?.user?.id) {
-    return null;
-  }
+  if (!session?.user?.id) return null;
 
   try {
-    const filters = [
-      eq(apiKeys.id, id),
-      eq(apiKeys.memberId, session.user.id),
-      isNull(apiKeys.deletedAt),
-    ];
-
     const result = await db
-      .select({
-        id: apiKeys.id,
-        name: apiKeys.name,
-        memberId: apiKeys.memberId,
-        truncatedKey: apiKeys.truncatedKey,
-        rateLimitRequests: apiKeys.rateLimitRequests,
-        rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
-        lastUsedAt: apiKeys.lastUsedAt,
-        expiresAt: apiKeys.expiresAt,
-        createdAt: apiKeys.createdAt,
-        updatedAt: apiKeys.updatedAt,
-      })
+      .select(SELECT_PUBLIC)
       .from(apiKeys)
-      .where(and(...filters))
+      .where(and(eq(apiKeys.id, id), isNull(apiKeys.deletedAt)))
       .limit(1);
 
-    if (result.length === 0) {
-      return null;
-    }
+    if (result.length === 0) return null;
 
     const apiKey = result[0];
     return {
@@ -126,20 +98,19 @@ export async function getApiKey(
   }
 }
 
-// Create new API key
 type RateLimit = { requests: number; window: number };
+
 type CreateApiKeyInput = {
   name: string;
-  description: string | null;
+  roleId: string;
   expiresAt: Date | null;
-  isActive?: boolean;
   rateLimit?: RateLimit;
 };
+
 type UpdateApiKeyInput = {
   name?: string;
-  description?: string | null;
+  roleId?: string;
   expiresAt?: Date | null;
-  isActive?: boolean;
   rateLimit?: RateLimit;
 };
 
@@ -154,7 +125,6 @@ export async function createApiKey(data: CreateApiKeyInput): Promise<{
   }
 
   try {
-    // Generate new API key
     const newKey = generateApiKey();
     const hashedKey = await hashApiKey(newKey);
     const keyPrefix = truncateKey(newKey);
@@ -162,35 +132,25 @@ export async function createApiKey(data: CreateApiKeyInput): Promise<{
     const [result] = await db
       .insert(apiKeys)
       .values({
-        memberId: session.user.id,
         name: data.name,
         key: hashedKey,
         truncatedKey: keyPrefix,
+        roleId: data.roleId,
+        createdByMemberId: session.user.id,
         rateLimitRequests: data.rateLimit?.requests ?? 100,
         rateLimitWindowSeconds: data.rateLimit?.window ?? 60,
         expiresAt: data.expiresAt,
       })
-      .returning({
-        id: apiKeys.id,
-        name: apiKeys.name,
-        memberId: apiKeys.memberId,
-        truncatedKey: apiKeys.truncatedKey,
-        rateLimitRequests: apiKeys.rateLimitRequests,
-        rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
-        lastUsedAt: apiKeys.lastUsedAt,
-        expiresAt: apiKeys.expiresAt,
-        createdAt: apiKeys.createdAt,
-        updatedAt: apiKeys.updatedAt,
-      });
+      .returning(SELECT_PUBLIC);
 
-    revalidatePath("/portal/settings/api-keys", "page");
+    revalidatePath("/portal/dev-center/api-keys", "page");
 
     return {
       success: true,
       apiKey: {
         ...result,
         keyPrefix: result.truncatedKey || keyPrefix,
-        key: newKey, // Return the actual key only on creation
+        key: newKey,
       },
     };
   } catch (error) {
@@ -199,7 +159,6 @@ export async function createApiKey(data: CreateApiKeyInput): Promise<{
   }
 }
 
-// Update API key
 export async function updateApiKey(
   id: string,
   data: UpdateApiKeyInput,
@@ -210,36 +169,20 @@ export async function updateApiKey(
   }
 
   try {
-    const filters = [
-      eq(apiKeys.id, id),
-      eq(apiKeys.memberId, session.user.id),
-      isNull(apiKeys.deletedAt),
-    ];
-
     const result = await db
       .update(apiKeys)
       .set({
-        name: data.name,
-        expiresAt: data.expiresAt,
+        ...(data.name !== undefined && { name: data.name }),
+        ...(data.roleId !== undefined && { roleId: data.roleId }),
+        ...(data.expiresAt !== undefined && { expiresAt: data.expiresAt }),
         ...(data.rateLimit && {
           rateLimitRequests: data.rateLimit.requests,
           rateLimitWindowSeconds: data.rateLimit.window,
         }),
         updatedAt: new Date(),
       })
-      .where(and(...filters))
-      .returning({
-        id: apiKeys.id,
-        name: apiKeys.name,
-        memberId: apiKeys.memberId,
-        truncatedKey: apiKeys.truncatedKey,
-        rateLimitRequests: apiKeys.rateLimitRequests,
-        rateLimitWindowSeconds: apiKeys.rateLimitWindowSeconds,
-        lastUsedAt: apiKeys.lastUsedAt,
-        expiresAt: apiKeys.expiresAt,
-        createdAt: apiKeys.createdAt,
-        updatedAt: apiKeys.updatedAt,
-      });
+      .where(and(eq(apiKeys.id, id), isNull(apiKeys.deletedAt)))
+      .returning(SELECT_PUBLIC);
 
     if (result.length === 0) {
       return { success: false, error: "API key not found" };
@@ -250,7 +193,7 @@ export async function updateApiKey(
       keyPrefix: result[0].truncatedKey || "???",
     };
 
-    revalidatePath("/portal/settings/api-keys", "page");
+    revalidatePath("/portal/dev-center/api-keys", "page");
     return { success: true, data: updatedApiKey };
   } catch (error) {
     console.error("Error updating API key:", error);
@@ -258,7 +201,6 @@ export async function updateApiKey(
   }
 }
 
-// Delete API key (soft delete)
 export async function deleteApiKey(
   id: string,
 ): Promise<{ success: boolean; error?: string }> {
@@ -268,26 +210,20 @@ export async function deleteApiKey(
   }
 
   try {
-    const filters = [
-      eq(apiKeys.id, id),
-      eq(apiKeys.memberId, session.user.id),
-      isNull(apiKeys.deletedAt),
-    ];
-
     const result = await db
       .update(apiKeys)
       .set({
         deletedAt: new Date(),
         updatedAt: new Date(),
       })
-      .where(and(...filters))
+      .where(and(eq(apiKeys.id, id), isNull(apiKeys.deletedAt)))
       .returning({ id: apiKeys.id });
 
     if (result.length === 0) {
       return { success: false, error: "API key not found" };
     }
 
-    revalidatePath("/portal/settings/api-keys", "page");
+    revalidatePath("/portal/dev-center/api-keys", "page");
     return { success: true };
   } catch (error) {
     console.error("Error deleting API key:", error);
@@ -298,38 +234,28 @@ export async function deleteApiKey(
 // Verify API key (for authentication middleware)
 export async function verifyApiKey(key: string): Promise<{
   valid: boolean;
-  memberId?: string;
   apiKeyId?: string;
+  roleId?: string;
 }> {
-  if (!key) {
-    return { valid: false };
-  }
+  if (!key) return { valid: false };
 
   try {
     const hashedKey = await hashApiKey(key);
 
-    const filters = [
-      eq(apiKeys.key, hashedKey),
-      isNull(apiKeys.deletedAt),
-    ];
-
     const result = await db
       .select({
         id: apiKeys.id,
-        memberId: apiKeys.memberId,
+        roleId: apiKeys.roleId,
         expiresAt: apiKeys.expiresAt,
       })
       .from(apiKeys)
-      .where(and(...filters))
+      .where(and(eq(apiKeys.key, hashedKey), isNull(apiKeys.deletedAt)))
       .limit(1);
 
-    if (result.length === 0) {
-      return { valid: false };
-    }
+    if (result.length === 0) return { valid: false };
 
     const apiKey = result[0];
 
-    // Check if key is expired
     if (apiKey.expiresAt && new Date() > apiKey.expiresAt) {
       return { valid: false };
     }
@@ -342,8 +268,8 @@ export async function verifyApiKey(key: string): Promise<{
 
     return {
       valid: true,
-      memberId: apiKey.memberId ?? undefined,
       apiKeyId: apiKey.id,
+      roleId: apiKey.roleId,
     };
   } catch (error) {
     console.error("Error verifying API key:", error);

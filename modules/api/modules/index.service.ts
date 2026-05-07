@@ -6,8 +6,8 @@ import { eq } from "drizzle-orm";
 // Verify API key (for authentication middleware)
 export async function verifyApiKey(key: string): Promise<{
   valid: boolean;
-  memberId?: string;
   apiKeyId?: string;
+  roleId?: string;
   rateLimit?: {
     window: number;
     requests: number;
@@ -24,7 +24,7 @@ export async function verifyApiKey(key: string): Promise<{
     const apiKey = await db.query.apiKeys.findFirst({
       columns: {
         id: true,
-        memberId: true,
+        roleId: true,
         rateLimitRequests: true,
         rateLimitWindowSeconds: true,
         expiresAt: true,
@@ -40,7 +40,6 @@ export async function verifyApiKey(key: string): Promise<{
       return { valid: false };
     }
 
-    // Check if key is expired
     if (apiKey.expiresAt && new Date() > apiKey.expiresAt) {
       return { valid: false };
     }
@@ -53,8 +52,8 @@ export async function verifyApiKey(key: string): Promise<{
 
     return {
       valid: true,
-      memberId: apiKey.memberId ?? undefined,
       apiKeyId: apiKey.id,
+      roleId: apiKey.roleId,
       rateLimit: {
         window: apiKey.rateLimitWindowSeconds,
         requests: apiKey.rateLimitRequests,
@@ -67,10 +66,10 @@ export async function verifyApiKey(key: string): Promise<{
 }
 
 // API key access log → structured stdout (Vercel captures + drains to S3)
-// 之前是寫進 apiKeyAccessLogs DB table，已改為 stdout pattern。
+// keys 是 org-level，audit 用 created_by_member_id 不在這裡記
 export async function storeApiKeyAccessLog(params: {
   apiKeyId: string;
-  memberId: string;
+  roleId: string;
   endpoint: string;
   method: string;
   statusCode: number;
@@ -82,7 +81,7 @@ export async function storeApiKeyAccessLog(params: {
   console.log(JSON.stringify({
     type: "api_key_access",
     apiKeyId: params.apiKeyId,
-    memberId: params.memberId,
+    roleId: params.roleId,
     endpoint: params.endpoint,
     method: params.method,
     statusCode: params.statusCode,

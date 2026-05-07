@@ -98,17 +98,17 @@ export async function generateOTP(
       if (memberDetail.status !== "active") return { success: false, message: "notActive" };
     }
 
-    await cleanupExpiredOTPs(member.id);
-
     const code = generateOTPCode();
     const expiresAt = new Date(Date.now() + 10 * 60 * 1000);
 
-    await db.insert(member2faCode).values({
-      memberId: member.id,
-      code,
-      used: false,
-      expiresAt,
-    });
+    // One-row-per-member：upsert 直接覆蓋舊 code，舊 magic link 自動失效。
+    await db
+      .insert(member2faCode)
+      .values({ memberId: member.id, code, expiresAt })
+      .onConflictDoUpdate({
+        target: member2faCode.memberId,
+        set: { code, expiresAt, createdAt: new Date() },
+      });
 
     const { NOTIFY_EMAIL, BASE_HOST } = await settings();
     const baseHost =
@@ -185,7 +185,6 @@ export async function verifyOTP(
       where: and(
         eq(member2faCode.memberId, member.id),
         eq(member2faCode.code, code),
-        eq(member2faCode.used, false),
         gt(member2faCode.expiresAt, new Date()),
       ),
     });
@@ -194,10 +193,8 @@ export async function verifyOTP(
       return { success: false, message: "invalidCode" };
     }
 
-    await db
-      .update(member2faCode)
-      .set({ used: true })
-      .where(eq(member2faCode.id, otpRecord.id));
+    // 一次性：verify 成功直接 DELETE（沒有 used flag）
+    await db.delete(member2faCode).where(eq(member2faCode.id, otpRecord.id));
 
     return {
       success: true,
@@ -233,7 +230,6 @@ export async function hasValidOTP(email: string): Promise<boolean> {
     const validOTP = await db.query.member2faCode.findFirst({
       where: and(
         eq(member2faCode.memberId, member.id),
-        eq(member2faCode.used, false),
         gt(member2faCode.expiresAt, new Date()),
       ),
     });
@@ -253,10 +249,8 @@ export async function getOTPStatus(email: string) {
     const validOTP = await db.query.member2faCode.findFirst({
       where: and(
         eq(member2faCode.memberId, member.id),
-        eq(member2faCode.used, false),
         gt(member2faCode.expiresAt, new Date()),
       ),
-      orderBy: (table, { desc }) => [desc(table.createdAt)],
     });
 
     return {

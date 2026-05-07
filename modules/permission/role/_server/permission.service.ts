@@ -43,7 +43,7 @@ async function createPermission({
     action,
   });
 
-  revalidatePath("/portal/core/account/role", "page");
+  revalidatePath("/portal/account/role", "page");
   return result;
 }
 
@@ -65,7 +65,7 @@ async function updatePermission({
     })
     .where(eq(apiPermissions.id, id));
 
-  revalidatePath("/portal/core/account/role", "page");
+  revalidatePath("/portal/account/role", "page");
   return result;
 }
 
@@ -78,7 +78,7 @@ async function deletePermission({ id }: { id: string }) {
     })
     .where(and(eq(apiPermissions.id, id), isNull(apiPermissions.deletedAt)));
 
-  revalidatePath("/portal/core/account/role", "page");
+  revalidatePath("/portal/account/role", "page");
   return result;
 }
 

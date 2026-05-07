@@ -120,7 +120,7 @@ async function invite({
         await sendInvite({ email, inviteToken, isOwner: false });
       }
       revalidateTag(`membership:${existingAccount.id}`, "default");
-      revalidatePath("/portal/core/account/team", "page");
+      revalidatePath("/portal/account/team", "page");
       return existingAccount;
     }
   }
@@ -149,7 +149,7 @@ async function invite({
 
   await sendInvite({ email, inviteToken, isOwner: false });
   revalidateTag(`membership:${created.id}`, "default");
-  revalidatePath("/portal/core/account/team", "page");
+  revalidatePath("/portal/account/team", "page");
   return created;
 }
 
@@ -180,7 +180,7 @@ async function updateMember({
     .where(eq(members.id, id));
 
   revalidateTag(`membership:${id}`, "default");
-  revalidatePath("/portal/core/account/team", "page");
+  revalidatePath("/portal/account/team", "page");
   return result;
 }
 
@@ -249,7 +249,7 @@ async function resendInvite(id: string) {
     isOwner: member.role === 'owner',
   });
 
-  revalidatePath("/portal/core/account/team", "page");
+  revalidatePath("/portal/account/team", "page");
   return result;
 }
 
@@ -265,7 +265,7 @@ async function revokeInvite(id: string) {
     .where(eq(members.id, id));
 
   revalidateTag(`membership:${id}`, "default");
-  revalidatePath("/portal/core/account/team", "page");
+  revalidatePath("/portal/account/team", "page");
 }
 
 /**
@@ -280,7 +280,7 @@ async function leaveTeam(id: string) {
     .where(eq(members.id, id));
 
   revalidateTag(`membership:${id}`, "default");
-  revalidatePath("/portal/core/account/team", "page");
+  revalidatePath("/portal/account/team", "page");
 }
 
 /**
@@ -330,7 +330,7 @@ async function addMember({
       .returning();
 
     revalidateTag(`membership:${existingAccount.id}`, "default");
-    revalidatePath("/portal/core/account/team", "page");
+    revalidatePath("/portal/account/team", "page");
     return { member: updated };
   }
 
@@ -348,7 +348,7 @@ async function addMember({
     .returning();
 
   revalidateTag(`membership:${newMember.id}`, "default");
-  revalidatePath("/portal/core/account/team", "page");
+  revalidatePath("/portal/account/team", "page");
   return { member: newMember };
 }
 
@@ -416,7 +416,7 @@ async function transferOwnership({
 
   revalidateTag(`membership:${newOwnerId}`, "default");
   revalidateTag(`membership:${currentOwnerId}`, "default");
-  revalidatePath("/portal/core/account/team");
+  revalidatePath("/portal/account/team");
 
   return { success: true };
 }

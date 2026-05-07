@@ -52,6 +52,7 @@ export function encodeMagicToken(payload: MagicTokenPayload): string {
  * 解 magic token，順便檢查有沒有過期。
  */
 export function decodeMagicToken(token: string): MagicTokenPayload | null {
+  const isDev = process.env.NODE_ENV !== "production";
   try {
     const key = getKey();
     const b64 = token.replace(/-/g, "+").replace(/_/g, "/");
@@ -70,11 +71,21 @@ export function decodeMagicToken(token: string): MagicTokenPayload | null {
     ]);
     const payload: MagicTokenPayload = JSON.parse(plaintext.toString("utf8"));
 
-    // expiry check（保險：token 自帶過期）
-    if (payload.exp && Date.now() > payload.exp) return null;
+    if (payload.exp && Date.now() > payload.exp) {
+      if (isDev) {
+        const ageMin = ((Date.now() - payload.exp) / 60000).toFixed(1);
+        console.warn(`[magic-token] expired ${ageMin}min ago (email=${payload.email})`);
+      }
+      return null;
+    }
 
     return payload;
-  } catch {
-    return null; // tamper / wrong key / invalid format → null
+  } catch (err) {
+    if (isDev) {
+      console.warn(
+        `[magic-token] decode failed: ${(err as Error).message} (likely ERROR_CODE_SECRET mismatch or tampered token)`,
+      );
+    }
+    return null;
   }
 }
